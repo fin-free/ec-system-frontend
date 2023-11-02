@@ -1,0 +1,18 @@
+.root {
+  height: 100%;
+
+  :global {
+    .layout_content {
+      background-color: #FAFAFC;
+      height: calc(100vh - 54px);
+      display: flex;
+
+      .main_content {
+        padding: 20px 24px 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+      }
+    }
+  }
+}

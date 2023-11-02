@@ -1,0 +1,7 @@
+# Ignore artifacts:
+dist
+build
+
+# ignore scss and css files
+*.scss
+*.css
