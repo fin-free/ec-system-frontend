@@ -4,7 +4,7 @@ import AuthStore from './modules/authStore'
 import CommonStore from './modules/commonStore'
 
 export interface IStore {
-  userStore: AuthStore
+  authStore: AuthStore
   commonStore: CommonStore
   authActions: AuthActions
   commonActions: CommonActions
@@ -21,7 +21,9 @@ const createRootStore = async () => {
 
   const rootStore = {
     authStore,
-    commonStore
+    authActions,
+    commonStore,
+    commonActions
   }
 
   try {

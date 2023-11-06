@@ -1,20 +1,31 @@
-import React from 'react'
+import React, { createContext } from 'react'
 
 import { ConfigProvider, theme } from 'antd'
 import zh_CN from 'antd/locale/zh_CN'
 import ReactDOM from 'react-dom/client'
 
+import createRootStore, { IStore } from '@/store'
+
 import App from './App.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ConfigProvider
-      locale={zh_CN}
-      theme={{
-        algorithm: theme.darkAlgorithm
-      }}
-    >
-      <App />
-    </ConfigProvider>
-  </React.StrictMode>
-)
+export const context = createContext({} as IStore)
+const root = ReactDOM.createRoot(document.getElementById('root') as Element)
+
+createRootStore()
+  .then((store) => {
+    root.render(
+      <React.StrictMode>
+        <context.Provider value={store}>
+          <ConfigProvider
+            locale={zh_CN}
+            theme={{
+              algorithm: theme.darkAlgorithm
+            }}
+          >
+            <App />
+          </ConfigProvider>
+        </context.Provider>
+      </React.StrictMode>
+    )
+  })
+  .catch((e) => console.log(e))

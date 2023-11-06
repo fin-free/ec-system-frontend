@@ -1,13 +1,11 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
 import { observer } from 'mobx-react-lite'
 
-import { IStore } from '@/store'
-
-const storeContext = React.createContext({} as IStore)
+import { context } from '../main'
 
 function useStore() {
-  const store = useContext(storeContext)
+  const store = useContext(context)
   return store
 }
 
