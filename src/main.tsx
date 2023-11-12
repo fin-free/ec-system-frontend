@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 
-import { ConfigProvider, theme } from 'antd'
+import { ConfigProvider } from 'antd'
 import zh_CN from 'antd/locale/zh_CN'
 import ReactDOM from 'react-dom/client'
 
@@ -19,7 +19,7 @@ createRootStore()
           <ConfigProvider
             locale={zh_CN}
             theme={{
-              algorithm: theme.darkAlgorithm
+              token: { motion: false }
             }}
           >
             <App />

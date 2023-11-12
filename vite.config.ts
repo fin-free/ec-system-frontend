@@ -20,8 +20,18 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      svgr(),
-      vitePluginImp(),
+      svgr({
+        include: '**/*.svg?react',
+        exclude: ''
+      }),
+      vitePluginImp({
+        libList: [
+          {
+            libName: 'antd',
+            style: (name) => name !== 'theme' && `antd/es/${name}/style/index.js`
+          }
+        ]
+      }),
       legacyPlugin({
         renderLegacyChunks: false,
         targets: ['>0.2%', 'not dead', 'not op_mini all', 'last 2 versions']

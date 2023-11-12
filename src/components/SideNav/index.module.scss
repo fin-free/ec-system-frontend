@@ -1,1 +1,29 @@
-.root{}
+.root{
+  border-right: 1px solid rgb(143 143 143 / 50%);
+
+  :global {
+    .nav-logo {
+      cursor: pointer; 
+      height: 40px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+
+      span {
+        margin-left: 8px;
+        font-size: medium;
+      }
+    }
+
+    .ant-menu {
+      height: 100%;
+    }
+  }
+}

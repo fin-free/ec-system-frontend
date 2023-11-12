@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Spin } from 'antd'
 import { Outlet } from 'react-router-dom'
 
@@ -11,13 +13,14 @@ import Styles from './index.module.scss'
 const Layout: React.FC = () => {
   const { commonStore } = useStore()
   const { showLoading } = commonStore
+  const [collapsed, setCollapsed] = useState(false)
 
   return (
     <div className={Styles.root}>
-      <Header />
       <div className='layout_content'>
-        <SideNav />
+        <SideNav collapsed={collapsed} />
         <div className='main_content'>
+          <Header collapsed={collapsed} onToggleClick={setCollapsed} />
           <ErrorBound>
             <Spin spinning={showLoading}>
               <Outlet />
