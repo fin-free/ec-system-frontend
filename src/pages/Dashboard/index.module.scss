@@ -1,5 +1,7 @@
 .root {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 24px;
   height: 100%;
+  width: 100%;
 }

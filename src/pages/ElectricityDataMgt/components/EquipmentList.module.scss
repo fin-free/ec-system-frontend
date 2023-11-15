@@ -1,0 +1,12 @@
+.root {
+  height: 100%;
+  width: 260px;
+  padding: 16px;
+  border-right: 1px solid $border_color;
+
+  :global {
+    .search-input {
+      margin-bottom: 20px;
+    }
+  }
+}

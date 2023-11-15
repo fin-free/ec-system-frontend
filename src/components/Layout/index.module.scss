@@ -3,12 +3,12 @@
 
   :global {
     .layout_content {
-      background-color: #001529;
+      background-color: $background_color;
       height: 100vh;
       display: flex;
 
       .main_content {
-        overflow-y: auto;
+        overflow-y: hidden;
         overflow-x: hidden;
         flex: 1;
       }

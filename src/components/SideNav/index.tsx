@@ -19,7 +19,7 @@ interface IProps {
 const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [activeNav, setActiveNav] = useState<string>(NavKeys.electricityDataSearch)
+  const [activeNav, setActiveNav] = useState<string>(NavKeys.dashboard)
   const [openKeys, setOpenKeys] = useState<string[]>(defaultOpenKeys)
 
   useEffect(() => {
@@ -70,6 +70,7 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
         {!collapsed && <span>能源管理系统</span>}
       </div>
       <Menu
+        style={{ width: collapsed ? 60 : 180 }}
         onClick={onMenuItemClick}
         onOpenChange={onOpenChange}
         defaultSelectedKeys={[NavKeys.electricityDataSearch]}

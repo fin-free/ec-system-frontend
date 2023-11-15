@@ -1,15 +1,23 @@
-import { ControlOutlined, FundViewOutlined, SettingOutlined, ThunderboltOutlined } from '@ant-design/icons'
+import {
+  ControlOutlined,
+  DashboardOutlined,
+  FundViewOutlined,
+  SettingOutlined,
+  ThunderboltOutlined
+} from '@ant-design/icons'
 
 import {
   ROUTE_PATH_ALARM_MANAGEMENT,
   ROUTE_PATH_COMPARATIVE_ANALYSIS,
   ROUTE_PATH_CONSUMPTION_ANALYSIS,
+  ROUTE_PATH_DASHBOARD,
   ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
   ROUTE_PATH_ENVIRONMENT_MANAGEMENT,
   ROUTE_PATH_EQUIPMENT_MANAGEMENT
 } from '@/routes/routePath'
 
 export enum NavKeys {
+  dashboard = 'dashboard',
   dataSearch = 'dataSearch',
   electricityDataSearch = 'electricityDataSearch',
   environmentDataSearch = 'environmentDataSearch',
@@ -21,6 +29,7 @@ export enum NavKeys {
 }
 
 export const NavLabels = {
+  [NavKeys.dashboard]: '统计看板',
   [NavKeys.dataSearch]: '数据查询',
   [NavKeys.electricityDataSearch]: '电力数据查询',
   [NavKeys.environmentDataSearch]: '环境数据查询',
@@ -40,6 +49,12 @@ export interface INavMenus {
 }
 
 export const SideNavItems: INavMenus[] = [
+  {
+    key: NavKeys.dashboard,
+    label: NavLabels[NavKeys.dashboard],
+    path: ROUTE_PATH_DASHBOARD,
+    IconCom: DashboardOutlined
+  },
   {
     key: NavKeys.dataSearch,
     label: NavLabels[NavKeys.dataSearch],
@@ -97,4 +112,4 @@ export const LinkNavs = {
   [NavKeys.equipmentManagement]: ROUTE_PATH_EQUIPMENT_MANAGEMENT
 }
 
-export const defaultOpenKeys = [NavKeys.dataSearch, NavKeys.electricityDataSearch]
+export const defaultOpenKeys = [NavKeys.dashboard]

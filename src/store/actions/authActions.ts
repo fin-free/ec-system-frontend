@@ -2,13 +2,9 @@ import { get, isNil } from 'lodash'
 
 import * as API from '@/api/login'
 import { AUTH_TOKEN_KEY } from '@/common/constants/auth'
+import { ILoginParams } from '@/types'
 
 import AuthStore from '../modules/authStore'
-
-interface ILoginParams {
-  userName: string
-  password: string
-}
 
 export default class AuthActions {
   private _authStore: AuthStore
@@ -36,7 +32,7 @@ export default class AuthActions {
     if (!userName && !password) return false
 
     return API.login({ userName, password })
-      .then((res: object) => {
+      .then((res) => {
         if (res) {
           const token = get(res, 'data')
           localStorage.setItem(AUTH_TOKEN_KEY, `${token}`)
@@ -50,5 +46,12 @@ export default class AuthActions {
         console.log('toLogin throw error: ' + e)
         return false
       })
+  }
+
+  async toLogout(targetUrl: string) {
+    API.loginOut().then(() => {
+      localStorage.clear()
+      window.location.href = targetUrl
+    })
   }
 }

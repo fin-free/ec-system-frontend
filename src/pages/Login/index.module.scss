@@ -1,5 +1,8 @@
 .root {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100vh;
+  position: relative;
+  background: $background_color;
 }

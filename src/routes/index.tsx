@@ -25,14 +25,6 @@ import {
 const Router = () => {
   const fullPageRoutes = [
     {
-      path: ROUTE_PATH_ROOT,
-      element: <Dashboard />
-    },
-    {
-      path: ROUTE_PATH_DASHBOARD,
-      element: <Dashboard />
-    },
-    {
       path: ROUTE_PATH_LOGIN,
       element: <Login />
     }
@@ -43,6 +35,10 @@ const Router = () => {
       path: ROUTE_PATH_ROOT,
       element: <Layout />,
       children: [
+        {
+          path: ROUTE_PATH_DASHBOARD,
+          element: <Dashboard />
+        },
         {
           path: ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
           element: <ElectricityDataMgt />

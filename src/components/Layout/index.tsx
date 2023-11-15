@@ -6,12 +6,15 @@ import { Outlet } from 'react-router-dom'
 import ErrorBound from '@/components/ErrorBound'
 import Header from '@/components/Header'
 import SideNav from '@/components/SideNav'
+import TabBar from '@/components/TabBar'
 import { observer, useStore } from '@/hooks/storeHook'
+import { ROUTE_PATH_LOGIN } from '@/routes/routePath'
 
 import Styles from './index.module.scss'
 
 const Layout: React.FC = () => {
-  const { commonStore } = useStore()
+  const { authStore, commonStore, authActions } = useStore()
+  const { userInfo } = authStore
   const { showLoading } = commonStore
   const [collapsed, setCollapsed] = useState(false)
 
@@ -20,7 +23,13 @@ const Layout: React.FC = () => {
       <div className='layout_content'>
         <SideNav collapsed={collapsed} />
         <div className='main_content'>
-          <Header collapsed={collapsed} onToggleClick={setCollapsed} />
+          <Header
+            collapsed={collapsed}
+            onToggleClick={setCollapsed}
+            userInfo={userInfo}
+            onLogout={() => authActions.toLogout(ROUTE_PATH_LOGIN)}
+          />
+          <TabBar />
           <ErrorBound>
             <Spin spinning={showLoading}>
               <Outlet />

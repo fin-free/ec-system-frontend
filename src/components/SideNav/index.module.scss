@@ -1,9 +1,9 @@
-.root{
-  border-right: 1px solid rgb(143 143 143 / 50%);
+.root {
+  border-right: 1px solid $border_color;
 
   :global {
     .nav-logo {
-      cursor: pointer; 
+      cursor: pointer;
       height: 40px;
       width: 100%;
       display: flex;

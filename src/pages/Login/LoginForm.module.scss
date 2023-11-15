@@ -1,0 +1,37 @@
+.root {
+  position: absolute;
+  right: 180px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0 40px 0;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(22, 22, 22, 0.63) 0%, rgb(0 21 41) 100%);
+  box-shadow: 0 2px 8px rgba(14, 21, 83, 0.05);
+  backdrop-filter: blur(25px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: 0.05em;
+    color: #fff;
+  }
+
+  :global {
+    .login-form {
+      width: 320px;
+
+      > button {
+        width: 100%;
+      }
+    }
+  }
+}

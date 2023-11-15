@@ -1,0 +1,24 @@
+.root {
+  border-right: 1px solid $border_color;
+  padding: 10px 24px;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  :global {
+    .icon-close {
+      font-size: 12px;
+      color: $font_color_inactive;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+
+      &:hover {
+        color: $font_color_active;
+        cursor: pointer;
+      }
+    }
+  }
+}

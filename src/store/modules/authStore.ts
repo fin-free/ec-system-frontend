@@ -1,13 +1,15 @@
 import { makeAutoObservable } from 'mobx'
 
+import { UserInfo } from '@/types'
+
 export default class AuthStore {
   constructor() {
     makeAutoObservable(this)
   }
 
-  public userInfo: object = {}
+  public userInfo: UserInfo = {}
 
-  setUserInfo(val: object) {
-    this.userInfo = val
+  setUserInfo(data: UserInfo) {
+    this.userInfo = data
   }
 }

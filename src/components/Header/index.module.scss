@@ -4,9 +4,21 @@
   padding: 8px 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   svg {
     height: 20px;
     width: 20px;
+  }
+
+  :global {
+    .logout {
+      display: flex;
+      align-items: center;
+
+      > span {
+        margin-right: 16px;
+      }
+    }
   }
 }
