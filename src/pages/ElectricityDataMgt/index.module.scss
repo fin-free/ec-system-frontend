@@ -1,5 +1,11 @@
 .root {
   display: flex;
-  flex-direction: column;
   height: calc(100vh - 98px);
+
+  :global {
+    .content {
+      flex: 1;
+      padding: 16px;
+    }
+  }
 }
