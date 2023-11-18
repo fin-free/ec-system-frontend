@@ -1,7 +1,13 @@
-import Styles from './index.module.scss'
+import Content from './content'
+import StoreContext from './context'
+import createStore from './store'
 
 const EquipmentMgt: React.FC = () => {
-  return <div className={Styles.root}>EquipmentMgt</div>
+  return (
+    <StoreContext.Provider value={createStore()}>
+      <Content />
+    </StoreContext.Provider>
+  )
 }
 
 export default EquipmentMgt

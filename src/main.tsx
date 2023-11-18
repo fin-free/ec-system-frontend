@@ -19,7 +19,22 @@ createRootStore()
           <ConfigProvider
             locale={zh_CN}
             theme={{
-              token: { motion: false }
+              token: { 
+                motion: false,
+                colorBgContainer: '#001529',
+                colorTextBase: '#ffffff',
+                colorBgElevated: '#001529'
+              },
+              components: {
+                Table: {
+                  rowSelectedBg: '#001529',
+                  rowSelectedHoverBg: '#001529'
+                },
+                Select: {
+                  selectorBg: '#001529',
+                  optionSelectedBg: '#001529'
+                }
+              },
             }}
           >
             <App />
