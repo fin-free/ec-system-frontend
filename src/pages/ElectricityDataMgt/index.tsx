@@ -2,7 +2,7 @@ import Content from './Content'
 import StoreContext from './context'
 import createStore from './store'
 
-const Dashboard: React.FC = () => {
+const ElectricityDataMgt: React.FC = () => {
   return (
     <StoreContext.Provider value={createStore()}>
       <Content />
@@ -10,4 +10,4 @@ const Dashboard: React.FC = () => {
   )
 }
 
-export default Dashboard
+export default ElectricityDataMgt

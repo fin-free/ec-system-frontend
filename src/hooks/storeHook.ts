@@ -2,10 +2,10 @@ import { useContext } from 'react'
 
 import { observer } from 'mobx-react-lite'
 
-import { context } from '../main'
+import storeContext from '@/contexts/storeContext'
 
 function useStore() {
-  const store = useContext(context)
+  const store = useContext(storeContext)
   return store
 }
 

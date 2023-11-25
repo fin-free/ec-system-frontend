@@ -1,9 +1,11 @@
 import { makeAutoObservable } from 'mobx'
 
+import { StatisticsCard } from '../types'
+
 export default class Store {
   constructor() {
     makeAutoObservable(this)
   }
 
-  public demoData = undefined
+  public statisticsList: Array<StatisticsCard> = []
 }

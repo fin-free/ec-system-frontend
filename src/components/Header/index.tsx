@@ -6,7 +6,7 @@ import Styles from './index.module.scss'
 
 interface IProps {
   collapsed: boolean
-  userInfo: UserInfo
+  userInfo?: UserInfo
   onToggleClick: (collapsed: boolean) => void
   onLogout: () => void
 }

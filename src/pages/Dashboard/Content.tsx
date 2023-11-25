@@ -1,16 +1,24 @@
+import { useContext, useEffect } from 'react'
+
 import { observer } from '@/hooks/storeHook'
 
-import Column from './components/Column'
-import Pie from './components/Pie'
-import Trend from './components/Trend'
+import AlarmTable from './components/AlarmTable'
+import ConsumptionChart from './components/ConsumptionChart'
+import StatisticsOverview from './components/StatisticsOverview'
+import storeContext from './context'
 import Style from './index.module.scss'
 
 const Content: React.FC = () => {
+  const { actions } = useContext(storeContext)
+  useEffect(() => {
+    actions.getStatisticSummaryData()
+  }, [])
+
   return (
     <div className={Style.root}>
-      <Column />
-      <Pie />
-      <Trend />
+      <StatisticsOverview />
+      <ConsumptionChart />
+      <AlarmTable />
     </div>
   )
 }

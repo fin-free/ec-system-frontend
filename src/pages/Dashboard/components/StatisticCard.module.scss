@@ -1,0 +1,18 @@
+.root {
+  flex: 1;
+  border: 1px solid $border-color;
+  padding: 24px 32px;
+  border-radius: 8px;
+
+  > div:nth-child(1) {
+    border-left: 6px solid #fff;
+    padding-left: 12px;
+    font-size: 16px;
+  }
+
+  > div:nth-child(2) {
+    margin-top: 8px;
+    font-size: 32px;
+    font-weight: 600;
+  }
+}

@@ -11,11 +11,15 @@ export default class Actions {
     this._store = store
   }
 
-  async init() {
-    await API.getMockData().then((res) => {
+  async getStatisticSummaryData() {
+    await API.getStatisticSummary().then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.demoData = get(res, 'data', [])
+          const data = get(res, 'data', [])
+
+          this._store.statisticsList = data.map((d) => {
+            return { key: d.title, ...d }
+          })
         })
       }
     })

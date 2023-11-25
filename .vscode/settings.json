@@ -14,7 +14,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "michelemelluso.code-beautifier"
   },
   "editor.codeActionsOnSave": {
     // For ESLint

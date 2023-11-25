@@ -1,45 +1,44 @@
-import React, { createContext } from 'react'
+import React from 'react'
 
 import { ConfigProvider } from 'antd'
 import zh_CN from 'antd/locale/zh_CN'
 import ReactDOM from 'react-dom/client'
 
-import createRootStore, { IStore } from '@/store'
+import StoreContext from '@/contexts/storeContext'
+import createRootStore from '@/store'
 
 import App from './App.tsx'
 
-export const context = createContext({} as IStore)
 const root = ReactDOM.createRoot(document.getElementById('root') as Element)
+
+const customTheme = {
+  token: {
+    motion: false,
+    colorBgContainer: '#001529',
+    colorTextBase: '#ffffff',
+    colorBgElevated: '#001529'
+  },
+  components: {
+    Table: {
+      rowSelectedBg: '#001529',
+      rowSelectedHoverBg: '#001529'
+    },
+    Select: {
+      selectorBg: '#001529',
+      optionSelectedBg: '#001529'
+    }
+  }
+}
 
 createRootStore()
   .then((store) => {
     root.render(
       <React.StrictMode>
-        <context.Provider value={store}>
-          <ConfigProvider
-            locale={zh_CN}
-            theme={{
-              token: { 
-                motion: false,
-                colorBgContainer: '#001529',
-                colorTextBase: '#ffffff',
-                colorBgElevated: '#001529'
-              },
-              components: {
-                Table: {
-                  rowSelectedBg: '#001529',
-                  rowSelectedHoverBg: '#001529'
-                },
-                Select: {
-                  selectorBg: '#001529',
-                  optionSelectedBg: '#001529'
-                }
-              },
-            }}
-          >
+        <StoreContext.Provider value={store}>
+          <ConfigProvider locale={zh_CN} theme={customTheme}>
             <App />
           </ConfigProvider>
-        </context.Provider>
+        </StoreContext.Provider>
       </React.StrictMode>
     )
   })
