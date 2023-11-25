@@ -23,6 +23,9 @@ const customTheme = {
       rowSelectedBg: '#001529',
       rowSelectedHoverBg: '#001529'
     },
+    Tree: {
+      nodeSelectedBg: '#353272'
+    },
     Select: {
       selectorBg: '#001529',
       optionSelectedBg: '#001529'
