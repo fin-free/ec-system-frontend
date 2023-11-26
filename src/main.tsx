@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, theme } from 'antd'
 import zh_CN from 'antd/locale/zh_CN'
 import ReactDOM from 'react-dom/client'
 
@@ -12,24 +12,14 @@ import App from './App.tsx'
 const root = ReactDOM.createRoot(document.getElementById('root') as Element)
 
 const customTheme = {
+  algorithm: theme.darkAlgorithm,
   token: {
     motion: false,
     colorBgContainer: '#001529',
     colorTextBase: '#ffffff',
-    colorBgElevated: '#001529'
-  },
-  components: {
-    Table: {
-      rowSelectedBg: '#001529',
-      rowSelectedHoverBg: '#001529'
-    },
-    Tree: {
-      nodeSelectedBg: '#353272'
-    },
-    Select: {
-      selectorBg: '#001529',
-      optionSelectedBg: '#001529'
-    }
+    colorBgElevated: '#001529',
+    colorBorder: '#8f8f8f33',
+    colorPrimaryBorderHover: '#001529'
   }
 }
 
