@@ -7,7 +7,12 @@ const getElectricityDataByType = () =>
       { name: '1', date: '2023-01-01', voltage: 100 },
       { name: '2', date: '2023-01-01', voltage: 200 },
       { name: '3', date: '2023-01-01', voltage: 300 },
-      { name: '4', date: '2023-01-01', voltage: 400 }
+      { name: '4', date: '2023-01-01', voltage: 400 },
+      { name: '5', date: '2023-01-01', voltage: 100 },
+      { name: '6', date: '2023-01-01', voltage: 200 },
+      { name: '7', date: '2023-01-01', voltage: 300 },
+      { name: '8', date: '2023-01-01', voltage: 400 },
+      { name: '9', date: '2023-01-01', voltage: 100 }
     ]
   })
 
