@@ -1,15 +1,12 @@
 import React, { useContext, useState } from 'react'
 
 import { Button, DatePicker, Flex, Form, Select, Table, Typography } from 'antd'
-import type { Dayjs } from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
 import storeContext from './context'
 import Styles from './index.module.scss'
 import { Item } from './typings'
-
-type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const EventStatus = {
   WAIT_FOR_CONFIRM: 0,
@@ -19,23 +16,23 @@ const EventStatus = {
 
 const eventStatusMap = {
   [EventStatus.WAIT_FOR_CONFIRM]: '待确认',
-  [EventStatus.CONFIRMED]: '已确认',
+  [EventStatus.CONFIRMED]: '已处理',
   [EventStatus.CANCELLED]: '已取消'
 }
 
 const { RangePicker } = DatePicker
 
 const columnNameMap: Record<string, string> = {
-  alarmType: '告警类型',
-  equipment: '设备',
-  gatewayAddress: '网关地址',
+  type: '告警类型',
+  equipmentNum: '设备',
+  gatewayNum: '网关地址',
   alarmDetail: '告警详情',
-  eventStatus: '事件状态',
-  createdTime: '发生时间',
+  status: '事件状态',
+  startTime: '发生时间',
   operations: '操作'
 }
 
-const alarmType = ['全部', '过压告警', '过流告警', '超功率告警', '温度告警', '湿度告警']
+const alarmType = ['全部', '过压告警', '过流告警', '超功率告警', '温度告警', '湿度告警', '集中器掉线']
 const alarmTypeOptions = alarmType.map((item, index) => ({
   label: item,
   value: index
@@ -48,17 +45,24 @@ const eventStatusOptions = Object.values(EventStatus).map((status) => ({
 
 const Content: React.FC = () => {
   const [form] = Form.useForm()
-  const [dates, setDates] = useState<RangeValue>(null)
-  const [dateValue, setDateValue] = useState<RangeValue>(null)
-  const [hasSelected, setHasSelected] = useState<boolean>(false)
+  const [selectedRows, setSelectedRows] = useState<Array<React.Key>>([])
   const { store, actions } = useContext(storeContext)
+  const dateFormat = 'YYYY/MM/DD';
 
   const onClickCancel = (record: Item) => {
-    console.log('record: ', record)
+    actions.operateAlarm([record.alarmId], EventStatus.CANCELLED);
   }
 
   const onClickConfirm = (record: Item) => {
-    console.log('record: ', record)
+    actions.operateAlarm([record.alarmId], EventStatus.CONFIRMED);
+  }
+
+  const handleBatchConfirm = () => {
+    actions.operateAlarm(selectedRows, EventStatus.CONFIRMED);
+  }
+
+  const handleBatchCancel = () => {
+    actions.operateAlarm(selectedRows, EventStatus.CANCELLED);
   }
 
   const handleEventStatusChange = (e: number) => {
@@ -77,11 +81,12 @@ const Content: React.FC = () => {
     actions.resetData()
   }
 
+
   const getColumnsRender = (itemKey: string) => {
     switch (itemKey) {
       case 'operations':
         return (_: any, record: Item) => {
-          return record.eventStatus === EventStatus.WAIT_FOR_CONFIRM ? (
+          return record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
               <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
                 确认
@@ -92,13 +97,13 @@ const Content: React.FC = () => {
             </div>
           ) : undefined
         }
-      case 'alarmType':
+      case 'type':
         return (_: any, record: Item) => {
-          return alarmType[record.alarmType]
+          return alarmType[record.type]
         }
-      case 'eventStatus':
+      case 'status':
         return (_: any, record: Item) => {
-          return eventStatusMap[record.eventStatus]
+          return eventStatusMap[record.status]
         }
       default:
         return null
@@ -110,23 +115,18 @@ const Content: React.FC = () => {
     return {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
+      ...itemKey === 'alarmDetail' ? {ellipsis: true}: null,
       ...(render ? { render } : null)
     }
   })
 
   const rowSelection = {
     onChange: (newSelectedRowKeys: React.Key[]) => {
-      setHasSelected(newSelectedRowKeys.length > 0)
-      console.log('newSelectedRowKeys: ', newSelectedRowKeys)
-    }
-  }
-
-  const onOpenChange = (open: boolean) => {
-    if (open) {
-      setDates([null, null])
-    } else {
-      setDates(null)
-    }
+      setSelectedRows(newSelectedRowKeys);
+    },
+    getCheckboxProps: (record: Item) => ({
+      disabled: record.status !== EventStatus.WAIT_FOR_CONFIRM,
+    }),
   }
 
   return (
@@ -136,15 +136,13 @@ const Content: React.FC = () => {
           <Flex justify='space-between' flex='0.88 0.5 0%'>
             <Flex justify='space-between' flex='1 1 0%' className={Styles.selectWrapper}>
               <RangePicker
-                value={dates || dateValue}
-                onCalendarChange={(val) => {
-                  setDates(val)
-                }}
+                value={store.timeRange}
                 onChange={(val) => {
-                  setDateValue(val)
+                  store.changeTimeRange(val)
                 }}
-                onOpenChange={onOpenChange}
+                format={dateFormat}
                 changeOnBlur
+                showTime={{ format: 'HH:mm:ss' }}
               />
               <Select
                 value={store.alarmType}
@@ -169,16 +167,16 @@ const Content: React.FC = () => {
             <Button onClick={handleResetClick}>重置</Button>
           </Flex>
         </Flex>
-        {hasSelected ? (
+        {selectedRows.length > 0 ? (
           <Flex className={Styles.batchWrapper}>
-            <Button type='primary' className={Styles.primaryButton} style={{ marginRight: '10px' }}>
+            <Button type='primary' className={Styles.primaryButton} style={{ marginRight: '10px' }} onClick={handleBatchConfirm}>
               一键确认
             </Button>
-            <Button type='primary' className={Styles.primaryButton}>
+            <Button type='primary' className={Styles.primaryButton} onClick={handleBatchCancel}>
               一键取消
             </Button>
           </Flex>
-        ) : null}
+        ) : <div className={Styles.batchHolder} />}
         <Table
           bordered
           dataSource={store.alarmData}

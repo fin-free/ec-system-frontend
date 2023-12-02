@@ -13,7 +13,10 @@ import {
   ROUTE_PATH_DASHBOARD,
   ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
   ROUTE_PATH_ENVIRONMENT_MANAGEMENT,
-  ROUTE_PATH_EQUIPMENT_MANAGEMENT
+  ROUTE_PATH_EQUIPMENT_MANAGEMENT,
+  ROUTE_PATH_ALARM_LIST,
+  ROUTE_PATH_EQUIPMENT_LIST,
+  ROUTE_PATH_GATEWAY_LIST
 } from '@/routes/routePath'
 
 export enum NavKeys {
@@ -25,7 +28,10 @@ export enum NavKeys {
   consumptionAnalysis = 'consumptionAnalysis',
   comparativeAnalysis = 'comparativeAnalysis',
   alarmManagement = 'alarmManagement',
-  equipmentManagement = 'equipmentManagement'
+  equipmentManagement = 'equipmentManagement',
+  alarmList = 'alarmList',
+  equipmentList = 'equipmentList',
+  gatewayList = 'gatewayList'
 }
 
 export const NavLabels = {
@@ -37,7 +43,10 @@ export const NavLabels = {
   [NavKeys.consumptionAnalysis]: '用能分析',
   [NavKeys.comparativeAnalysis]: '用能同环比',
   [NavKeys.alarmManagement]: '告警管理',
-  [NavKeys.equipmentManagement]: '设备管理'
+  [NavKeys.alarmList]: '告警列表',
+  [NavKeys.equipmentManagement]: '设备管理',
+  [NavKeys.equipmentList]: '设备列表',
+  [NavKeys.gatewayList]: '网关列表',
 }
 
 export interface INavMenus {
@@ -92,14 +101,31 @@ export const SideNavItems: INavMenus[] = [
   {
     key: NavKeys.alarmManagement,
     label: NavLabels[NavKeys.alarmManagement],
-    path: ROUTE_PATH_ALARM_MANAGEMENT,
-    IconCom: SettingOutlined
+    IconCom: SettingOutlined,
+    children: [
+      {
+        key: NavKeys.alarmList,
+        label: NavLabels[NavKeys.alarmList],
+        path: ROUTE_PATH_ALARM_LIST
+      },
+    ]
   },
   {
     key: NavKeys.equipmentManagement,
     label: NavLabels[NavKeys.equipmentManagement],
-    path: ROUTE_PATH_EQUIPMENT_MANAGEMENT,
-    IconCom: ThunderboltOutlined
+    IconCom: ThunderboltOutlined,
+    children: [
+      {
+        key: NavKeys.equipmentList,
+        label: NavLabels[NavKeys.equipmentList],
+        path: ROUTE_PATH_EQUIPMENT_LIST
+      },
+      {
+        key: NavKeys.gatewayList,
+        label: NavLabels[NavKeys.gatewayList],
+        path: ROUTE_PATH_GATEWAY_LIST
+      }
+    ]
   }
 ]
 

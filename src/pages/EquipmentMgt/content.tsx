@@ -1,44 +1,74 @@
-import { Form, Table, Typography, Flex, Button, Input, Select } from 'antd';
-import React, { useContext, useState } from 'react';
+import {
+  Table,
+  Typography,
+  Flex,
+  Button,
+  Input,
+  Select,
+  Modal,
+  message
+} from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import React, { useContext, useState } from 'react'
 import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
-import storeContext from './context';
-import { EquipmentItem } from './typings';
+import storeContext from './context'
+import { EquipmentItem } from './typings'
+import EditForm from './editForm'
 
 const columnNameMap: Record<string, string> = {
-  orderId: '序号',
+  equipmentId: '序号',
   equipmentName: '设备名称',
-  equipmentAddress: '设备地址',
-  equipmentModel: '设备型号',
-  equipmentType: '设备类型',
-  equipmentStatus: '设备状态',
-  equipmentAddedAt: '添加时间',
-  operations: '操作',
+  equipmentNum: '设备地址',
+  productModel: '设备型号',
+  energyType: '设备类型',
+  status: '设备状态',
+  createTime: '添加时间',
+  operations: '操作'
 }
 
-const equipmentStatusOptions = ['正常使用', '已注册', '未使用'].map((item, index) =>({
+const equipmentStatusList = ['未使用', '已注册', '正常使用']
+
+const equipmentStatusOptions = equipmentStatusList.map((item, index) => ({
   label: item,
   value: index
-}));
+}))
+
+const EnergyTypes = {
+  COLD_WATER: '01001',
+  HOT_WATER: '01002',
+  ELECTRIC: '01003',
+  TEMPERATURE_HUMIDITY: '01004'
+}
+
+const energyTypeMap = {
+  [EnergyTypes.COLD_WATER]: '冷水表',
+  [EnergyTypes.HOT_WATER]: '热水表',
+  [EnergyTypes.ELECTRIC]: '电表',
+  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器'
+}
 
 const Content: React.FC = () => {
-  const {store, actions} = useContext(storeContext);
-  const [showEditForm, setShowEditForm] = useState<boolean>(false);
+  const { store, actions } = useContext(storeContext)
+  const [showEditForm, setShowEditForm] = useState<boolean>(false)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [curEquipmentId, setCurEquipmentId] = useState<number>()
+  const [curEquipmentItem, setCurEquipmentItem] = useState<EquipmentItem>()
+  const [messageApi, contextHolder] = message.useMessage()
 
   const handleAddClick = () => {
-    setShowEditForm(true);
+    setShowEditForm(true)
+    setCurEquipmentId(undefined)
   }
 
   const onClickEdit = (record: EquipmentItem) => {
-    console.log(record);
+    setShowEditForm(true)
+    setCurEquipmentId(record.equipmentId)
   }
 
-  const onClickCancel= (record: EquipmentItem) => {
-    console.log(record);
-  }
-
-  const handleEquipmentStatusChange = () => {
-
+  const onClickDelete = (record: EquipmentItem) => {
+    setCurEquipmentItem(record)
+    setShowDeleteModal(true)
   }
 
   const getColumnsRender = (itemKey: string) => {
@@ -47,137 +77,131 @@ const Content: React.FC = () => {
         return (_: any, record: EquipmentItem) => {
           return (
             <div className={Styles.operationWrapper}>
-              <Typography.Link disabled={false} onClick={() => onClickEdit(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickEdit(record)}
+              >
                 编辑
               </Typography.Link>
-              <Typography.Link disabled={false} onClick={() => onClickCancel(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickDelete(record)}
+              >
                 删除
-            </Typography.Link>
-          </div>
-          );
-        };
+              </Typography.Link>
+            </div>
+          )
+        }
+      case 'energyType':
+        return (_: any, record: EquipmentItem) => {
+          return energyTypeMap[record.energyType]
+        }
+      case 'status':
+        return (_: any, record: EquipmentItem) => {
+          return equipmentStatusList[record.status]
+        }
       default:
-        return null;
+        return null
     }
-  }
-
-  const onFormFinish = (data: any) => {
-    setShowEditForm(false);
   }
 
   const columns = Object.keys(columnNameMap).map((itemKey) => {
-    const render = getColumnsRender(itemKey);
+    const render = getColumnsRender(itemKey)
     return {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
-      ... render ? {render}: null,
+      ...(render ? { render } : null)
     }
   })
 
+  const handleSearchClick = () => {
+    actions.fetchEquipmentData()
+  }
+
+  const handleResetClick = () => {
+    actions.resetData()
+  }
+
+  const handleEquipmentNumChange = (e: any) => {
+    store.changeEquipmentNum(e?.target?.value)
+  }
+
+  const handleEquipmentStatusChange = (status: any) => {
+    store.changeEquipmentStatus(status)
+  }
+
+  const handleModalOk = async () => {
+    const res = await actions.deleteEquipment({
+      equipmentId: curEquipmentItem?.equipmentId
+    })
+    if (res) {
+      messageApi.info('删除成功')
+      actions.fetchEquipmentData()
+    }
+    setShowDeleteModal(false)
+  }
+
+  const handleModalCancel = () => {
+    setShowDeleteModal(false)
+  }
+
+  const onClickBack = () => {
+    setCurEquipmentId(undefined)
+    setShowEditForm(false)
+  }
+
   return (
     <div className={Styles.root}>
-      {showEditForm ?
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{width: 800, alignSelf: 'flex-start', marginTop: 20}}
-          onFinish={onFormFinish}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="设备类型"
-            name="equipmentType"
-            rules={[{ required: true, message: '请输入设备类型！' }]}
-          >
-            <Input />
-          </Form.Item>
-      
-          <Form.Item
-            label="设备编号"
-            name="equipmentNum"
-            rules={[{ required: true, message: '请输入设备编码！' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="产品型号"
-            name="equipmentModel"
-            rules={[{ required: true, message: '请输入产品型号！' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="设备状态"
-            name="password"
-            rules={[{ required: true, message: '请输入设备状态！' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="电压上限"
-            name="volUpperLimit"
-          >
-            <Input />
-          </Form.Item>
-      
-          <Form.Item
-            label="电流上限"
-            name="curUpperLimit"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="最大功率"
-            name="maxPower"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="最大温度"
-            name="maxTemperature"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="最大湿度"
-            name="maxHumidity"
-          >
-            <Input />
-          </Form.Item>
-      
-          <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
-            <Button size='large' className={Styles.primaryButton} style={{width: 100}} type="primary" htmlType="submit">
-              提交
-            </Button>
-            <Button size='large' htmlType="submit" style={{marginLeft: 20, width: 100}}>
-              重置
-            </Button>
-          </Form.Item>
-        </Form>
-      :
-        <React.Fragment>
+      {contextHolder}
+      {showEditForm ? (
+        <>
+          <Button
+            className={Styles.primaryButton}
+            onClick={onClickBack}
+            shape='circle'
+            icon={<ArrowLeftOutlined />}
+          ></Button>
+          <EditForm equipmentId={curEquipmentId} />
+        </>
+      ) : (
+        <>
           <Flex justify='space-between' flex='1 1 0%'>
             <Flex align='center' justify='flex-start' flex='0.4 0.5 0%'>
               <Flex align='center' flex='0.5 0.5 0%'>
                 设备地址：
                 <Flex align='center' flex='0.7 0.5 0%'>
-                  <Input />
+                  <Input
+                    value={store.equipmentNum}
+                    onChange={handleEquipmentNumChange}
+                    placeholder='请输入设备地址'
+                  />
                 </Flex>
               </Flex>
               <Flex align='center' flex='0.5 0.5 0%'>
                 设备状态：
-                <Select 
+                <Select
                   value={store.equipmentStatus}
-                  placeholder="请选择设备状态"
+                  placeholder='请选择设备状态'
                   style={{ width: 120 }}
                   onChange={handleEquipmentStatusChange}
-                  options={equipmentStatusOptions} 
+                  options={equipmentStatusOptions}
                 />
               </Flex>
             </Flex>
-            <Flex justify='flex-end' flex='0.5 0.5 0%'>
-              <Button type='primary' className={Styles.primaryButton} onClick={handleAddClick}>
+            <Flex justify='space-between' flex='0.2 0.5 0%'>
+              <Button
+                type='primary'
+                className={Styles.primaryButton}
+                onClick={handleSearchClick}
+              >
+                查询
+              </Button>
+              <Button onClick={handleResetClick}>重置</Button>
+              <Button
+                type='primary'
+                className={Styles.primaryButton}
+                onClick={handleAddClick}
+              >
                 新增
               </Button>
             </Flex>
@@ -188,11 +212,18 @@ const Content: React.FC = () => {
             columns={columns}
             className={Styles.mainTable}
           />
-        </React.Fragment>
-      }
+          <Modal
+            title='确认删除设备'
+            open={showDeleteModal}
+            onOk={handleModalOk}
+            onCancel={handleModalCancel}
+          >
+            是否删除 {curEquipmentItem?.equipmentName} 设备?
+          </Modal>
+        </>
+      )}
     </div>
-  );
-};
+  )
+}
 
 export default observer(Content)
-

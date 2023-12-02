@@ -11,15 +11,16 @@ import EquipmentMgt from '@/pages/EquipmentMgt'
 import Login from '@/pages/Login'
 
 import {
-  ROUTE_PATH_ALARM_MANAGEMENT,
   ROUTE_PATH_COMPARATIVE_ANALYSIS,
   ROUTE_PATH_CONSUMPTION_ANALYSIS,
   ROUTE_PATH_DASHBOARD,
   ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
   ROUTE_PATH_ENVIRONMENT_MANAGEMENT,
-  ROUTE_PATH_EQUIPMENT_MANAGEMENT,
   ROUTE_PATH_LOGIN,
-  ROUTE_PATH_ROOT
+  ROUTE_PATH_ROOT,
+  ROUTE_PATH_ALARM_LIST,
+  ROUTE_PATH_EQUIPMENT_LIST,
+  ROUTE_PATH_GATEWAY_LIST
 } from './routePath'
 
 const Router = () => {
@@ -56,11 +57,15 @@ const Router = () => {
           element: <ComparativeAnalysis />
         },
         {
-          path: ROUTE_PATH_ALARM_MANAGEMENT,
+          path: ROUTE_PATH_ALARM_LIST,
           element: <AlarmMgt />
         },
         {
-          path: ROUTE_PATH_EQUIPMENT_MANAGEMENT,
+          path: ROUTE_PATH_EQUIPMENT_LIST,
+          element: <EquipmentMgt />
+        },
+        {
+          path: ROUTE_PATH_GATEWAY_LIST,
           element: <EquipmentMgt />
         }
       ]

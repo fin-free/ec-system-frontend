@@ -1,10 +1,11 @@
 export interface Item {
-  alarmType: number,
-  equipment: string,
-  gatewayAddress: string,
+  type: number,
+  equipmentNum: string,
+  gatewayNum: string,
   alarmDetail: string,
-  eventStatus: number,
-  createdTime: string,
+  status: number,
+  startTime: string,
   operations: string,
-  key: number,
+  alarmId: number,
+  key?: number,
 }

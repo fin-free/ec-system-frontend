@@ -7,7 +7,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '@/common/images/logo.svg?react'
 import { ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT } from '@/routes/routePath'
 
-import { defaultOpenKeys, INavMenus, LinkNavs, NavKeys, SideNavItems } from './constants'
+import {
+  defaultOpenKeys,
+  INavMenus,
+  LinkNavs,
+  NavKeys,
+  SideNavItems
+} from './constants'
 import Styles from './index.module.scss'
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -23,7 +29,9 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
   const [openKeys, setOpenKeys] = useState<string[]>(defaultOpenKeys)
 
   useEffect(() => {
-    const matchedMenu = Object.entries(LinkNavs).find((menu) => menu[1] === pathname)
+    const matchedMenu = Object.entries(LinkNavs).find(
+      (menu) => menu[1] === pathname
+    )
     if (matchedMenu) {
       setActiveNav(matchedMenu[0])
     }

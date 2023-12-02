@@ -1,26 +1,41 @@
 import request from './request'
 
-const mockData: any[] = [];
-for (let i = 0; i < 100; i++) {
-  mockData.push({
-    alarmType: i % 6,
-    equipment: '设备',
-    gatewayAddress: '网关地址',
-    alarmDetail: `告警详情${i}`,
-    eventStatus: i % 3,
-    createdTime: '发生时间',
-    operations: '操作',
-    key: i,
-  });
+const getAlarmList = async (params: any): Promise<any> => {
+  const { status, type, startTime, pageNum, pageSize, endTime } = params;
+  try {
+    const res = await request({
+      url: `http://123.56.220.41:8080/energy/alarm/list?projectId=1&status=${status}&type=${type}&startTime=${startTime}&pageNum=${pageNum}&pageSize=${pageSize}&endTime=${endTime}`,
+    })
+    const { code, data, message } = res.data ?? {};
+    if (code === 200 && data) {
+      return data;
+    } else {
+      throw new Error(message);
+    }
+  } catch (error) {
+    console.error('getAlarmList error: ', error);
+  }
 }
-// const getMockData = () => request({ url: '/mock/data', method: 'get' })
-const getMockData = (): Promise<any> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        data: mockData,
-      })
-    }, 500)
-  })
+
+const operateAlarm = async (params: any) => {
+  const { alarmIds, operation } = params;
+  try {
+    const res = await request({
+      url: `http://123.56.220.41:8080/energy/alarm/operate`,
+      method: 'POST',
+      data: {
+        alarmIds,
+        status: operation, //1 确认  2 取消
+      }
+    })
+    const { code, data, message } = res.data ?? {};
+    if (code === 200) {
+      return data;
+    } else {
+      throw new Error(message);
+    }
+  } catch (error) {
+    console.error('operateAlarm error: ', error);
+  }
 }
-export { getMockData }
+export { getAlarmList, operateAlarm}
