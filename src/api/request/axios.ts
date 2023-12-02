@@ -45,4 +45,20 @@ instance.interceptors.request.use(
   }
 )
 
+// 响应处理
+instance.interceptors.response.use(
+  (res) => {
+    if (get(res.config, 'showLoading', false)) {
+      configLoading('res')
+    }
+    return Promise.resolve(get(res, 'data'))
+  },
+  (err) => {
+    if (err.config?.showLoading) {
+      configLoading('res')
+    }
+    return Promise.reject(get(err, ['response', 'data']))
+  }
+)
+
 export default instance
