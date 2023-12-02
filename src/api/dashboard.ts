@@ -1,14 +1,9 @@
-// import request from './request'
+import request from './request'
 
-// const getStatisticSummary = () => request({ url: '/mock/data', method: 'get' })
-const getStatisticSummary = () =>
-  Promise.resolve({
-    data: [
-      { title: '网关数', value: Math.floor(Math.random() * 1000) },
-      { title: '设备数', value: Math.floor(Math.random() * 1000) },
-      { title: '在线数', value: Math.floor(Math.random() * 1000) },
-      { title: '离线数', value: Math.floor(Math.random() * 1000) }
-    ]
-  })
+// 统计数据
+const getStatisticSummary = (params: { projectId: number }) => request({ url: '/energy/home', method: 'get', params })
 
-export { getStatisticSummary }
+const getAlarmList = (params: { projectId: number; status: number; pageSize: number; endTime?: string }) =>
+  request({ url: '/alarm/list', method: 'get', params })
+
+export { getStatisticSummary, getAlarmList }

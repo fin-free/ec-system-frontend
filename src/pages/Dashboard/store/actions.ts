@@ -2,6 +2,7 @@ import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/dashboard'
+import { STATISTICS_SUMMARY_LABEL } from '@/common/constants/labels'
 
 import Store from './store'
 
@@ -12,13 +13,16 @@ export default class Actions {
   }
 
   async getStatisticSummaryData() {
-    await API.getStatisticSummary().then((res) => {
+    await API.getStatisticSummary({ projectId: 1 }).then((res) => {
       if (res) {
         runInAction(() => {
           const data = get(res, 'data', [])
-
-          this._store.statisticsList = data.map((d) => {
-            return { key: d.title, ...d }
+          this._store.statisticsList = Object.keys(data).map((key) => {
+            return {
+              key,
+              title: STATISTICS_SUMMARY_LABEL[key],
+              value: data[key]
+            }
           })
         })
       }
