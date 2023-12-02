@@ -7,11 +7,11 @@ import storeContext from './context'
 import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
-  const { actions } = useContext(storeContext)
+  const { actions, store } = useContext(storeContext)
+  const { filters } = store
 
   useEffect(() => {
-    actions.getEquipmentListData()
-    actions.getElectricityTableData()
+    actions.getElectricityTableData(filters)
   }, [])
 
   return (

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
-import { TableData, TreeNode } from '@/types/electricityDataMgt'
+import { TableData } from '@/types/ElectricityDataMgt'
 
 export default class Store {
   constructor() {
@@ -9,8 +9,7 @@ export default class Store {
   }
 
   public filterDate = dayjs()
-  public filterDataType: string = 'voltage'
+  public filterDataType: string = '0011'
 
-  public equipmentList?: Array<TreeNode> = undefined
   public electricityTableData?: TableData = undefined
 }

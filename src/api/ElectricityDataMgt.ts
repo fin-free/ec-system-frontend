@@ -1,28 +1,24 @@
-// import request from './request'
+import request from './request'
 
-// const getElectricityDataByType = () => request({ url: '/mock/data', method: 'get' })
-const getElectricityDataByType = () =>
-  Promise.resolve({
-    data: [
-      { name: '1', date: '2023-01-01', voltage: 100 },
-      { name: '2', date: '2023-01-01', voltage: 200 },
-      { name: '3', date: '2023-01-01', voltage: 300 },
-      { name: '4', date: '2023-01-01', voltage: 400 },
-      { name: '5', date: '2023-01-01', voltage: 100 },
-      { name: '6', date: '2023-01-01', voltage: 200 },
-      { name: '7', date: '2023-01-01', voltage: 300 },
-      { name: '8', date: '2023-01-01', voltage: 400 },
-      { name: '9', date: '2023-01-01', voltage: 100 }
-    ]
-  })
+// 设备列表
+const getEquipmentList = (params: { projectId: number }) =>
+  request({ url: '/sys/buildinginfo/tree', method: 'get', params })
 
-// const getEquipmentList = () => request({ url: '/mock/data', method: 'get' })
-const getEquipmentList = () =>
-  Promise.resolve({
-    data: [
-      { name: 'level-1-node', children: [{ name: 'level-1-1-node', children: [{ name: 'level-1-1-1-node' }] }] },
-      { name: 'level-2-node', children: [{ name: 'level-2-1-node', children: [{ name: 'level-2-1-1-node' }] }] }
-    ]
-  })
+type ElectricityDataPayload = {
+  startTime: string
+  endTime: string
+  buildingId: string
+  energytype: string
+  datetype: string
+  functiontype: string
+  projectId: string
+  pageNum: string
+  pageSize: string
+}
+
+// 电力数据详情
+const getElectricityDataByType = (data: ElectricityDataPayload) =>
+  request({ url: '/eceraw/datalist', method: 'post', data })
 
 export { getElectricityDataByType, getEquipmentList }
+export type { ElectricityDataPayload }

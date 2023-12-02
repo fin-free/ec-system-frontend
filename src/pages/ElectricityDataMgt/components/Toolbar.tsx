@@ -1,14 +1,15 @@
 import { useContext } from 'react'
 
 import { DatePicker, Select } from 'antd'
-
-import { electricityOptions } from '@/common/constants'
-
 import storeContext from '../context'
 
+import { useStore } from '@/hooks/storeHook'
 import Styles from './Toolbar.module.scss'
 
 const Toolbar: React.FC = () => {
+  const {
+    commonStore: { dataTypeOptions }
+  } = useStore()
   const {
     store: { filterDate, filterDataType }
   } = useContext(storeContext)
@@ -20,7 +21,7 @@ const Toolbar: React.FC = () => {
   return (
     <div className={Styles.root}>
       <DatePicker defaultValue={filterDate} format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Select options={electricityOptions} defaultValue={filterDataType} onChange={onDataTypeChange} />
+      <Select options={dataTypeOptions} defaultValue={filterDataType} onChange={onDataTypeChange} />
     </div>
   )
 }

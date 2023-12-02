@@ -9,14 +9,12 @@ import storeContext from '../context'
 import Styles from './EquipmentList.module.scss'
 
 const EquipmentList = () => {
-  const {
-    store: { equipmentList }
-  } = useContext(storeContext)
+  const { store } = useContext(storeContext)
 
   return (
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' />
-      <Tree defaultExpandAll treeData={equipmentList} />
+      <Tree defaultExpandAll treeData={[]} />
     </aside>
   )
 }
