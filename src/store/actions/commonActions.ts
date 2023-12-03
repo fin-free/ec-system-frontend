@@ -13,6 +13,8 @@ export default class CommonActions {
 
   async init() {
     this.getDictList()
+    this.getAchieveList('1')
+    this.getBuildingList('1')
   }
 
   async getDictList() {
@@ -31,7 +33,7 @@ export default class CommonActions {
     })
   }
 
-  async getAchieveList(projectId: number) {
+  async getAchieveList(projectId: string) {
     API.getAchieveList({ projectId }).then((res) => {
       if (res) {
         const treeData: Array<TreeNode> = []
@@ -41,7 +43,7 @@ export default class CommonActions {
     })
   }
 
-  async getBuildingList(projectId: number) {
+  async getBuildingList(projectId: string) {
     API.getBuildingList({ projectId }).then((res) => {
       if (res) {
         const treeData: Array<TreeNode> = []

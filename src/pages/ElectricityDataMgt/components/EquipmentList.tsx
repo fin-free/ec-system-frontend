@@ -17,7 +17,7 @@ const EquipmentList = () => {
   return (
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' />
-      <Tree defaultExpandAll treeData={buildingList} />
+      <Tree defaultExpandAll={true} treeData={buildingList} />
     </aside>
   )
 }
