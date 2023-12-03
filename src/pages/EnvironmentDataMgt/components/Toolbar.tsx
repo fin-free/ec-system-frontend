@@ -46,7 +46,11 @@ const Toolbar: React.FC = () => {
   return (
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Select options={energyTypeOptions} defaultValue={filters?.energytype} onChange={onEnergyTypeChange} />
+      <Select
+        options={energyTypeOptions.filter((opt) => opt.key !== '0002')}
+        defaultValue={filters?.energytype}
+        onChange={onEnergyTypeChange}
+      />
       <Select options={dataTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>

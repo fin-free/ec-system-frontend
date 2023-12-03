@@ -10,6 +10,7 @@ import Styles from './DataTable.module.scss'
 
 const DataTable: React.FC = () => {
   const {
+    actions,
     store: { electricityTableData, pagination }
   } = useContext(storeContext)
 
@@ -27,7 +28,17 @@ const DataTable: React.FC = () => {
     { title: '状态', dataIndex: 'collectStatus' }
   ]
 
-  return <Table className={Styles.root} columns={columns} dataSource={electricityTableData} pagination={pagination} />
+  return (
+    <Table
+      className={Styles.root}
+      columns={columns}
+      dataSource={electricityTableData}
+      pagination={pagination}
+      onChange={({ current, pageSize }) => {
+        actions.updatePagination({ current: current as number, pageSize: pageSize as number })
+      }}
+    />
+  )
 }
 
 export default observer(DataTable)

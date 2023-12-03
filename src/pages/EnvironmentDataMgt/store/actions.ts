@@ -19,6 +19,12 @@ export default class Actions {
     await API.getEnvironmentDataByType(payload).then((res) => {
       if (res) {
         runInAction(() => {
+          this._store.pagination = {
+            total: get(res, ['data', 'total'], 0),
+            current: get(res, ['data', 'pageNumber'], 0),
+            pageSize: get(res, ['data', 'pageSize'], 10),
+            showTotal: (total: number) => `共 ${total} 条数据`
+          }
           this._store.environmentTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData
@@ -41,7 +47,12 @@ export default class Actions {
     this.getEnvironmentData()
   }
 
-  async updatePagination(pagination: { current: number; pageSize: number }) {
+  async updatePagination(pagination: {
+    current: number
+    pageSize: number
+    total?: number
+    showTotal?: (total: number) => string
+  }) {
     const { current, pageSize } = pagination
     runInAction(() => {
       this._store.pagination.current = current
