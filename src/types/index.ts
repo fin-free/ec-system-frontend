@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export interface ILoginParams {
   userName: string
   password: string
@@ -24,8 +26,8 @@ export type DictItem = {
 }
 
 export type TreeNode = {
-  key: number
-  title: string
+  key: string
+  title: string | ReactNode
   children?: Array<TreeNode>
 }
 
