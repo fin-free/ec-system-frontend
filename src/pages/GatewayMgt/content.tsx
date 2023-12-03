@@ -1,13 +1,4 @@
-import {
-  Table,
-  Typography,
-  Flex,
-  Button,
-  Input,
-  Select,
-  Modal,
-  message
-} from 'antd'
+import { Table, Typography, Flex, Button, Input, Modal, message } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import React, { useContext, useState } from 'react'
 import { observer } from '@/hooks/storeHook'
@@ -19,7 +10,7 @@ import EditForm from './components/editForm'
 const columnNameMap: Record<string, string> = {
   gatewayId: '序号',
   gatewayName: '设备名称',
-  gatewayNum: '设备地址',
+  gatewayNum: '设备编号',
   productModel: '设备型号',
   type: '设备类型',
   status: '设备状态',
@@ -28,11 +19,6 @@ const columnNameMap: Record<string, string> = {
 }
 
 const gatewayStatusList = ['未使用', '已注册', '正常使用']
-
-const gatewayStatusOptions = gatewayStatusList.map((item, index) => ({
-  label: item,
-  value: index
-}))
 
 const EnergyTypes = {
   //能源类型 11001 电表集中器  11002 水表集中器
@@ -122,8 +108,8 @@ const Content: React.FC = () => {
     store.changeGatewayNum(e?.target?.value)
   }
 
-  const handleGatewayStatusChange = (status: any) => {
-    store.changeGatewayStatus(status)
+  const handleProductModelChange = (e: any) => {
+    store.changeProductModel(e?.target?.value)
   }
 
   const handleModalOk = async () => {
@@ -164,24 +150,24 @@ const Content: React.FC = () => {
           <Flex justify='space-between' flex='1 1 0%'>
             <Flex align='center' justify='flex-start' flex='0.4 0.5 0%'>
               <Flex align='center' flex='0.5 0.5 0%'>
-                设备地址：
+                设备编号：
                 <Flex align='center' flex='0.7 0.5 0%'>
                   <Input
                     value={store.gatewayNum}
                     onChange={handleGatewayNumChange}
-                    placeholder='请输入设备地址'
+                    placeholder='请输入设备编号'
                   />
                 </Flex>
               </Flex>
               <Flex align='center' flex='0.5 0.5 0%'>
-                设备状态：
-                <Select
-                  value={store.gatewayStatus}
-                  placeholder='请选择设备状态'
-                  style={{ width: 120 }}
-                  onChange={handleGatewayStatusChange}
-                  options={gatewayStatusOptions}
-                />
+                产品型号：
+                <Flex align='center' flex='0.7 0.5 0%'>
+                  <Input
+                    value={store.productModel}
+                    onChange={handleProductModelChange}
+                    placeholder='请输入产品型号'
+                  />
+                </Flex>
               </Flex>
             </Flex>
             <Flex justify='space-between' flex='0.2 0.5 0%'>

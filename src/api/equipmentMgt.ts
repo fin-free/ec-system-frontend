@@ -14,7 +14,7 @@ const getEquipmentList = async (params: any) => {
         projectId //项目Id
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {
@@ -61,7 +61,7 @@ const addEquipment = async (params: any) => {
         currentMagnification //电流倍率
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -110,7 +110,7 @@ const updateEquipment = async (params: any) => {
         equipmentId
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -128,7 +128,7 @@ const deleteEquipment = async (params: any) => {
       url: `/sys-equipment/delete?id=${equipmentId}`,
       method: 'DELETE'
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {
@@ -146,7 +146,7 @@ const getEquipmentInfo = async (params: any) => {
       url: `/sys-equipment/info?equipmentId=${equipmentId}`,
       method: 'GET'
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {

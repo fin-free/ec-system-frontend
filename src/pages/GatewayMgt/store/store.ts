@@ -3,13 +3,13 @@ import { GatewayItem } from '../typings'
 
 export default class Store {
   public gatewayData: Array<GatewayItem> = []
-  public gatewayStatus = undefined
+  public productModel = undefined
   public gatewayNum = undefined
   public projectId = undefined
   constructor() {
     makeAutoObservable(this, {
       gatewayData: observable,
-      gatewayStatus: observable,
+      productModel: observable,
       gatewayNum: observable,
       projectId: observable
     })
@@ -19,7 +19,7 @@ export default class Store {
     this.gatewayNum = num
   }
 
-  changeGatewayStatus(status: any) {
-    this.gatewayStatus = status
+  changeProductModel(model: any) {
+    this.productModel = model
   }
 }

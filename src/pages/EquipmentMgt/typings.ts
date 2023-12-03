@@ -14,7 +14,7 @@ export interface EquipmentInfo {
   currentThresholdMax: number //最大电流阈值
   energyType: string //能源类型 01001 冷水表  01002 热水表 01003 电表 01004 温湿度传感器
   equipmentName: string //设备名称
-  equipmentNum: string //设备地址
+  equipmentNum: string //设备编号
   humidityMax: number //最大湿度值
   powerMin: number //最小功率
   productModel: string //表型

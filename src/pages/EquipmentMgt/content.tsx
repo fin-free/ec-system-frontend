@@ -19,7 +19,7 @@ import EditForm from './components/editForm'
 const columnNameMap: Record<string, string> = {
   equipmentId: '序号',
   equipmentName: '设备名称',
-  equipmentNum: '设备地址',
+  equipmentNum: '设备编号',
   productModel: '设备型号',
   energyType: '设备类型',
   status: '设备状态',
@@ -168,12 +168,12 @@ const Content: React.FC = () => {
           <Flex justify='space-between' flex='1 1 0%'>
             <Flex align='center' justify='flex-start' flex='0.4 0.5 0%'>
               <Flex align='center' flex='0.5 0.5 0%'>
-                设备地址：
+                设备编号：
                 <Flex align='center' flex='0.7 0.5 0%'>
                   <Input
                     value={store.equipmentNum}
                     onChange={handleEquipmentNumChange}
-                    placeholder='请输入设备地址'
+                    placeholder='请输入设备编号'
                   />
                 </Flex>
               </Flex>

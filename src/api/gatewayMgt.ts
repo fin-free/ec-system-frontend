@@ -15,7 +15,7 @@ const getGatewayList = async (params: any) => {
         status
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {
@@ -42,7 +42,7 @@ const addGateway = async (params: any) => {
         status //设备状态 0 未使用 1已注册 2正常使用
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -77,7 +77,7 @@ const updateGateway = async (params: any) => {
         gatewayId
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -95,7 +95,7 @@ const deleteGateway = async (params: any) => {
       url: `/sys-gateway/delete?id=${gatewayId}`,
       method: 'DELETE'
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {
@@ -113,7 +113,7 @@ const getGatewayInfo = async (params: any) => {
       url: `/sys-gateway/info?gatewayId=${gatewayId}`,
       method: 'GET'
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {

@@ -21,8 +21,7 @@ export default class Actions {
       list: Array<GatewayItem>
     } = await API.getGatewayList({
       gatewayNum: this._store.gatewayNum ?? '',
-      status: this._store.gatewayStatus ?? '',
-      productModel: '', // TODO
+      productModel: this._store.productModel,
       projectId: this._store.projectId ?? '1' // 默认projectId
     })
     if (res) {
@@ -38,7 +37,7 @@ export default class Actions {
   async resetData() {
     runInAction(() => {
       this._store.gatewayNum = undefined
-      this._store.gatewayStatus = undefined
+      this._store.productModel = undefined
     })
     await this.fetchGatewayData()
   }
