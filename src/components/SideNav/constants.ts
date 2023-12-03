@@ -16,7 +16,10 @@ import {
   ROUTE_PATH_EQUIPMENT_MANAGEMENT,
   ROUTE_PATH_ALARM_LIST,
   ROUTE_PATH_EQUIPMENT_LIST,
-  ROUTE_PATH_GATEWAY_LIST
+  ROUTE_PATH_GATEWAY_LIST,
+  ROUTE_PATH_BRANCH_DOCUMENT,
+  ROUTE_PATH_POWER_LINE_LOSS,
+  ROUTE_PATH_LINE_COMPARISON
 } from '@/routes/routePath'
 
 export enum NavKeys {
@@ -31,7 +34,10 @@ export enum NavKeys {
   equipmentManagement = 'equipmentManagement',
   alarmList = 'alarmList',
   equipmentList = 'equipmentList',
-  gatewayList = 'gatewayList'
+  gatewayList = 'gatewayList',
+  lineComparison = 'lineComparision',
+  powerLineLoss = 'powerLineLoss',
+  branchDocument = 'branchDocument'
 }
 
 export const NavLabels = {
@@ -47,6 +53,9 @@ export const NavLabels = {
   [NavKeys.equipmentManagement]: '设备管理',
   [NavKeys.equipmentList]: '设备列表',
   [NavKeys.gatewayList]: '网关列表',
+  [NavKeys.branchDocument]: '支路档案',
+  [NavKeys.lineComparison]: '线路对比',
+  [NavKeys.powerLineLoss]: '用电线损'
 }
 
 export interface INavMenus {
@@ -95,6 +104,21 @@ export const SideNavItems: INavMenus[] = [
         key: NavKeys.comparativeAnalysis,
         label: NavLabels[NavKeys.comparativeAnalysis],
         path: ROUTE_PATH_COMPARATIVE_ANALYSIS
+      },
+      {
+        key: NavKeys.lineComparison,
+        label: NavLabels[NavKeys.lineComparison],
+        path: ROUTE_PATH_LINE_COMPARISON
+      },
+      {
+        key: NavKeys.powerLineLoss,
+        label: NavLabels[NavKeys.powerLineLoss],
+        path: ROUTE_PATH_POWER_LINE_LOSS
+      },
+      {
+        key: NavKeys.branchDocument,
+        label: NavLabels[NavKeys.branchDocument],
+        path: ROUTE_PATH_BRANCH_DOCUMENT
       }
     ]
   },
@@ -107,7 +131,7 @@ export const SideNavItems: INavMenus[] = [
         key: NavKeys.alarmList,
         label: NavLabels[NavKeys.alarmList],
         path: ROUTE_PATH_ALARM_LIST
-      },
+      }
     ]
   },
   {

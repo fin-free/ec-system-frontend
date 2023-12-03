@@ -28,7 +28,7 @@ const operateAlarm = async (params: any) => {
         status: operation //1 确认  2 取消
       }
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200) {
       return data
     } else {

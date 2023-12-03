@@ -9,7 +9,9 @@ import ElectricityDataMgt from '@/pages/ElectricityDataMgt'
 import EnvironmentDataMgt from '@/pages/EnvironmentDataMgt'
 import EquipmentMgt from '@/pages/EquipmentMgt'
 import GatewayMgt from '@/pages/GatewayMgt'
-
+import LineComparison from '@/pages/LineComparison'
+import PowerLineLoss from '@/pages/PowerLineLoss'
+import BranchDocument from '@/pages/BranchDocument'
 import Login from '@/pages/Login'
 
 import {
@@ -22,7 +24,10 @@ import {
   ROUTE_PATH_ROOT,
   ROUTE_PATH_ALARM_LIST,
   ROUTE_PATH_EQUIPMENT_LIST,
-  ROUTE_PATH_GATEWAY_LIST
+  ROUTE_PATH_GATEWAY_LIST,
+  ROUTE_PATH_LINE_COMPARISON,
+  ROUTE_PATH_BRANCH_DOCUMENT,
+  ROUTE_PATH_POWER_LINE_LOSS
 } from './routePath'
 
 const Router = () => {
@@ -57,6 +62,18 @@ const Router = () => {
         {
           path: ROUTE_PATH_COMPARATIVE_ANALYSIS,
           element: <ComparativeAnalysis />
+        },
+        {
+          path: ROUTE_PATH_BRANCH_DOCUMENT,
+          element: <BranchDocument />
+        },
+        {
+          path: ROUTE_PATH_LINE_COMPARISON,
+          element: <LineComparison />
+        },
+        {
+          path: ROUTE_PATH_POWER_LINE_LOSS,
+          element: <PowerLineLoss />
         },
         {
           path: ROUTE_PATH_ALARM_LIST,

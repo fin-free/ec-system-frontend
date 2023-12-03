@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 16px;
+
+  :global {
+    .ant-select {
+      width: 180px;
+    }
+
+    .ant-picker {
+      width: 240px;
+    }
+
+    .radio-group {
+      position: absolute;
+      right: 16px;
+    }
+  }
+}
