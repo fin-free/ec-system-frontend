@@ -86,7 +86,8 @@ const updateEquipment = async (params: any) => {
     temperatureMax,
     voltageThresholdMax,
     currentMagnification,
-    projectId
+    projectId,
+    equipmentId
   } = params
   try {
     const res = await request({
@@ -105,7 +106,8 @@ const updateEquipment = async (params: any) => {
         temperatureMax, //最大温度值
         voltageThresholdMax, //最大电压阈值
         currentMagnification, //电流倍率
-        projectId //项目Id
+        projectId, //项目Id
+        equipmentId
       }
     })
     const { code, data, message } = (res as any) ?? {}

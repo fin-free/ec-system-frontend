@@ -8,6 +8,8 @@ import Dashboard from '@/pages/Dashboard'
 import ElectricityDataMgt from '@/pages/ElectricityDataMgt'
 import EnvironmentDataMgt from '@/pages/EnvironmentDataMgt'
 import EquipmentMgt from '@/pages/EquipmentMgt'
+import GatewayMgt from '@/pages/GatewayMgt'
+
 import Login from '@/pages/Login'
 
 import {
@@ -66,7 +68,7 @@ const Router = () => {
         },
         {
           path: ROUTE_PATH_GATEWAY_LIST,
-          element: <EquipmentMgt />
+          element: <GatewayMgt />
         }
       ]
     }

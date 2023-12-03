@@ -1,10 +1,10 @@
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
-import * as API from '@/api/equipmentMgt'
+import * as API from '@/api/gatewayMgt'
 
 import Store from './store'
-import { EquipmentItem } from '../typings'
+import { GatewayItem } from '../typings'
 
 export default class Actions {
   private _store: Store
@@ -14,36 +14,37 @@ export default class Actions {
   }
 
   async init() {
-    await this.fetchEquipmentData()
+    await this.fetchGatewayData()
   }
-  async fetchEquipmentData() {
+  async fetchGatewayData() {
     const res: {
-      list: Array<EquipmentItem>
-    } = await API.getEquipmentList({
-      equipmentNum: this._store.equipmentNum ?? '',
-      status: this._store.equipmentStatus ?? '',
+      list: Array<GatewayItem>
+    } = await API.getGatewayList({
+      gatewayNum: this._store.gatewayNum ?? '',
+      status: this._store.gatewayStatus ?? '',
+      productModel: '', // TODO
       projectId: this._store.projectId ?? '1' // 默认projectId
     })
     if (res) {
       res.list = res.list.map((listItem) =>
-        Object.assign(listItem, { key: listItem.equipmentId })
+        Object.assign(listItem, { key: listItem.gatewayId })
       )
       runInAction(() => {
-        this._store.equipmentData = get(res, 'list', [])
+        this._store.gatewayData = get(res, 'list', [])
       })
     }
   }
 
   async resetData() {
     runInAction(() => {
-      this._store.equipmentNum = undefined
-      this._store.equipmentStatus = undefined
+      this._store.gatewayNum = undefined
+      this._store.gatewayStatus = undefined
     })
-    await this.fetchEquipmentData()
+    await this.fetchGatewayData()
   }
 
-  async addEquipment(params: any) {
-    const res = await API.addEquipment({
+  async addGateway(params: any) {
+    const res = await API.addGateway({
       ...params,
       projectId: this._store.projectId ?? '1'
     })
@@ -54,8 +55,8 @@ export default class Actions {
     }
   }
 
-  async updateEquipment(params: any) {
-    const res = await API.updateEquipment({
+  async updateGateway(params: any) {
+    const res = await API.updateGateway({
       ...params,
       projectId: this._store.projectId ?? '1'
     })
@@ -66,8 +67,8 @@ export default class Actions {
     }
   }
 
-  async deleteEquipment(params: any) {
-    const res = await API.deleteEquipment({
+  async deleteGateway(params: any) {
+    const res = await API.deleteGateway({
       ...params,
       projectId: this._store.projectId ?? '1'
     })
@@ -78,8 +79,8 @@ export default class Actions {
     }
   }
 
-  async getEquipmentInfo(params: any) {
-    const res = await API.getEquipmentInfo({
+  async getGatewayInfo(params: any) {
+    const res = await API.getGatewayInfo({
       ...params,
       projectId: this._store.projectId ?? '1'
     })

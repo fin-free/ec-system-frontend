@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+}
+
+.operationWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.batchWrapper {
+  margin-top: 10px;
+}
+
+.selectWrapper {
+  max-width: 600px;
+}
+
+.mainTable {
+  margin-top: 10px;
+}
+
+.primaryButton {
+  box-shadow: none;
+}
+
+.selectOptions {
+  background-color: #001529;
+}
+
+.rangePicker {
+  background-color: #001529;
+}
