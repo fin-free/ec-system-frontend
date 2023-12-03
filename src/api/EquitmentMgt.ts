@@ -4,7 +4,7 @@ const getEquipmentList = async (params: any) => {
   const { equipmentNum, status, projectId } = params
   try {
     const res = await request({
-      url: `http://123.56.220.41:8080/sys-equipment/list`,
+      url: `/sys-equipment/list`,
       method: 'POST',
       data: {
         equipmentNum, //设备地址
@@ -14,7 +14,7 @@ const getEquipmentList = async (params: any) => {
         projectId //项目Id
       }
     })
-    const { code, data, message } = res.data ?? {}
+    const { code, data, message } = (res as any) ?? {}
     if (code === 200) {
       return data
     } else {
@@ -43,7 +43,7 @@ const addEquipment = async (params: any) => {
   } = params
   try {
     const res = await request({
-      url: `http://123.56.220.41:8080/sys-equipment/add`,
+      url: `/sys-equipment/add`,
       method: 'POST',
       data: {
         projectId, //项目Id
@@ -61,7 +61,7 @@ const addEquipment = async (params: any) => {
         currentMagnification //电流倍率
       }
     })
-    const { code, data, message } = res.data ?? {}
+    const { code, data, message } = (res as any) ?? {}
     if (code === 200) {
       return message
     } else {
@@ -90,7 +90,7 @@ const updateEquipment = async (params: any) => {
   } = params
   try {
     const res = await request({
-      url: `http://123.56.220.41:8080/sys-equipment/update`,
+      url: `/sys-equipment/update`,
       method: 'POST',
       data: {
         currentThresholdMax, //最大电流阈值
@@ -108,7 +108,7 @@ const updateEquipment = async (params: any) => {
         projectId //项目Id
       }
     })
-    const { code, data, message } = res.data ?? {}
+    const { code, data, message } = (res as any) ?? {}
     if (code === 200) {
       return message
     } else {
@@ -123,10 +123,10 @@ const deleteEquipment = async (params: any) => {
   const { equipmentId } = params
   try {
     const res = await request({
-      url: `http://123.56.220.41:8080/sys-equipment/delete?id=${equipmentId}`,
+      url: `/sys-equipment/delete?id=${equipmentId}`,
       method: 'DELETE'
     })
-    const { code, data, message } = res.data ?? {}
+    const { code, data, message } = (res as any) ?? {}
     if (code === 200) {
       return data
     } else {
@@ -141,10 +141,10 @@ const getEquipmentInfo = async (params: any) => {
   const { equipmentId } = params
   try {
     const res = await request({
-      url: `http://123.56.220.41:8080/sys-equipment/info?equipmentId=${equipmentId}`,
+      url: `/sys-equipment/info?equipmentId=${equipmentId}`,
       method: 'GET'
     })
-    const { code, data, message } = res.data ?? {}
+    const { code, data, message } = (res as any) ?? {}
     if (code === 200) {
       return data
     } else {
