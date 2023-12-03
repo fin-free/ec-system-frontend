@@ -66,7 +66,11 @@ export default class CommonActions {
   transformAchieveListToTree(listData: ArchiveList, treeData: Array<TreeNode>) {
     listData.forEach((d) => {
       const { archivesName, archivesId, childrenList } = d
-      const node: TreeNode = { key: `${archivesId}`, title: archivesName }
+      const node: TreeNode = {
+        key: `${archivesId}`,
+        title: archivesName,
+        selectable: !childrenList || childrenList.length === 0
+      }
       treeData.push(node)
 
       if (childrenList) {
@@ -79,7 +83,11 @@ export default class CommonActions {
   transformBuildingListToTree(listData: BuildList, treeData: Array<TreeNode>) {
     listData.forEach((d) => {
       const { buildingName, buildingId, childrenList } = d
-      const node: TreeNode = { key: `${buildingId}`, title: buildingName }
+      const node: TreeNode = {
+        key: `${buildingId}`,
+        title: buildingName,
+        selectable: !childrenList || childrenList.length === 0
+      }
       treeData.push(node)
 
       if (childrenList) {

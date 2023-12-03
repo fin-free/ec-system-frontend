@@ -8,8 +8,16 @@ export default class Store {
     makeAutoObservable(this)
   }
 
-  public filterDate = dayjs()
-  public filterDataType: string = '0011'
+  public mode = 'table'
+  public filters = {
+    projectId: '1',
+    datetype: '0011',
+    energyid: '0002',
+    archivesId: '1',
+    startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
+  }
+  public energyConsumptionData = []
 
   public electricityTableData?: TableData = undefined
 }

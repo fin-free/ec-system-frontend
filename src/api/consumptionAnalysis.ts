@@ -1,5 +1,15 @@
 import request from './request'
 
-const getMockData = () => request({ url: '/mock/data', method: 'get' })
+type EnergyConsumptionPayload = {
+  datetype: string
+  energyid: string
+  archivesId: string
+  projectId: string
+  startTime: string
+  endTime: string
+}
 
-export { getMockData }
+const getEnergyConsumptionData = (data: EnergyConsumptionPayload) =>
+  request({ url: '/energy/get/energyvalue', method: 'post', data })
+
+export { getEnergyConsumptionData }

@@ -10,7 +10,7 @@ const Content: React.FC = () => {
   const { actions } = useContext(storeContext)
 
   useEffect(() => {
-    // actions.getBuildCompare()
+    actions.getComparativeData()
   }, [])
 
   return (

@@ -2,6 +2,7 @@ import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/dashboard'
+import * as ConsumptionApi from '@/api/consumptionAnalysis'
 import { STATISTICS_SUMMARY_LABEL } from '@/common/constants/labels'
 
 import Store from './store'
@@ -27,5 +28,22 @@ export default class Actions {
         })
       }
     })
+  }
+
+  async getEnergyCompareData() {
+    await ConsumptionApi.getEnergyConsumptionData(this._store.energyConsumptionPayload).then((res) => {
+      if (res) {
+        runInAction(() => {
+          this._store.energyConsumptionData = get(res, 'data', [])
+        })
+      }
+    })
+  }
+
+  async onSearch(searchParams: { datetype: string; startTime?: string; endTime?: string }) {
+    runInAction(() => {
+      this._store.energyConsumptionPayload = { ...this._store.energyConsumptionPayload, ...searchParams }
+    })
+    this.getEnergyCompareData()
   }
 }

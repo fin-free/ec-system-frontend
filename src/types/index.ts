@@ -29,6 +29,7 @@ export type TreeNode = {
   key: string
   title: string | ReactNode
   children?: Array<TreeNode>
+  selectable?: boolean
 }
 
 export type BuildList = {

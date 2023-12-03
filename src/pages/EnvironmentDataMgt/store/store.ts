@@ -11,7 +11,7 @@ export default class Store {
   public mode = 'table'
   public filters = {
     startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss'),
     buildingId: '17',
     energytype: '0001',
     datetype: '0011',

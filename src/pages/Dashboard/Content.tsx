@@ -12,6 +12,7 @@ const Content: React.FC = () => {
   const { actions } = useContext(storeContext)
   useEffect(() => {
     actions.getStatisticSummaryData()
+    actions.getEnergyCompareData()
   }, [])
 
   return (

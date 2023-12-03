@@ -15,9 +15,9 @@ const DataTable: React.FC = () => {
 
   const columns = [
     { title: '序号', dataIndex: 'orderNum', width: 100 },
-    { title: '回路名称', dataIndex: 'name' },
-    { title: '采集时间', dataIndex: 'date' },
-    { title: '电压(V)', dataIndex: 'voltage' }
+    { title: '日期', dataIndex: 'clearingPeriod' },
+    { title: '用量', dataIndex: 'energyValue' },
+    { title: '占比', dataIndex: 'proportion' }
   ]
 
   return <Table className={Styles.root} columns={columns} dataSource={electricityTableData} />

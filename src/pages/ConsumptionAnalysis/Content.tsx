@@ -10,8 +10,7 @@ const Content: React.FC = () => {
   const { actions } = useContext(storeContext)
 
   useEffect(() => {
-    // actions.getEquipmentListData()
-    actions.getElectricityTableData()
+    actions.getConsumptionData()
   }, [])
 
   return (

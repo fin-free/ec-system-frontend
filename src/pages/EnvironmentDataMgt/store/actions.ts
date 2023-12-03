@@ -28,7 +28,13 @@ export default class Actions {
     })
   }
 
-  async onSearch(searchParams: { startTime?: string; endTime?: string; energytype?: string; datetype?: string }) {
+  async onSearch(searchParams: {
+    startTime?: string
+    endTime?: string
+    energytype?: string
+    datetype?: string
+    buildingId?: string
+  }) {
     runInAction(() => {
       this._store.filters = { ...this._store.filters, ...searchParams }
     })

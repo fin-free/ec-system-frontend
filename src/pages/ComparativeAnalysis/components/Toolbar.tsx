@@ -1,31 +1,64 @@
 import { useContext } from 'react'
 
-import { DatePicker, Select } from 'antd'
-
-import { useStore } from '@/hooks/storeHook'
+import { DatePicker, Radio, Select, RadioChangeEvent } from 'antd'
+import type { Dayjs } from 'dayjs'
+import { observer, useStore } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
+
+const { RangePicker } = DatePicker
+type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
   const {
     commonStore: { dataTypeOptions }
   } = useStore()
   const {
-    store: { filterDate, filterDataType }
+    actions,
+    store: { filters }
   } = useContext(storeContext)
 
-  const onDateChange = () => {}
+  const yoyOrQoqOptions = [
+    {
+      key: 'yoy',
+      label: '同比',
+      value: 'yoy'
+    },
+    {
+      key: 'qoq',
+      label: '环比',
+      value: 'qoq'
+    }
+  ]
+
+  const onYoyOrQoqChange = () => {}
+
+  const onDateChange = (date: RangeValue) => {
+    actions.onSearch({
+      startTime: date![0]!.format('YYYY-MM-DD HH:mm:ss'),
+      endTime: date![1]!.format('YYYY-MM-DD HH:mm:ss')
+    })
+  }
 
   const onDataTypeChange = () => {}
 
+  const onModeChange = (e: RadioChangeEvent) => {
+    actions.updateMode(e.target.value)
+  }
+
   return (
     <div className={Styles.root}>
-      <DatePicker defaultValue={filterDate} format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Select options={dataTypeOptions} defaultValue={filterDataType} onChange={onDataTypeChange} />
+      <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
+      <Select options={yoyOrQoqOptions} defaultValue={filters.yoyOrQoq} onChange={onYoyOrQoqChange} />
+      <Select options={dataTypeOptions} defaultValue={filters.datetype} onChange={onDataTypeChange} />
+      <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
+        <Radio.Button value='table'>数据</Radio.Button>
+        <Radio.Button value='chart'>图表</Radio.Button>
+      </Radio.Group>
     </div>
   )
 }
 
-export default Toolbar
+export default observer(Toolbar)

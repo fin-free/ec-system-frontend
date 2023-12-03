@@ -13,7 +13,7 @@ const EquipmentList = () => {
   const {
     commonStore: { buildingList }
   } = useStore()
-  const { store } = useContext(storeContext)
+  const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
@@ -95,10 +95,22 @@ const EquipmentList = () => {
 
   const treeData = loop(buildingList)
 
+  const onSelect = (selectedKeys: React.Key[]) => {
+    actions.onSearch({
+      buildingId: selectedKeys[0].toString()
+    })
+  }
+
   return (
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
-      <Tree onExpand={onExpand} autoExpandParent={autoExpandParent} expandedKeys={expandedKeys} treeData={treeData} />
+      <Tree
+        onExpand={onExpand}
+        autoExpandParent={autoExpandParent}
+        expandedKeys={expandedKeys}
+        treeData={treeData}
+        onSelect={onSelect}
+      />
     </aside>
   )
 }
