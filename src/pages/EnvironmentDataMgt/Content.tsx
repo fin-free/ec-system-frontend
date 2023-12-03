@@ -1,13 +1,17 @@
 import { useContext, useEffect } from 'react'
 
+import { observer } from '@/hooks/storeHook'
+
 import DataTable from './components/DataTable'
 import EquipmentList from './components/EquipmentList'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
+import Chart from './components/Chart'
 
 const Content: React.FC = () => {
-  const { actions } = useContext(storeContext)
+  const { actions, store } = useContext(storeContext)
+  const { mode } = store
 
   useEffect(() => {
     actions.getEnvironmentData()
@@ -18,10 +22,10 @@ const Content: React.FC = () => {
       <EquipmentList />
       <div className='content'>
         <Toolbar />
-        <DataTable />
+        {mode === 'table' ? <DataTable /> : <Chart />}
       </div>
     </div>
   )
 }
 
-export default Content
+export default observer(Content)

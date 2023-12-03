@@ -6,7 +6,7 @@ const getAlarmList = async (params: any): Promise<any> => {
     const res = await request({
       url: `/energy/alarm/list?projectId=1&status=${status}&type=${type}&startTime=${startTime}&pageNum=${pageNum}&pageSize=${pageSize}&endTime=${endTime}`
     })
-    const { code, data, message } = (res as any) ?? {}
+    const { code, data, message } = res ?? {}
     if (code === 200 && data) {
       return data
     } else {

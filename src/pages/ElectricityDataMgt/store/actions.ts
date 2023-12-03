@@ -2,7 +2,6 @@ import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/electricityDataMgt'
-import type { ElectricityDataPayload } from '@/api/electricityDataMgt'
 
 import Store from './store'
 
@@ -12,7 +11,12 @@ export default class Actions {
     this._store = store
   }
 
-  async getElectricityTableData(payload: ElectricityDataPayload) {
+  async getElectricityTableData() {
+    const payload = {
+      ...this._store.filters,
+      pageNum: this._store.pagination.current.toString(),
+      pageSize: this._store.pagination.pageSize.toString()
+    }
     await API.getElectricityDataByType(payload).then((res) => {
       if (res) {
         runInAction(() => {
@@ -22,6 +26,28 @@ export default class Actions {
           })
         })
       }
+    })
+  }
+
+  async onSearch(searchParams: { startTime?: string; endTime?: string; datetype?: string; functiontype?: string }) {
+    runInAction(() => {
+      this._store.filters = { ...this._store.filters, ...searchParams }
+    })
+    this.getElectricityTableData()
+  }
+
+  async updatePagination(pagination: { current: number; pageSize: number }) {
+    const { current, pageSize } = pagination
+    runInAction(() => {
+      this._store.pagination.current = current
+      this._store.pagination.pageSize = pageSize
+    })
+    this.getElectricityTableData()
+  }
+
+  updateMode(mode: string) {
+    runInAction(() => {
+      this._store.mode = mode
     })
   }
 }

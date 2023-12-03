@@ -2,7 +2,6 @@ import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/environmentDataMgt'
-import type { EnvironmentDataPayload } from '@/api/environmentDataMgt'
 import Store from './store'
 
 export default class Actions {
@@ -11,8 +10,13 @@ export default class Actions {
     this._store = store
   }
 
-  async getEnvironmentData(payload?: EnvironmentDataPayload) {
-    await API.getEnvironmentDataByType(payload || this._store.filters).then((res) => {
+  async getEnvironmentData() {
+    const payload = {
+      ...this._store.filters,
+      pageNum: this._store.pagination.current.toString(),
+      pageSize: this._store.pagination.pageSize.toString()
+    }
+    await API.getEnvironmentDataByType(payload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.environmentTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {
@@ -21,6 +25,28 @@ export default class Actions {
           })
         })
       }
+    })
+  }
+
+  async onSearch(searchParams: { startTime?: string; endTime?: string; energytype?: string; datetype?: string }) {
+    runInAction(() => {
+      this._store.filters = { ...this._store.filters, ...searchParams }
+    })
+    this.getEnvironmentData()
+  }
+
+  async updatePagination(pagination: { current: number; pageSize: number }) {
+    const { current, pageSize } = pagination
+    runInAction(() => {
+      this._store.pagination.current = current
+      this._store.pagination.pageSize = pageSize
+    })
+    this.getEnvironmentData()
+  }
+
+  updateMode(mode: string) {
+    runInAction(() => {
+      this._store.mode = mode
     })
   }
 }

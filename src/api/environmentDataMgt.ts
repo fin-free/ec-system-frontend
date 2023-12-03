@@ -6,7 +6,7 @@ type EnvironmentDataPayload = {
   buildingId: string
   energytype: string
   datetype: string
-  functiontype: string
+  functiontype?: string
   projectId: string
   pageNum: string
   pageSize: string

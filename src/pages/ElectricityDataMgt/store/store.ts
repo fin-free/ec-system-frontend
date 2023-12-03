@@ -8,19 +8,22 @@ export default class Store {
     makeAutoObservable(this)
   }
 
+  public mode = 'table'
   public filters = {
-    startTime: '2023-11-20 00:00:00',
-    endTime: '2023-11-25 00:00:00',
+    startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss'),
     buildingId: '17',
     energytype: '0002',
     datetype: '0011',
-    functiontype: '0001',
-    projectId: '1',
-    pageNum: '1',
-    pageSize: '20'
+    functiontype: '0021',
+    projectId: '1'
   }
-  public filterDate = dayjs()
-  public filterDataType: string = '0011'
+  public pagination = {
+    total: 0,
+    current: 1,
+    pageSize: 10,
+    showTotal: (total: number) => `共 ${total} 条数据`
+  }
 
   public electricityTableData?: TableData = undefined
 }
