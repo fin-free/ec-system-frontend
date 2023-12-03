@@ -1,26 +1,28 @@
 import { Form, Button, Input, Select, message } from 'antd'
 import React, { useContext, useEffect } from 'react'
 import { observer } from '@/hooks/storeHook'
-import Styles from './index.module.scss'
-import storeContext from './context'
-import { GatewayItem } from './typings'
+import Styles from '../index.module.scss'
+import storeContext from '../context'
 
-const gatewayStatusList = ['未使用', '已注册', '正常使用']
+const equipmentStatusList = ['未使用', '已注册', '正常使用']
 
-const gatewayStatusOptions = gatewayStatusList.map((item, index) => ({
+const equipmentStatusOptions = equipmentStatusList.map((item, index) => ({
   label: item,
   value: index
 }))
 
 const EnergyTypes = {
-  //能源类型 11001 电表集中器  11002 水表集中器
-  ELECTRIC: '11001',
-  WATER: '11002'
+  COLD_WATER: '01001',
+  HOT_WATER: '01002',
+  ELECTRIC: '01003',
+  TEMPERATURE_HUMIDITY: '01004'
 }
 
 const energyTypeMap = {
-  [EnergyTypes.WATER]: '水表集中器',
-  [EnergyTypes.ELECTRIC]: '电表集中器'
+  [EnergyTypes.COLD_WATER]: '冷水表',
+  [EnergyTypes.HOT_WATER]: '热水表',
+  [EnergyTypes.ELECTRIC]: '电表',
+  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器'
 }
 
 const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
@@ -29,35 +31,35 @@ const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
 }))
 
 interface IProps {
-  gatewayItem?: GatewayItem
+  equipmentId?: number
 }
 
 const EditForm: React.FC<IProps> = (props: IProps) => {
-  const { gatewayItem } = props
+  const { equipmentId } = props
   const { store, actions } = useContext(storeContext)
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
 
   useEffect(() => {
-    if (gatewayItem) {
-      // 区分编辑or新建 TODO
-      // actions
-      //   .getGatewayInfo({
-      //     gatewayId: gatewayId
-      //   })
-      //   .then((res) => {
-      //     form.setFieldsValue(res)
-      //   })
-      form.setFieldsValue(gatewayItem)
+    if (typeof equipmentId === 'number') {
+      // 区分编辑or新建
+      actions
+        .getEquipmentInfo({
+          equipmentId: equipmentId
+        })
+        .then((res) => {
+          form.setFieldsValue(res)
+        })
     } else {
       form.setFieldsValue({})
     }
-  }, [gatewayItem])
+  }, [equipmentId])
 
   const onFormFinish = async (data: any) => {
-    const res = gatewayItem
-      ? await actions.updateGateway(data)
-      : await actions.addGateway(data)
+    const res =
+      typeof equipmentId === 'number'
+        ? await actions.updateEquipment({ ...data, equipmentId })
+        : await actions.addEquipment(data)
     if (res) {
       messageApi.info(res)
     }
@@ -77,14 +79,14 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
       >
         <Form.Item
           label='设备名称'
-          name='gatewayName'
+          name='equipmentName'
           rules={[{ required: true, message: '请输入设备名称！' }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
           label='设备类型'
-          name='type'
+          name='energyType'
           rules={[{ required: true, message: '请输入设备类型！' }]}
         >
           <Select placeholder='请选择设备类型' options={energyTypeOptions} />
@@ -92,7 +94,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
 
         <Form.Item
           label='设备编号'
-          name='gatewayNum'
+          name='equipmentNum'
           rules={[{ required: true, message: '请输入设备编号！' }]}
         >
           <Input />
@@ -109,7 +111,32 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
           name='status'
           rules={[{ required: true, message: '请输入设备状态！' }]}
         >
-          <Select placeholder='请选择设备状态' options={gatewayStatusOptions} />
+          <Select
+            placeholder='请选择设备状态'
+            options={equipmentStatusOptions}
+          />
+        </Form.Item>
+        <Form.Item label='电压上限' name='voltageThresholdMax'>
+          <Input />
+        </Form.Item>
+
+        <Form.Item label='电流上限' name='currentThresholdMax'>
+          <Input />
+        </Form.Item>
+        <Form.Item label='电流倍率' name='currentMagnification'>
+          <Input />
+        </Form.Item>
+        <Form.Item label='最大功率' name='powerMax'>
+          <Input />
+        </Form.Item>
+        <Form.Item label='最小功率' name='powerMin'>
+          <Input />
+        </Form.Item>
+        <Form.Item label='最大温度' name='temperatureMax'>
+          <Input />
+        </Form.Item>
+        <Form.Item label='最大湿度' name='humidityMax'>
+          <Input />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
@@ -120,7 +147,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
             type='primary'
             htmlType='submit'
           >
-            {gatewayItem ? '更新设备' : '新建设备'}
+            {equipmentId ? '更新设备' : '新建设备'}
           </Button>
           <Button
             size='large'

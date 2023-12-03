@@ -14,7 +14,7 @@ import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
 import storeContext from './context'
 import { EquipmentItem } from './typings'
-import EditForm from './editForm'
+import EditForm from './components/editForm'
 
 const columnNameMap: Record<string, string> = {
   equipmentId: '序号',

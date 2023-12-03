@@ -14,7 +14,7 @@ import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
 import storeContext from './context'
 import { GatewayItem } from './typings'
-import EditForm from './editForm'
+import EditForm from './components/editForm'
 
 const columnNameMap: Record<string, string> = {
   gatewayId: '序号',
