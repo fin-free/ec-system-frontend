@@ -9,8 +9,10 @@ import Styles from './index.module.scss'
 import Chart from './components/Chart'
 
 const Content: React.FC = () => {
-  const { actions, store } = useContext(storeContext)
-  const { mode } = store
+  const {
+    actions,
+    store: { mode }
+  } = useContext(storeContext)
 
   useEffect(() => {
     actions.getElectricityTableData()

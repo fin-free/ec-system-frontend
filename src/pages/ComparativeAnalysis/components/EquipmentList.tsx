@@ -109,7 +109,7 @@ const EquipmentList = () => {
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
-        checkable
+        // checkable
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}

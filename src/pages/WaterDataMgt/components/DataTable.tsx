@@ -19,9 +19,8 @@ const DataTable: React.FC = () => {
     { title: '回路名称', dataIndex: 'equipmentName' },
     { title: '设备地址', dataIndex: 'equipmentNum' },
     { title: '冻结时间', dataIndex: 'dataItemValueTime' },
-    { title: 'wd', dataIndex: 'dataItemValue' },
-    { title: 'DS', dataIndex: 'dataItemValueOne' },
-    { title: 'STH', dataIndex: 'dataItemValueTwo' },
+    { title: '用水总量', dataIndex: 'dataItemValue' },
+    { title: '倍率', dataIndex: 'dataItemValueOne' },
     { title: '采集状态', dataIndex: 'collectStatus' }
   ]
 
