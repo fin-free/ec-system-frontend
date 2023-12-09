@@ -40,21 +40,21 @@ const ConsumptionChart: React.FC = () => {
         actions.onSearch({
           datetype: '0011',
           startTime: dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'),
-          endTime: dayjs().endOf('day').format('YYYY-MM-DD 00:00:00')
+          endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')
         })
         break
       case '0012':
         actions.onSearch({
           datetype: '0012',
           startTime: dayjs().startOf('month').format('YYYY-MM-DD 00:00:00'),
-          endTime: dayjs().endOf('month').format('YYYY-MM-DD 00:00:00')
+          endTime: dayjs().endOf('month').format('YYYY-MM-DD 24:00:00')
         })
         break
       case '0013':
         actions.onSearch({
           datetype: '0013',
           startTime: dayjs().startOf('year').format('YYYY-MM-DD 00:00:00'),
-          endTime: dayjs().endOf('year').format('YYYY-MM-DD 00:00:00')
+          endTime: dayjs().endOf('year').format('YYYY-MM-DD 24:00:00')
         })
         break
     }

@@ -11,12 +11,10 @@ export default class Store {
   public mode = 'table'
   public filters = {
     buildingId: '17',
-    energytype: '0002',
+    energytype: '0003',
     datetype: '0011',
-    functiontype: '0021',
     projectId: '1'
   }
-
   public pagination = {
     total: 0,
     current: 1,
@@ -24,5 +22,5 @@ export default class Store {
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 
-  public electricityTableData?: TableData = undefined
+  public environmentTableData?: TableData = undefined
 }

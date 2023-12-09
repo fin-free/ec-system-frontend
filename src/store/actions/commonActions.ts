@@ -1,5 +1,5 @@
 import Store from '../modules/commonStore'
-import { get } from 'lodash'
+import { flattenDeep, get } from 'lodash'
 import { optionTypes } from '@/common/constants/index'
 import { DictItem, TreeNode, BuildList, ArchiveList } from '@/types'
 
@@ -39,6 +39,7 @@ export default class CommonActions {
         const treeData: Array<TreeNode> = []
         this.transformAchieveListToTree(get(res, 'data', []), treeData)
         this._store.achieveList = treeData
+        this._store.defaultSelectedAchieveKeys = this.getAllKeys(treeData)
       }
     })
   }
@@ -49,6 +50,7 @@ export default class CommonActions {
         const treeData: Array<TreeNode> = []
         this.transformBuildingListToTree(get(res, 'data', []), treeData)
         this._store.buildingList = treeData
+        this._store.defaultSelectedBuildingKeys = this.getAllKeys(treeData)
       }
     })
   }
@@ -63,7 +65,7 @@ export default class CommonActions {
     })
   }
 
-  transformAchieveListToTree(listData: ArchiveList, treeData: Array<TreeNode>) {
+  transformAchieveListToTree(listData: ArchiveList, treeData: Array<TreeNode>, defaultExpand: Array<string> = []) {
     listData.forEach((d) => {
       const { archivesName, archivesId, childrenList } = d
       const node: TreeNode = {
@@ -95,5 +97,18 @@ export default class CommonActions {
         this.transformBuildingListToTree(childrenList, node.children)
       }
     })
+  }
+
+  getAllKeys(treeData: Array<TreeNode>): Array<string> {
+    const nestedKeys = treeData.map((treeNode) => {
+      let childKeys: Array<string> = []
+      if (treeNode.children) {
+        childKeys = this.getAllKeys(treeNode.children)
+      }
+
+      return [childKeys, treeNode.key]
+    })
+
+    return flattenDeep(nestedKeys)
   }
 }

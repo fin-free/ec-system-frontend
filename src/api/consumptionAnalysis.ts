@@ -3,7 +3,6 @@ import request from './request'
 type EnergyConsumptionPayload = {
   datetype: string
   energyid: string
-  archivesId: string
   projectId: string
   startTime: string
   endTime: string

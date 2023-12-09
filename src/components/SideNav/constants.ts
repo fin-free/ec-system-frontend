@@ -12,7 +12,8 @@ import {
   ROUTE_PATH_CONSUMPTION_ANALYSIS,
   ROUTE_PATH_DASHBOARD,
   ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
-  ROUTE_PATH_ENVIRONMENT_MANAGEMENT,
+  ROUTE_PATH_WATER_MANAGEMENT,
+  ROUTE_PATH_TEMPERATURE_MANAGEMENT,
   ROUTE_PATH_EQUIPMENT_MANAGEMENT,
   ROUTE_PATH_ALARM_LIST,
   ROUTE_PATH_EQUIPMENT_LIST,
@@ -26,7 +27,8 @@ export enum NavKeys {
   dashboard = 'dashboard',
   dataSearch = 'dataSearch',
   electricityDataSearch = 'electricityDataSearch',
-  environmentDataSearch = 'environmentDataSearch',
+  temperatureDataSearch = 'temperatureDataSearch',
+  waterDataSearch = 'waterDataSearch',
   consumptionManagement = 'consumptionManagement',
   consumptionAnalysis = 'consumptionAnalysis',
   comparativeAnalysis = 'comparativeAnalysis',
@@ -44,7 +46,8 @@ export const NavLabels = {
   [NavKeys.dashboard]: '统计看板',
   [NavKeys.dataSearch]: '数据查询',
   [NavKeys.electricityDataSearch]: '电力数据查询',
-  [NavKeys.environmentDataSearch]: '环境数据查询',
+  [NavKeys.temperatureDataSearch]: '温度数据查询',
+  [NavKeys.waterDataSearch]: '湿度数据查询',
   [NavKeys.consumptionManagement]: '能耗管理',
   [NavKeys.consumptionAnalysis]: '用能分析',
   [NavKeys.comparativeAnalysis]: '用能同环比',
@@ -84,9 +87,14 @@ export const SideNavItems: INavMenus[] = [
         path: ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT
       },
       {
-        key: NavKeys.environmentDataSearch,
-        label: NavLabels[NavKeys.environmentDataSearch],
-        path: ROUTE_PATH_ENVIRONMENT_MANAGEMENT
+        key: NavKeys.temperatureDataSearch,
+        label: NavLabels[NavKeys.temperatureDataSearch],
+        path: ROUTE_PATH_TEMPERATURE_MANAGEMENT
+      },
+      {
+        key: NavKeys.waterDataSearch,
+        label: NavLabels[NavKeys.waterDataSearch],
+        path: ROUTE_PATH_WATER_MANAGEMENT
       }
     ]
   },
@@ -155,11 +163,18 @@ export const SideNavItems: INavMenus[] = [
 
 export const LinkNavs = {
   [NavKeys.electricityDataSearch]: ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
-  [NavKeys.environmentDataSearch]: ROUTE_PATH_ENVIRONMENT_MANAGEMENT,
+  [NavKeys.temperatureDataSearch]: ROUTE_PATH_TEMPERATURE_MANAGEMENT,
+  [NavKeys.waterDataSearch]: ROUTE_PATH_WATER_MANAGEMENT,
   [NavKeys.consumptionAnalysis]: ROUTE_PATH_CONSUMPTION_ANALYSIS,
   [NavKeys.comparativeAnalysis]: ROUTE_PATH_COMPARATIVE_ANALYSIS,
   [NavKeys.alarmManagement]: ROUTE_PATH_ALARM_MANAGEMENT,
-  [NavKeys.equipmentManagement]: ROUTE_PATH_EQUIPMENT_MANAGEMENT
+  [NavKeys.equipmentManagement]: ROUTE_PATH_EQUIPMENT_MANAGEMENT,
+  [NavKeys.lineComparison]: ROUTE_PATH_LINE_COMPARISON,
+  [NavKeys.powerLineLoss]: ROUTE_PATH_POWER_LINE_LOSS,
+  [NavKeys.branchDocument]: ROUTE_PATH_BRANCH_DOCUMENT,
+  [NavKeys.alarmList]: ROUTE_PATH_ALARM_LIST,
+  [NavKeys.equipmentList]: ROUTE_PATH_EQUIPMENT_LIST,
+  [NavKeys.gatewayList]: ROUTE_PATH_GATEWAY_LIST
 }
 
 export const defaultOpenKeys = [NavKeys.dashboard]

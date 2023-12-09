@@ -23,4 +23,6 @@ export default class CommonStore {
   public functionTypeOptions: Array<SelectOption> = []
   public achieveList: Array<TreeNode> = []
   public buildingList: Array<TreeNode> = []
+  public defaultSelectedAchieveKeys: Array<string> = []
+  public defaultSelectedBuildingKeys: Array<string> = []
 }

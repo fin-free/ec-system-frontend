@@ -13,7 +13,7 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
   const {
-    commonStore: { dataTypeOptions, energyTypeOptions }
+    commonStore: { dataTypeOptions }
   } = useStore()
   const {
     actions,
@@ -33,12 +33,6 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onEnergyTypeChange = (value: string) => {
-    actions.onSearch({
-      energytype: value
-    })
-  }
-
   const onModeChange = (e: RadioChangeEvent) => {
     actions.updateMode(e.target.value)
   }
@@ -46,11 +40,6 @@ const Toolbar: React.FC = () => {
   return (
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Select
-        options={energyTypeOptions.filter((opt) => opt.key !== '0002')}
-        defaultValue={filters?.energytype}
-        onChange={onEnergyTypeChange}
-      />
       <Select options={dataTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>

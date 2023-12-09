@@ -1,8 +1,8 @@
 import request from './request'
 
 type EnvironmentDataPayload = {
-  startTime: string
-  endTime: string
+  startTime?: string
+  endTime?: string
   buildingId: string
   energytype: string
   datetype: string

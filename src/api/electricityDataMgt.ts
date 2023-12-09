@@ -5,8 +5,8 @@ const getEquipmentList = (params: { projectId: number }) =>
   request({ url: '/sys/buildinginfo/tree', method: 'get', params })
 
 type ElectricityDataPayload = {
-  startTime: string
-  endTime: string
+  startTime?: string
+  endTime?: string
   buildingId: string
   energytype: string
   datetype: string

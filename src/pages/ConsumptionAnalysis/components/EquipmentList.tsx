@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
@@ -11,12 +11,16 @@ import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList }
+    commonStore: { achieveList, defaultSelectedAchieveKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
+
+  useEffect(() => {
+    setExpandedKeys(defaultSelectedAchieveKeys)
+  }, [defaultSelectedAchieveKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
   const generateList = (data: TreeNode[]) => {

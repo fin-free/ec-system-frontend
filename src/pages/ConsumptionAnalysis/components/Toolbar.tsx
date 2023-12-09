@@ -27,9 +27,9 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onDataTypeChange = (value: string) => {
+  const onDataTypeChange = (e: RadioChangeEvent) => {
     actions.onSearch({
-      datetype: value
+      datetype: e.target.value
     })
   }
 
@@ -40,7 +40,11 @@ const Toolbar: React.FC = () => {
   return (
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Select options={dataTypeOptions} defaultValue={filters.datetype} onChange={onDataTypeChange} />
+      <Radio.Group onChange={onDataTypeChange} defaultValue='0011'>
+        <Radio.Button value='0011'>按小时</Radio.Button>
+        <Radio.Button value='0012'>按日</Radio.Button>
+        <Radio.Button value='0013'>按月</Radio.Button>
+      </Radio.Group>
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>
         <Radio.Button value='chart'>图表</Radio.Button>

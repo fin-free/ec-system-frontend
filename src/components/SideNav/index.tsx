@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
@@ -7,13 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '@/common/images/logo.svg?react'
 import { ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT } from '@/routes/routePath'
 
-import {
-  defaultOpenKeys,
-  INavMenus,
-  LinkNavs,
-  NavKeys,
-  SideNavItems
-} from './constants'
+import { defaultOpenKeys, INavMenus, LinkNavs, NavKeys, SideNavItems } from './constants'
 import Styles from './index.module.scss'
 
 type MenuItem = Required<MenuProps>['items'][number]
@@ -25,17 +19,34 @@ interface IProps {
 const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [activeNav, setActiveNav] = useState<string>(NavKeys.dashboard)
+  const [activeNav, setActiveNav] = useState<string>('')
   const [openKeys, setOpenKeys] = useState<string[]>(defaultOpenKeys)
 
   useEffect(() => {
-    const matchedMenu = Object.entries(LinkNavs).find(
-      (menu) => menu[1] === pathname
-    )
+    const matchedMenu = Object.entries(LinkNavs).find((menu) => menu[1] === pathname)
     if (matchedMenu) {
       setActiveNav(matchedMenu[0])
+      setOpenKeys([findParentItem(SideNavItems, matchedMenu[0])?.key || ''])
     }
   }, [pathname])
+
+  function findParentItem(items: INavMenus[], targetKey: string) {
+    for (const item of items) {
+      if (item.key === targetKey) {
+        return null // 指定的项本身就是根元素，没有父元素
+      }
+
+      if (item.children) {
+        for (const childItem of item.children) {
+          if (childItem.key === targetKey) {
+            return item
+          }
+        }
+      }
+    }
+
+    return null // 没有找到指定 key 的父元素
+  }
 
   const onLogoClick = () => {
     navigate(ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT)
@@ -69,7 +80,9 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
     })
   }
 
-  const items = recursiveMenu(SideNavItems)
+  const items = useMemo(() => {
+    return recursiveMenu(SideNavItems)
+  }, [])
 
   return (
     <div className={Styles.root}>

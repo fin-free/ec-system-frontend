@@ -1,18 +1,20 @@
 import { useContext } from 'react'
 
-import { DatePicker, Radio, RadioChangeEvent } from 'antd'
-import type { Dayjs } from 'dayjs'
-import { observer, useStore } from '@/hooks/storeHook'
-
+import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import storeContext from '../context'
+import type { Dayjs } from 'dayjs'
 
+import { useStore, observer } from '@/hooks/storeHook'
 import Styles from './Toolbar.module.scss'
 
 const { RangePicker } = DatePicker
+
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
-  const { commonStore } = useStore()
+  const {
+    commonStore: { dataTypeOptions }
+  } = useStore()
   const {
     actions,
     store: { filters }
@@ -25,15 +27,9 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onYoyOrQoqChange = (e: RadioChangeEvent) => {
+  const onDataTypeChange = (value: string) => {
     actions.onSearch({
-      yoyOrQoq: e.target.value
-    })
-  }
-
-  const onDataTypeChange = (e: RadioChangeEvent) => {
-    actions.onSearch({
-      datetype: e.target.value
+      datetype: value
     })
   }
 
@@ -44,15 +40,7 @@ const Toolbar: React.FC = () => {
   return (
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Radio.Group onChange={onYoyOrQoqChange} defaultValue='yoy'>
-        <Radio.Button value='yoy'>同比</Radio.Button>
-        <Radio.Button value='qoq'>环比</Radio.Button>
-      </Radio.Group>
-      <Radio.Group onChange={onDataTypeChange} defaultValue='0011'>
-        <Radio.Button value='0011'>按小时</Radio.Button>
-        <Radio.Button value='0012'>按日</Radio.Button>
-        <Radio.Button value='0013'>按月</Radio.Button>
-      </Radio.Group>
+      <Select options={dataTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>
         <Radio.Button value='chart'>图表</Radio.Button>

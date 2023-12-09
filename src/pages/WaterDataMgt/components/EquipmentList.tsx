@@ -11,7 +11,7 @@ import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, defaultSelectedAchieveKeys }
+    commonStore: { buildingList, defaultSelectedBuildingKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
@@ -19,8 +19,8 @@ const EquipmentList = () => {
   const [autoExpandParent, setAutoExpandParent] = useState(true)
 
   useEffect(() => {
-    setExpandedKeys(defaultSelectedAchieveKeys)
-  }, [defaultSelectedAchieveKeys])
+    setExpandedKeys(defaultSelectedBuildingKeys)
+  }, [defaultSelectedBuildingKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
   const generateList = (data: TreeNode[]) => {
@@ -34,7 +34,7 @@ const EquipmentList = () => {
     }
   }
 
-  generateList(achieveList)
+  generateList(buildingList)
   const getParentKey = (key: React.Key, tree: TreeNode[]): React.Key => {
     let parentKey: React.Key
     for (let i = 0; i < tree.length; i++) {
@@ -60,7 +60,7 @@ const EquipmentList = () => {
     const newExpandedKeys = dataList
       .map((item) => {
         if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
-          return getParentKey(item.key, achieveList)
+          return getParentKey(item.key, buildingList)
         }
         return null
       })
@@ -97,11 +97,11 @@ const EquipmentList = () => {
       }
     })
 
-  const treeData = loop(achieveList)
+  const treeData = loop(buildingList)
 
   const onSelect = (selectedKeys: React.Key[]) => {
     actions.onSearch({
-      archivesId: selectedKeys[0].toString()
+      buildingId: selectedKeys[0].toString()
     })
   }
 
@@ -109,7 +109,6 @@ const EquipmentList = () => {
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
-        checkable
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}
