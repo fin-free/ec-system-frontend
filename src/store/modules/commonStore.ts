@@ -19,6 +19,7 @@ export default class CommonStore {
 
   public dateTypeOptions: Array<SelectOption> = []
   public energyTypeOptions: Array<SelectOption> = []
+  public dataTypeOptions: Array<SelectOption> = []
   public alarmTypeOptions: Array<SelectOption> = []
   public functionTypeOptions: Array<SelectOption> = []
   public achieveList: Array<TreeNode> = []

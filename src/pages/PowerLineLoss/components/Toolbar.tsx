@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { Button, Radio, DatePicker, RadioChangeEvent } from 'antd'
+import { Button, Radio, DatePicker, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import { observer, useStore } from '@/hooks/storeHook'
 
@@ -10,7 +10,7 @@ import Styles from './Toolbar.module.scss'
 
 const Toolbar: React.FC = () => {
   const {
-    commonStore: { dateTypeOptions }
+    commonStore: { dataTypeOptions }
   } = useStore()
   const {
     actions,
@@ -29,9 +29,18 @@ const Toolbar: React.FC = () => {
     actions.getLossCompareData()
   }
 
+  const handleEngrgyTypeChange = () => {}
+
   return (
     <div className={Styles.root}>
       <div>
+        <Select
+          value={filters.datatype}
+          placeholder='设备类型'
+          style={{ width: 200, marginBottom: 10 }}
+          onChange={handleEngrgyTypeChange}
+          options={dataTypeOptions}
+        />
         <Radio.Group
           className={Styles.radioGroup}
           onChange={onDateTypeChange}

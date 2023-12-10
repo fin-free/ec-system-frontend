@@ -11,7 +11,8 @@ export default class Store {
     projectId: '1',
     datetype: '0011',
     energyid: '0002',
-    datetime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    datatype: '0001'
   }
   public lossCompareData = []
 

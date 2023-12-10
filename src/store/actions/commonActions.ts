@@ -22,7 +22,8 @@ export default class CommonActions {
       API.getDictList({ dictType: optionTypes.DateType }),
       API.getDictList({ dictType: optionTypes.EnergyType }),
       API.getDictList({ dictType: optionTypes.AlarmType }),
-      API.getDictList({ dictType: optionTypes.FunctionType })
+      API.getDictList({ dictType: optionTypes.FunctionType }),
+      API.getDictList({ dictType: optionTypes.DataType })
     ]).then((res) => {
       if (res) {
         this._store.dateTypeOptions = this.transformDictToOption(
@@ -36,6 +37,9 @@ export default class CommonActions {
         )
         this._store.functionTypeOptions = this.transformDictToOption(
           get(res, [3, 'data'], [])
+        )
+        this._store.dataTypeOptions = this.transformDictToOption(
+          get(res, [4, 'data'], [])
         )
       }
     })
