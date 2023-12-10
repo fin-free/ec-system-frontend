@@ -25,10 +25,18 @@ export default class CommonActions {
       API.getDictList({ dictType: optionTypes.FunctionType })
     ]).then((res) => {
       if (res) {
-        this._store.dateTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
-        this._store.energyTypeOptions = this.transformDictToOption(get(res, [1, 'data'], []))
-        this._store.alarmTypeOptions = this.transformDictToOption(get(res, [2, 'data'], []))
-        this._store.functionTypeOptions = this.transformDictToOption(get(res, [3, 'data'], []))
+        this._store.dateTypeOptions = this.transformDictToOption(
+          get(res, [0, 'data'], [])
+        )
+        this._store.energyTypeOptions = this.transformDictToOption(
+          get(res, [1, 'data'], [])
+        )
+        this._store.alarmTypeOptions = this.transformDictToOption(
+          get(res, [2, 'data'], [])
+        )
+        this._store.functionTypeOptions = this.transformDictToOption(
+          get(res, [3, 'data'], [])
+        )
       }
     })
   }
@@ -38,6 +46,7 @@ export default class CommonActions {
       if (res) {
         const treeData: Array<TreeNode> = []
         this.transformAchieveListToTree(get(res, 'data', []), treeData)
+        this._store.rawAchieveList = get(res, 'data', [])
         this._store.achieveList = treeData
         this._store.defaultSelectedAchieveKeys = this.getAllKeys(treeData)
       }

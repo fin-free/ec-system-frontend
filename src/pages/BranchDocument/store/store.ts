@@ -1,23 +1,27 @@
-import dayjs from 'dayjs'
-import { makeAutoObservable } from 'mobx'
-
-import { TableData } from '@/types/ElectricityDataMgt'
-
+import { computed, makeAutoObservable } from 'mobx'
+import { EnergyItem } from '../types'
 export default class Store {
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {
+      filterEquipmentData: computed
+    })
   }
-
-  public mode = 'table'
-  public filters = {
-    projectId: '1',
-    datetype: '0011',
-    energyid: '0002',
-    archivesId: '1',
-    startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
+  public selectedArchiveId = ''
+  public selectedEquipmentId = ''
+  public filter = {
+    energyType: '0001'
   }
-  public energyConsumptionData = []
+  public equipmentInput = ''
+  public curArchivesItem: any
 
-  public electricityTableData?: TableData = undefined
+  public archiveTreeData = []
+  public energyEquipmentData: Array<EnergyItem> = []
+
+  get filterEquipmentData() {
+    return this.energyEquipmentData.filter(
+      (data) =>
+        data.equipmentName.includes(this.equipmentInput) ||
+        data.equipmentNum.includes(this.equipmentInput)
+    )
+  }
 }

@@ -2,3 +2,13 @@
   display: flex;
   height: calc(100vh - 98px);
 }
+
+.innerContent {
+  position: relative;
+  height: 100%;
+}
+
+.archivesForm {
+  display: flex;
+  flex: 1;
+}

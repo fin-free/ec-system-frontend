@@ -28,7 +28,8 @@ export default defineConfig(({ mode }) => {
         libList: [
           {
             libName: 'antd',
-            style: (name) => name !== 'theme' && `antd/es/${name}/style/index.js`
+            style: (name) =>
+              name !== 'theme' && `antd/es/${name}/style/index.js`
           }
         ]
       }),

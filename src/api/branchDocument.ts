@@ -9,15 +9,21 @@ type archiveType = {
 }
 
 const addArchive = async (params: archiveType) => {
+  const { archivesLevel, parentId, archivesName } = params
   try {
     const res = await request({
       url: '/sys-archives/add',
       method: 'POST',
-      data: params
+      data: {
+        archivesLevel,
+        parentId,
+        archivesName,
+        projectId: '1'
+      }
     })
     const { code, data, message } = res ?? {}
     if (code === 200 && data) {
-      return data
+      return message
     } else {
       throw new Error(message)
     }
@@ -45,14 +51,19 @@ const updateArchive = async (params: archiveType) => {
 }
 
 const deleteArchive = async (params: archiveType) => {
-  const { archivesId } = params
+  const { archivesId, archivesName } = params
   try {
     const res = await request({
       url: `sys-archives/delete?archivesId=${archivesId}`,
-      method: 'DELETE'
+      method: 'DELETE',
+      data: {
+        archivesId,
+        projectId: '1',
+        archivesName
+      }
     })
     const { code, data, message } = res ?? {}
-    if (code === 200 && data) {
+    if (code === 200) {
       return data
     } else {
       throw new Error(message)
@@ -62,4 +73,74 @@ const deleteArchive = async (params: archiveType) => {
   }
 }
 
-export { addArchive, updateArchive, deleteArchive }
+const getArchiveTree = async (params: any) => {
+  const { projectId } = params
+  try {
+    const res = await request({
+      url: `energy/archives/tree?projectId=${projectId}`,
+      method: 'GET'
+    })
+    const { code, data, message } = res ?? {}
+    if (code === 200 && data) {
+      return data
+    } else {
+      throw new Error(message)
+    }
+  } catch (error) {
+    console.error('getarchiveTree error: ', error)
+  }
+}
+
+const getEnergyList = async (params: any) => {
+  const { energyType, projectId, archivesId } = params
+  try {
+    const res = await request({
+      url: `sys-archives/matching/equipment/list`,
+      method: 'POST',
+      data: {
+        energyType,
+        projectId,
+        archivesId
+      }
+    })
+    const { code, data, message } = res ?? {}
+    if (code === 200 && data) {
+      return data
+    } else {
+      throw new Error(message)
+    }
+  } catch (error) {
+    console.error('getEnergyList error: ', error)
+  }
+}
+
+const saveArchivesEquipmentRelation = async (params: any) => {
+  const { meterIdList, archivesId } = params
+  try {
+    const res = await request({
+      url: `sys-archives-equipment-relation/add`,
+      method: 'POST',
+      data: {
+        archivesId,
+        meterIdList
+      }
+    })
+    const { code, data, message } = res ?? {}
+    if (code === 200 && data) {
+      return data
+    } else {
+      throw new Error(message)
+    }
+  } catch (error) {
+    console.error('saveArchivesEquipmentRelation error: ', error)
+  }
+}
+
+export {
+  addArchive,
+  updateArchive,
+  deleteArchive,
+  getArchiveTree,
+  getEnergyList,
+  saveArchivesEquipmentRelation
+}

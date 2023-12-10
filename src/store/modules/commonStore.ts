@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-import { ActiveTab, SelectOption, TreeNode } from '@/types'
+import { ActiveTab, SelectOption, TreeNode, ArchiveList } from '@/types'
 
 export default class CommonStore {
   constructor() {
@@ -25,4 +25,5 @@ export default class CommonStore {
   public buildingList: Array<TreeNode> = []
   public defaultSelectedAchieveKeys: Array<string> = []
   public defaultSelectedBuildingKeys: Array<string> = []
+  public rawAchieveList: ArchiveList = []
 }

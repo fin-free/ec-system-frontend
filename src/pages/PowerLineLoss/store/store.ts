@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
-import { TableData } from '@/types/ElectricityDataMgt'
-
 export default class Store {
   constructor() {
     makeAutoObservable(this)
@@ -13,11 +11,22 @@ export default class Store {
     projectId: '1',
     datetype: '0011',
     energyid: '0002',
-    archivesId: '1',
-    startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
+    datetime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }
-  public energyConsumptionData = []
+  public lossCompareData = []
 
-  public electricityTableData?: TableData = undefined
+  get treeLossCompareData() {
+    function mapLossToTreeData(lossData: Array<any>) {
+      return lossData?.length > 0
+        ? lossData.map((root) => {
+            const newRoot = {} as any
+            newRoot.id = String(root.archivesId)
+            newRoot.label = root.archivesName
+            newRoot.children = mapLossToTreeData(root.childrenList)
+            return newRoot
+          })
+        : []
+    }
+    return mapLossToTreeData(this.lossCompareData)
+  }
 }
