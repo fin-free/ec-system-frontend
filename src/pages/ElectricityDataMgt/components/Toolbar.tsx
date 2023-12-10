@@ -13,7 +13,7 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
   const {
-    commonStore: { dataTypeOptions, functionTypeOptions }
+    commonStore: { dateTypeOptions, functionTypeOptions }
   } = useStore()
   const {
     actions,
@@ -47,7 +47,7 @@ const Toolbar: React.FC = () => {
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
       <Select options={functionTypeOptions} defaultValue={filters?.functiontype} onChange={onFunctionTypeChange} />
-      <Select options={dataTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
+      <Select options={dateTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>
         <Radio.Button value='chart'>图表</Radio.Button>

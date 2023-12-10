@@ -10,7 +10,7 @@ export default class Store {
   public mode = 'table'
   public filters = {
     buildingId: '17',
-    energytype: '0002',
+    datatype: '0002',
     datetype: '0011',
     functiontype: '0021',
     projectId: '1'

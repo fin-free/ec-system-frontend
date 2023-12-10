@@ -4,6 +4,8 @@ import { Table } from 'antd'
 
 import { observer } from '@/hooks/storeHook'
 
+import dayjs from 'dayjs'
+
 import storeContext from '../context'
 
 import Styles from './DataTable.module.scss'
@@ -14,15 +16,30 @@ const DataTable: React.FC = () => {
     store: { environmentTableData, pagination }
   } = useContext(storeContext)
 
+  const renderCollectStatus = (val: number) => {
+    switch (val) {
+      case 0:
+        return '未采集'
+      case 1:
+        return '采集成功'
+      case 2:
+        return '采集失败'
+    }
+  }
+
   const columns = [
     { title: '序号', dataIndex: 'orderNum', width: 100 },
     { title: '回路名称', dataIndex: 'equipmentName' },
     { title: '设备地址', dataIndex: 'equipmentNum' },
-    { title: '冻结时间', dataIndex: 'dataItemValueTime' },
+    {
+      title: '冻结时间',
+      dataIndex: 'dataItemValueTime',
+      render: (val: string) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
+    },
     { title: 'wd', dataIndex: 'dataItemValue' },
     { title: 'DS', dataIndex: 'dataItemValueOne' },
     { title: 'STH', dataIndex: 'dataItemValueTwo' },
-    { title: '采集状态', dataIndex: 'collectStatus' }
+    { title: '采集状态', dataIndex: 'collectStatus', render: renderCollectStatus }
   ]
 
   return (

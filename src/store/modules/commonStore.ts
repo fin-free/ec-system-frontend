@@ -17,7 +17,7 @@ export default class CommonStore {
     this.showLoading = val
   }
 
-  public dataTypeOptions: Array<SelectOption> = []
+  public dateTypeOptions: Array<SelectOption> = []
   public energyTypeOptions: Array<SelectOption> = []
   public alarmTypeOptions: Array<SelectOption> = []
   public functionTypeOptions: Array<SelectOption> = []

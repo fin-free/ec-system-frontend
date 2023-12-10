@@ -19,13 +19,13 @@ export default class CommonActions {
 
   async getDictList() {
     Promise.all([
-      API.getDictList({ dictType: optionTypes.DataType }),
+      API.getDictList({ dictType: optionTypes.DateType }),
       API.getDictList({ dictType: optionTypes.EnergyType }),
       API.getDictList({ dictType: optionTypes.AlarmType }),
       API.getDictList({ dictType: optionTypes.FunctionType })
     ]).then((res) => {
       if (res) {
-        this._store.dataTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
+        this._store.dateTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
         this._store.energyTypeOptions = this.transformDictToOption(get(res, [1, 'data'], []))
         this._store.alarmTypeOptions = this.transformDictToOption(get(res, [2, 'data'], []))
         this._store.functionTypeOptions = this.transformDictToOption(get(res, [3, 'data'], []))

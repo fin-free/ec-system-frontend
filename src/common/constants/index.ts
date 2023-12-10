@@ -1,5 +1,5 @@
 export enum optionTypes {
-  DataType = 'dataType',
+  DateType = 'datetype',
   EnergyType = 'energyType',
   AlarmType = 'alarmType',
   FunctionType = 'functionType'

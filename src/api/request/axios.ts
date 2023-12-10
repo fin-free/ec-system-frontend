@@ -5,7 +5,7 @@ import { AUTH_TOKEN_KEY } from '@/common/constants/auth'
 import { rootStore } from '@/store'
 
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: '/api/iot',
   timeout: 300000
 })
 

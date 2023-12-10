@@ -4,7 +4,7 @@ type EnvironmentDataPayload = {
   startTime?: string
   endTime?: string
   buildingId: string
-  energytype: string
+  datatype: string
   datetype: string
   functiontype?: string
   projectId: string
