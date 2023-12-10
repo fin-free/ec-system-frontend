@@ -73,7 +73,7 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
         icon: IconCom && <IconCom />,
         label,
         onClick: () => {
-          path && pathname != path && navigate(path)
+          path && pathname !== path && navigate(path)
         },
         children: children ? recursiveMenu(children) : undefined
       } as MenuItem

@@ -37,7 +37,7 @@ const ConsumptionChart: React.FC = () => {
     },
     legend: {
       itemStyle: {
-        color: '#e8e8e8'
+        color: '#ffffff'
       }
     },
     xAxis: {

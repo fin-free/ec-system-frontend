@@ -13,13 +13,27 @@ const ConsumptionChart: React.FC = () => {
       text: '用能统计',
       style: { color: '#ffffff' }
     },
+    legend: {
+      itemStyle: {
+        color: '#ffffff'
+      }
+    },
     xAxis: {
       categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-      style: { color: '#ffffff' }
+      labels: {
+        style: {
+          color: 'white'
+        }
+      }
     },
     yAxis: {
       title: {
         text: '纵坐标title'
+      },
+      labels: {
+        style: {
+          color: 'white'
+        }
       }
     },
     series: [
