@@ -36,7 +36,7 @@ interface IProps {
 
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { equipmentId } = props
-  const { store, actions } = useContext(storeContext)
+  const { actions } = useContext(storeContext)
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
 
@@ -77,44 +77,21 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         autoComplete='off'
         form={form}
       >
-        <Form.Item
-          label='设备名称'
-          name='equipmentName'
-          rules={[{ required: true, message: '请输入设备名称！' }]}
-        >
+        <Form.Item label='设备名称' name='equipmentName' rules={[{ required: true, message: '请输入设备名称！' }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label='设备类型'
-          name='energyType'
-          rules={[{ required: true, message: '请输入设备类型！' }]}
-        >
+        <Form.Item label='设备类型' name='energyType' rules={[{ required: true, message: '请输入设备类型！' }]}>
           <Select placeholder='请选择设备类型' options={energyTypeOptions} />
         </Form.Item>
 
-        <Form.Item
-          label='设备编号'
-          name='equipmentNum'
-          rules={[{ required: true, message: '请输入设备编号！' }]}
-        >
+        <Form.Item label='设备编号' name='equipmentNum' rules={[{ required: true, message: '请输入设备编号！' }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label='产品型号'
-          name='productModel'
-          rules={[{ required: true, message: '请输入产品型号！' }]}
-        >
+        <Form.Item label='产品型号' name='productModel' rules={[{ required: true, message: '请输入产品型号！' }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label='设备状态'
-          name='status'
-          rules={[{ required: true, message: '请输入设备状态！' }]}
-        >
-          <Select
-            placeholder='请选择设备状态'
-            options={equipmentStatusOptions}
-          />
+        <Form.Item label='设备状态' name='status' rules={[{ required: true, message: '请输入设备状态！' }]}>
+          <Select placeholder='请选择设备状态' options={equipmentStatusOptions} />
         </Form.Item>
         <Form.Item label='电压上限' name='voltageThresholdMax'>
           <Input />
@@ -140,20 +117,10 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
-          <Button
-            size='large'
-            className={Styles.primaryButton}
-            style={{ width: 100 }}
-            type='primary'
-            htmlType='submit'
-          >
+          <Button size='large' className={Styles.primaryButton} style={{ width: 100 }} type='primary' htmlType='submit'>
             {equipmentId ? '更新设备' : '新建设备'}
           </Button>
-          <Button
-            size='large'
-            htmlType='reset'
-            style={{ marginLeft: 20, width: 100 }}
-          >
+          <Button size='large' htmlType='reset' style={{ marginLeft: 20, width: 100 }}>
             重置
           </Button>
         </Form.Item>

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { DatePicker, Radio, RadioChangeEvent } from 'antd'
 import type { Dayjs } from 'dayjs'
-import { observer, useStore } from '@/hooks/storeHook'
+import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
@@ -12,11 +12,7 @@ const { RangePicker } = DatePicker
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
-  const { commonStore } = useStore()
-  const {
-    actions,
-    store: { filters }
-  } = useContext(storeContext)
+  const { actions } = useContext(storeContext)
 
   const onDateChange = (date: RangeValue) => {
     actions.onSearch({

@@ -27,8 +27,7 @@ const getGatewayList = async (params: any) => {
 }
 
 const addGateway = async (params: any) => {
-  const { type, gatewayName, gatewayNum, productModel, status, projectId } =
-    params
+  const { type, gatewayName, gatewayNum, productModel, status, projectId } = params
   try {
     const res = await request({
       url: `/sys-gateway/add`,
@@ -42,7 +41,7 @@ const addGateway = async (params: any) => {
         status //设备状态 0 未使用 1已注册 2正常使用
       }
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -54,15 +53,7 @@ const addGateway = async (params: any) => {
 }
 
 const updateGateway = async (params: any) => {
-  const {
-    energyType,
-    gatewayName,
-    gatewayNum,
-    productModel,
-    status,
-    gatewayId,
-    projectId
-  } = params
+  const { energyType, gatewayName, gatewayNum, productModel, status, gatewayId, projectId } = params
   try {
     const res = await request({
       url: `/sys-gateway/update`,
@@ -77,7 +68,7 @@ const updateGateway = async (params: any) => {
         gatewayId
       }
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -124,10 +115,4 @@ const getGatewayInfo = async (params: any) => {
   }
 }
 
-export {
-  getGatewayList,
-  addGateway,
-  updateGateway,
-  deleteGateway,
-  getGatewayInfo
-}
+export { getGatewayList, addGateway, updateGateway, deleteGateway, getGatewayInfo }

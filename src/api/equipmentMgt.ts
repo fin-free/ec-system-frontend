@@ -61,7 +61,7 @@ const addEquipment = async (params: any) => {
         currentMagnification //电流倍率
       }
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -110,7 +110,7 @@ const updateEquipment = async (params: any) => {
         equipmentId
       }
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     if (code === 200) {
       return message
     } else {
@@ -157,10 +157,4 @@ const getEquipmentInfo = async (params: any) => {
   }
 }
 
-export {
-  getEquipmentList,
-  addEquipment,
-  updateEquipment,
-  deleteEquipment,
-  getEquipmentInfo
-}
+export { getEquipmentList, addEquipment, updateEquipment, deleteEquipment, getEquipmentInfo }

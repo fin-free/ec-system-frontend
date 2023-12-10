@@ -65,7 +65,7 @@ export default class CommonActions {
     })
   }
 
-  transformAchieveListToTree(listData: ArchiveList, treeData: Array<TreeNode>, defaultExpand: Array<string> = []) {
+  transformAchieveListToTree(listData: ArchiveList, treeData: Array<TreeNode>) {
     listData.forEach((d) => {
       const { archivesName, archivesId, childrenList } = d
       const node: TreeNode = {

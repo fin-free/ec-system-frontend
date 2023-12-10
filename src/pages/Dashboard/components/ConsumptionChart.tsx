@@ -11,7 +11,10 @@ import { RadioChangeEvent } from 'antd/lib'
 
 const ConsumptionChart: React.FC = () => {
   const { store, actions } = useContext(storeContext)
-  const { energyConsumptionData } = store
+  const { energyConsumptionData, energyConsumptionPayload } = store
+
+  const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
+  const dataRangeLabelUnit: { [key: string]: string } = { '0011': '小时', '0012': '', '0013': '月' }
 
   const options = {
     chart: {
@@ -22,12 +25,45 @@ const ConsumptionChart: React.FC = () => {
       text: '用能统计',
       style: { color: '#ffffff' }
     },
+    plotOptions: {
+      series: {
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: '#ffffff'
+          }
+        }
+      }
+    },
+    legend: {
+      itemStyle: {
+        color: '#e8e8e8'
+      }
+    },
     xAxis: {
-      categories: energyConsumptionData.map((d) => d.clearingPeriod)
+      categories: energyConsumptionData.map((d) => d.clearingPeriod),
+      labels: {
+        style: {
+          color: 'white'
+        },
+        formatter: function (value: any) {
+          return `${dayjs(value.value).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}${
+            dataRangeLabelUnit[energyConsumptionPayload.datetype]
+          }`
+        }
+      }
     },
     yAxis: {
       title: {
-        text: 'kWh'
+        text: 'kWh',
+        style: {
+          color: '#e8e8e8'
+        }
+      },
+      labels: {
+        style: {
+          color: 'white'
+        }
       }
     },
     series: [{ name: '能耗', data: energyConsumptionData.map((d) => d.energyValue) }],

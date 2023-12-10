@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'

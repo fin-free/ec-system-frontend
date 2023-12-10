@@ -6,7 +6,7 @@ import Styles from './Chart.module.scss'
 const ConsumptionChart: React.FC = () => {
   const options = {
     chart: {
-      type: 'column',
+      type: 'line',
       backgroundColor: '#001529'
     },
     title: {

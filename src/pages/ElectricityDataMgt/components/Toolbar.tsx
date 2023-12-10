@@ -48,7 +48,7 @@ const Toolbar: React.FC = () => {
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
       <Select options={functionTypeOptions} defaultValue={filters?.functiontype} onChange={onFunctionTypeChange} />
       <Select options={dataTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
-      <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table' >
+      <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
         <Radio.Button value='table'>数据</Radio.Button>
         <Radio.Button value='chart'>图表</Radio.Button>
       </Radio.Group>
