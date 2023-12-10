@@ -12,7 +12,7 @@ export default class Store {
   public filters = {
     projectId: '1',
     datetype: '0011',
-    energyid: '0002',
+    datatype: '0002',
     archivesId: '1',
     startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')

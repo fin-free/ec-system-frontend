@@ -11,7 +11,7 @@ export default class Store {
   public mode = 'table'
   public filters = {
     datetype: '0011',
-    energyid: '0002',
+    datatype: '0002',
     archivesId: '1',
     projectId: '1',
     yoyOrQoq: 'yoy',
