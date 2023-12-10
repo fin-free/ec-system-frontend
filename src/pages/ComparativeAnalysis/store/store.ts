@@ -8,7 +8,7 @@ export default class Store {
     makeAutoObservable(this)
   }
 
-  public mode = 'table'
+  public mode = 'chart'
   public filters = {
     datetype: '0011',
     datatype: '0002',
@@ -19,5 +19,7 @@ export default class Store {
     endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
   }
 
-  public electricityTableData?: TableData = undefined
+  public energyComparativeChartData: { clearingPeriod: string; energyValue: number; proportion: number }[] = []
+
+  public energyComparativeTableData?: TableData = undefined
 }

@@ -15,7 +15,8 @@ export default class Actions {
     await API.getEnergyConsumptionData(this._store.filters).then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.energyConsumptionData = get(res, 'data', []).map((d: object, index: number) => {
+          this._store.energyConsumptionChartData = get(res, 'data', [])
+          this._store.energyConsumptionTableData = get(res, 'data', []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData
           })
@@ -28,7 +29,7 @@ export default class Actions {
     startTime?: string
     endTime?: string
     datetype?: string
-    functiontype?: string
+    datatype?: string
     archivesId?: string
   }) {
     runInAction(() => {

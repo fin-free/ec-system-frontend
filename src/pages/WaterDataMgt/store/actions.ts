@@ -25,7 +25,8 @@ export default class Actions {
             pageSize: get(res, ['data', 'pageSize'], 10),
             showTotal: (total: number) => `共 ${total} 条数据`
           }
-          this._store.environmentTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {
+          this._store.waterChartData = get(res, ['data', 'list'], [])
+          this._store.waterTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData
           })

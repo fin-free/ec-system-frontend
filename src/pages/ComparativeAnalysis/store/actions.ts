@@ -15,7 +15,10 @@ export default class Actions {
     await API.getTimeCompareData(this._store.filters).then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.electricityTableData = get(res, 'data', []).map((d: object, index: number) => {
+          const { yoyOrQoq } = this._store.filters
+          // debugger
+          this._store.energyComparativeChartData = get(res, 'data', []).filter((d: any) => d.type === yoyOrQoq)[0]?.list
+          this._store.energyComparativeTableData = get(res, 'data', []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData
           })
@@ -29,7 +32,7 @@ export default class Actions {
     endTime?: string
     datetype?: string
     yoyOrQoq?: string
-    functiontype?: string
+    datatype?: string
     archivesId?: string
   }) {
     runInAction(() => {

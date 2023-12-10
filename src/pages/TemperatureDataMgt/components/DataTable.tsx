@@ -36,9 +36,8 @@ const DataTable: React.FC = () => {
       dataIndex: 'dataItemValueTime',
       render: (val: string) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
     },
-    { title: 'wd', dataIndex: 'dataItemValue' },
-    { title: 'DS', dataIndex: 'dataItemValueOne' },
-    { title: 'STH', dataIndex: 'dataItemValueTwo' },
+    { title: '温度', dataIndex: 'dataItemValue' },
+    { title: '湿度', dataIndex: 'dataItemValueOne' },
     { title: '采集状态', dataIndex: 'collectStatus', render: renderCollectStatus }
   ]
 

@@ -5,9 +5,14 @@ import EquipmentList from './components/EquipmentList'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
+import ColumnChart from './components/ColumnChart'
+import LineChart from './components/LineChart'
 
 const Content: React.FC = () => {
-  const { actions } = useContext(storeContext)
+  const {
+    actions,
+    store: { mode }
+  } = useContext(storeContext)
 
   useEffect(() => {
     actions.getComparativeData()
@@ -18,7 +23,14 @@ const Content: React.FC = () => {
       <EquipmentList />
       <div className='content'>
         <Toolbar />
-        <DataTable />
+        {mode === 'table' ? (
+          <DataTable />
+        ) : (
+          <div>
+            <ColumnChart />
+            <LineChart />
+          </div>
+        )}
       </div>
     </div>
   )

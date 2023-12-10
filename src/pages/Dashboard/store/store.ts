@@ -11,7 +11,6 @@ export default class Store {
   public energyConsumptionPayload = {
     datetype: '0011',
     datatype: '0002',
-    energyid: '0002',
     projectId: '1',
     startTime: dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'),
     endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')

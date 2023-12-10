@@ -21,5 +21,6 @@ export default class Store {
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 
-  public environmentTableData?: TableData = undefined
+  public waterChartData: any = []
+  public waterTableData?: TableData = undefined
 }

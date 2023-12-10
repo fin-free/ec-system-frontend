@@ -13,7 +13,7 @@ import Styles from './DataTable.module.scss'
 const DataTable: React.FC = () => {
   const {
     actions,
-    store: { environmentTableData, pagination }
+    store: { waterTableData, pagination }
   } = useContext(storeContext)
 
   const renderCollectStatus = (val: number) => {
@@ -45,7 +45,7 @@ const DataTable: React.FC = () => {
     <Table
       className={Styles.root}
       columns={columns}
-      dataSource={environmentTableData}
+      dataSource={waterTableData}
       pagination={pagination}
       onChange={({ current, pageSize }) => {
         actions.updatePagination({ current: current as number, pageSize: pageSize as number })

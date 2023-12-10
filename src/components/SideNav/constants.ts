@@ -45,9 +45,9 @@ export enum NavKeys {
 export const NavLabels = {
   [NavKeys.dashboard]: '统计看板',
   [NavKeys.dataSearch]: '数据查询',
-  [NavKeys.electricityDataSearch]: '电力数据查询',
-  [NavKeys.temperatureDataSearch]: '温度数据查询',
-  [NavKeys.waterDataSearch]: '湿度数据查询',
+  [NavKeys.electricityDataSearch]: '用电数据查询',
+  [NavKeys.temperatureDataSearch]: '温湿度数据查询',
+  [NavKeys.waterDataSearch]: '用水数据查询',
   [NavKeys.consumptionManagement]: '能耗管理',
   [NavKeys.consumptionAnalysis]: '用能分析',
   [NavKeys.comparativeAnalysis]: '用能同环比',
@@ -87,14 +87,14 @@ export const SideNavItems: INavMenus[] = [
         path: ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT
       },
       {
-        key: NavKeys.temperatureDataSearch,
-        label: NavLabels[NavKeys.temperatureDataSearch],
-        path: ROUTE_PATH_TEMPERATURE_MANAGEMENT
-      },
-      {
         key: NavKeys.waterDataSearch,
         label: NavLabels[NavKeys.waterDataSearch],
         path: ROUTE_PATH_WATER_MANAGEMENT
+      },
+      {
+        key: NavKeys.temperatureDataSearch,
+        label: NavLabels[NavKeys.temperatureDataSearch],
+        path: ROUTE_PATH_TEMPERATURE_MANAGEMENT
       }
     ]
   },

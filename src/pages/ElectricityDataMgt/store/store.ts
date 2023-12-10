@@ -23,5 +23,6 @@ export default class Store {
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 
+  public electricityChartData: any = []
   public electricityTableData?: TableData = undefined
 }
