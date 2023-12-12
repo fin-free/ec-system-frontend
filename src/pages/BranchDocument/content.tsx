@@ -9,7 +9,7 @@ import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
-  const { store, actions } = useContext(storeContext)
+  const { store } = useContext(storeContext)
   useEffect(() => {}, [])
 
   return (
@@ -23,11 +23,7 @@ const Content: React.FC = () => {
           <EquipmentList />
           <div className='content'>
             <div className={Styles.innerContent}>
-              {!store.selectedArchiveId ? (
-                <ArchiveTree />
-              ) : (
-                <EnergyList archivesId={store.selectedArchiveId} />
-              )}
+              {!store.selectedArchiveId ? <ArchiveTree /> : <EnergyList archivesId={store.selectedArchiveId} />}
             </div>
           </div>
         </>

@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import G6, { TreeGraph } from '@antv/g6'
 import { useStore, observer } from '@/hooks/storeHook'
-import storeContext from '../context'
+// import storeContext from '../context'
 const ArchiveTree: React.FC = () => {
   const {
     commonStore: { achieveList }
   } = useStore()
-  const { actions } = useContext(storeContext)
+  // const { actions } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
   const mapTreeData = (root: any) => {
     if (!root) return {}

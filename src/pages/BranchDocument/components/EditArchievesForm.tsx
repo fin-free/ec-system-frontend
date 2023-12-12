@@ -10,7 +10,7 @@ interface IProps {
 
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { archievesItem } = props
-  const { store, actions } = useContext(storeContext)
+  const { actions } = useContext(storeContext)
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
   useEffect(() => {

@@ -9,7 +9,8 @@ export default class Actions {
     this._store = store
   }
 
-  async onSearch(searchParams: { datetime?: string; datetype?: string }) {}
+  async onSearch() // searchParams: { datetime?: string; datetype?: string }
+  {}
   async getEnergyList(params?: any) {
     const res = await API.getEnergyList({
       projectId: '1',
@@ -21,10 +22,7 @@ export default class Actions {
       this._store.energyEquipmentData = res
     })
   }
-  async saveArchivesEquipmentRelation(params: {
-    archivesId: string
-    meterIdList: number[]
-  }) {
+  async saveArchivesEquipmentRelation(params: { archivesId: string; meterIdList: number[] }) {
     const res = await API.saveArchivesEquipmentRelation(params)
     console.log(res)
   }

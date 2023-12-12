@@ -12,7 +12,7 @@ import Styles from './LoginForm.module.scss'
 const LoginForm: React.FC = () => {
   const navigate = useNavigate()
   const { authActions, commonActions } = useStore()
-  const [form] = Form.useForm()
+  const [formRef] = Form.useForm()
   const [loading, setLoading] = useState(false)
 
   const onFinish = (values: ILoginParams) => {
@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
     <div className={Styles.root}>
       <h1>登录</h1>
       <Form
-        form={form}
+        form={formRef}
         className='login-form'
         name='user-login'
         initialValues={{

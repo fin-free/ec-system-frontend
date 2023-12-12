@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import EnergyForm from './EnergyForm'
@@ -95,15 +95,10 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
             style={{ marginTop: 10 }}
             renderItem={(item: EnergyItem) => {
               return (
-                <List.Item
-                  key={item.equipmentId}
-                  onClick={() => onClickListItem(item)}
-                >
+                <List.Item key={item.equipmentId} onClick={() => onClickListItem(item)}>
                   <Checkbox
                     disabled={!Boolean(item.enabledStatus)}
-                    defaultChecked={
-                      Boolean(item.enabledStatus) && Boolean(item.bindStatus)
-                    }
+                    defaultChecked={Boolean(item.enabledStatus) && Boolean(item.bindStatus)}
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />
@@ -125,12 +120,7 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
         <Button size='large' onClick={onClickBack}>
           返回
         </Button>
-        <Button
-          className={Style.button}
-          size='large'
-          type='primary'
-          onClick={onClickSave}
-        >
+        <Button className={Style.button} size='large' type='primary' onClick={onClickSave}>
           保存
         </Button>
       </div>

@@ -1,8 +1,8 @@
-import { Form, Button, Input } from 'antd'
-import React, { useContext, useEffect } from 'react'
+import { Form, Input } from 'antd'
+import React, { useEffect } from 'react'
 import { observer } from '@/hooks/storeHook'
-import Styles from '../index.module.scss'
-import storeContext from '../context'
+// import Styles from '../index.module.scss'
+// import storeContext from '../context'
 
 interface IProps {
   energyItem: any
@@ -14,7 +14,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     form.setFieldsValue(energyItem)
   }, [energyItem])
-  const onFormFinish = async (data: any) => {}
+  const onFormFinish = async () => {}
 
   return (
     <>

@@ -30,7 +30,7 @@ instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(AUTH_TOKEN_KEY) || ''
     if (config.headers) {
-      config.headers.Authorization = token
+      config.headers.token = token
     }
     if (get(config, 'showLoading', false)) {
       configLoading('req')

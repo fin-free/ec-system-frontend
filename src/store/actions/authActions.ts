@@ -1,10 +1,12 @@
 import { get, isNil } from 'lodash'
-
+import { Md5 } from 'ts-md5'
+import Axios from 'axios'
 import * as API from '@/api/login'
 import { AUTH_TOKEN_KEY } from '@/common/constants/auth'
 import { ILoginParams } from '@/types'
 
 import AuthStore from '../modules/authStore'
+import { autoAction } from 'mobx/dist/internal'
 
 export default class AuthActions {
   private _authStore: AuthStore
@@ -12,35 +14,22 @@ export default class AuthActions {
     this._authStore = authStore
   }
 
-  async init(): Promise<void> {
-    if (!isNil(localStorage.getItem(AUTH_TOKEN_KEY))) {
-      this.getUserInfo()
-    }
-  }
-
-  async getUserInfo() {
-    await API.getUserInfo().then((res) => {
-      if (res) {
-        const userInfo = get(res, ['data'])
-        this._authStore.setUserInfo(userInfo)
-      }
-    })
-  }
-
   async toLogin(param: ILoginParams) {
     const { userName, password } = param
     if (!userName && !password) return false
 
-    return API.login({ userName, password })
-      .then((res) => {
-        if (res) {
-          const token = get(res, 'data')
+    return Axios.post('api/iot/sys/login', {
+      username: userName,
+      password: Md5.hashStr(password).toString()
+    })
+      .then((response) => {
+        if (response && response.status === 200) {
+          const { token, projectId, projectName, userId } = get(response, ['data', 'data'])
           localStorage.setItem(AUTH_TOKEN_KEY, `${token}`)
-        }
-
-        return this.init().then(() => {
+          this._authStore.setUserInfo({ projectId, projectName, userId })
           return true
-        })
+        }
+        return false
       })
       .catch((e) => {
         console.log('toLogin throw error: ' + e)

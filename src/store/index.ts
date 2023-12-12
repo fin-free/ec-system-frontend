@@ -27,8 +27,7 @@ const createRootStore = async () => {
   }
 
   try {
-    await authActions.init()
-    commonActions.init()
+    await commonActions.init()
   } catch (e) {
     console.log('init auth info failed : ' + e)
   }

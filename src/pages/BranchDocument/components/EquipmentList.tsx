@@ -58,19 +58,12 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -105,7 +98,7 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = (selectedKeys: React.Key[]) => {
+  const onSelect = () => {
     // actions.onSearch({
     //   archivesId: selectedKeys[0].toString()
     // })
@@ -181,20 +174,14 @@ const EquipmentList = () => {
   const treeTitleRender = (nodeData: any) => {
     return (
       <Popover content={getContent()} trigger='click'>
-        <div onClick={() => onClickTitle(nodeData)}>
-          {nodeData.title.props.children[2]}
-        </div>
+        <div onClick={() => onClickTitle(nodeData)}>{nodeData.title.props.children[2]}</div>
       </Popover>
     )
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
         checkable
         onExpand={onExpand}
@@ -204,12 +191,7 @@ const EquipmentList = () => {
         onSelect={onSelect}
         titleRender={treeTitleRender}
       />
-      <Modal
-        title='确认删除档案'
-        open={showDeleteModal}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-      >
+      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
         是否删除档案？
       </Modal>
     </aside>

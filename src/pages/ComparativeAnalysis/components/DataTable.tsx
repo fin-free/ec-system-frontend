@@ -10,7 +10,7 @@ import Styles from './DataTable.module.scss'
 
 const DataTable: React.FC = () => {
   const {
-    store: { electricityTableData, filters }
+    store: { energyComparativeTableData, filters }
   } = useContext(storeContext)
 
   const columns = [
@@ -21,7 +21,7 @@ const DataTable: React.FC = () => {
     { title: filters.yoyOrQoq === 'yoy' ? '同比用能' : '环比用能', dataIndex: 'energyValue' }
   ]
 
-  return <Table className={Styles.root} columns={columns} dataSource={electricityTableData} />
+  return <Table className={Styles.root} columns={columns} dataSource={energyComparativeTableData} />
 }
 
 export default observer(DataTable)
