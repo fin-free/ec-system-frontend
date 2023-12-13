@@ -1,7 +1,10 @@
+import { message } from 'antd'
 import axios from 'axios'
+import dayjs from 'dayjs'
 import { get } from 'lodash'
 
-import { AUTH_TOKEN_KEY } from '@/common/constants/auth'
+import { AUTH_TOKEN_EXPIRE, AUTH_TOKEN_KEY, AUTH_TOKEN_SAVE_TIME } from '@/common/constants/auth'
+import { ROUTE_PATH_LOGIN } from '@/routes/routePath'
 import { rootStore } from '@/store'
 
 const instance = axios.create({
@@ -57,6 +60,18 @@ instance.interceptors.response.use(
     if (err.config?.showLoading) {
       configLoading('res')
     }
+    const response = err.response || {}
+    const msg = response.data?.message
+    msg && message.error(msg)
+    const status = response?.status
+    const now = dayjs().valueOf()
+    const tokenSaveTime = parseInt(localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || '')
+    const tokenExpire = parseInt(localStorage.getItem(AUTH_TOKEN_EXPIRE) || '')
+    if (status === 401 || (tokenSaveTime && now - tokenSaveTime > tokenExpire)) {
+      localStorage.clear()
+      window.location.href = ROUTE_PATH_LOGIN
+    }
+
     return Promise.reject(get(err, ['response', 'data']))
   }
 )

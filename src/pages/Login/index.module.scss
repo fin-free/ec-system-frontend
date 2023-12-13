@@ -4,5 +4,6 @@
   justify-content: flex-end;
   height: 100vh;
   position: relative;
-  background: $background_color;
+  background: url('../../common/images/login-bg.png') no-repeat;
+  background-size: cover;
 }

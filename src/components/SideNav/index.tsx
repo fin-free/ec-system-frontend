@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { MenuProps } from 'antd'
 import { Menu } from 'antd'
@@ -80,9 +80,7 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
     })
   }
 
-  const items = useMemo(() => {
-    return recursiveMenu(SideNavItems)
-  }, [])
+  const items = recursiveMenu(SideNavItems)
 
   return (
     <div className={Styles.root}>

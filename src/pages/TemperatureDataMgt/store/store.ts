@@ -21,6 +21,5 @@ export default class Store {
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 
-  public environmentChartData: any = []
   public environmentTableData?: TableData = undefined
 }

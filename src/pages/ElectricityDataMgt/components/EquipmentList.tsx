@@ -1,13 +1,13 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
+import { TreeNode } from '@/types'
 
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
-import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {

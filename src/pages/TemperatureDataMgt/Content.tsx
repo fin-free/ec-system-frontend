@@ -7,12 +7,9 @@ import EquipmentList from './components/EquipmentList'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
-import Chart from './components/Chart'
 
 const Content: React.FC = () => {
-  const { actions, store } = useContext(storeContext)
-  const { mode } = store
-
+  const { actions } = useContext(storeContext)
   useEffect(() => {
     actions.getEnvironmentData()
   }, [])
@@ -22,7 +19,7 @@ const Content: React.FC = () => {
       <EquipmentList />
       <div className='content'>
         <Toolbar />
-        {mode === 'table' ? <DataTable /> : <Chart />}
+        <DataTable />
       </div>
     </div>
   )

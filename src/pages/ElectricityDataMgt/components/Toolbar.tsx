@@ -1,10 +1,12 @@
 import { useContext } from 'react'
 
-import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
-import storeContext from '../context'
+import { DatePicker, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 
-import { useStore, observer } from '@/hooks/storeHook'
+import { observer, useStore } from '@/hooks/storeHook'
+
+import storeContext from '../context'
+
 import Styles from './Toolbar.module.scss'
 
 const { RangePicker } = DatePicker
@@ -39,19 +41,11 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onModeChange = (e: RadioChangeEvent) => {
-    actions.updateMode(e.target.value)
-  }
-
   return (
     <div className={Styles.root}>
       <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
       <Select options={functionTypeOptions} defaultValue={filters?.functiontype} onChange={onFunctionTypeChange} />
       <Select options={dateTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
-      <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='table'>
-        <Radio.Button value='table'>数据</Radio.Button>
-        <Radio.Button value='chart'>图表</Radio.Button>
-      </Radio.Group>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/environmentDataMgt'
+
 import Store from './store'
 
 export default class Actions {
@@ -59,11 +60,5 @@ export default class Actions {
       this._store.pagination.pageSize = pageSize
     })
     this.getEnvironmentData()
-  }
-
-  updateMode(mode: string) {
-    runInAction(() => {
-      this._store.mode = mode
-    })
   }
 }

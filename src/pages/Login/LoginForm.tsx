@@ -21,7 +21,13 @@ const LoginForm: React.FC = () => {
       if (res) {
         commonActions.init()
         navigate(ROUTE_PATH_DASHBOARD)
+      } else {
+        formRef.setFields([
+          { name: 'userName', errors: [''] },
+          { name: 'password', errors: ['用户名或密码错误'] }
+        ])
       }
+
       setLoading(false)
     })
   }

@@ -8,7 +8,8 @@
   align-items: center;
   padding: 24px 0 40px 0;
   box-sizing: border-box;
-  background: linear-gradient(180deg, rgba(22, 22, 22, 0.63) 0%, rgb(0 21 41) 100%);
+  // background: linear-gradient(180deg, rgba(22, 22, 22, 0.63) 0%, rgb(0 21 41) 100%);
+  background: linear-gradient(102deg, rgb(2 41 84 / 80%) 0%, rgb(0, 21, 41) 100%);
   box-shadow: 0 2px 8px rgba(14, 21, 83, 0.05);
   backdrop-filter: blur(25px);
   border-radius: 8px;
@@ -29,9 +30,24 @@
     .login-form {
       width: 320px;
 
+      .ant-input {
+        background: transparent;
+      }
+
+      .ant-input-password {
+        background: transparent;
+      }
+
       > button {
         width: 100%;
-        box-shadow:none
+        box-shadow: none;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:hover {
+          background: rgba(15, 63, 108, 0.2) !important;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
       }
     }
   }

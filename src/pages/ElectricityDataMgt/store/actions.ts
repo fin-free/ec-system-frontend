@@ -61,10 +61,4 @@ export default class Actions {
     })
     this.getElectricityTableData()
   }
-
-  updateMode(mode: string) {
-    runInAction(() => {
-      this._store.mode = mode
-    })
-  }
 }
