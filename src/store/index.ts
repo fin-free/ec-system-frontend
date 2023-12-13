@@ -1,3 +1,4 @@
+import { AUTH_TOKEN_KEY } from '@/common/constants/auth'
 import AuthActions from './actions/authActions'
 import CommonActions from './actions/commonActions'
 import AuthStore from './modules/authStore'
@@ -27,7 +28,9 @@ const createRootStore = async () => {
   }
 
   try {
-    await commonActions.init()
+    if (localStorage.getItem(AUTH_TOKEN_KEY)) {
+      await commonActions.init()
+    }
   } catch (e) {
     console.log('init auth info failed : ' + e)
   }

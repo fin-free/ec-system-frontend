@@ -6,7 +6,6 @@ import { Outlet } from 'react-router-dom'
 import ErrorBound from '@/components/ErrorBound'
 import Header from '@/components/Header'
 import SideNav from '@/components/SideNav'
-// import TabBar from '@/components/TabBar'
 import { observer, useStore } from '@/hooks/storeHook'
 import { ROUTE_PATH_LOGIN } from '@/routes/routePath'
 
@@ -29,7 +28,6 @@ const Layout: React.FC = () => {
             userInfo={userInfo}
             onLogout={() => authActions.toLogout(ROUTE_PATH_LOGIN)}
           />
-          {/* <TabBar /> */}
           <ErrorBound>
             <Spin spinning={showLoading}>
               <Outlet />

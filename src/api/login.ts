@@ -1,5 +1,5 @@
-// import request from './request'
+import request from './request'
 
-const loginOut = () => Promise.resolve({ data: { userName: 'admin' } })
+const loginOut = () => request({ url: '/sys/logout', method: 'post' })
 
 export { loginOut }
