@@ -54,6 +54,15 @@ instance.interceptors.response.use(
     if (get(res.config, 'showLoading', false)) {
       configLoading('res')
     }
+
+    const now = dayjs().valueOf()
+    const tokenSaveTime = parseInt(localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || '')
+    const tokenExpire = parseInt(localStorage.getItem(AUTH_TOKEN_EXPIRE) || '')
+    if (tokenSaveTime && now - tokenSaveTime > tokenExpire) {
+      localStorage.clear()
+      window.location.href = ROUTE_PATH_LOGIN
+    }
+
     return Promise.resolve(get(res, 'data'))
   },
   (err) => {
@@ -64,10 +73,7 @@ instance.interceptors.response.use(
     const msg = response.data?.message
     msg && message.error(msg)
     const status = response?.status
-    const now = dayjs().valueOf()
-    const tokenSaveTime = parseInt(localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || '')
-    const tokenExpire = parseInt(localStorage.getItem(AUTH_TOKEN_EXPIRE) || '')
-    if (status === 401 || (tokenSaveTime && now - tokenSaveTime > tokenExpire)) {
+    if (status === 401) {
       localStorage.clear()
       window.location.href = ROUTE_PATH_LOGIN
     }
