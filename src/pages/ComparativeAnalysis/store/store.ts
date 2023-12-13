@@ -19,7 +19,11 @@ export default class Store {
     endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
   }
 
-  public energyComparativeChartData: { clearingPeriod: string; energyValue: number; proportion: number }[] = []
+  public energyComparativeChartData: {
+    clearingPeriod: string
+    energyValue: number
+    proportion: number
+  }[] = []
 
   public energyComparativeTableData?: TableData = undefined
 }

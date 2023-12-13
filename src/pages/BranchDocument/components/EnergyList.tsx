@@ -20,21 +20,20 @@ const energyLabelMap: Record<any, any> = {
 const meterIdList = new Set<number>()
 
 const EnergyList: React.FC<IProps> = (props: IProps) => {
-  const { archivesId } = props
   const [curEnergyItem, setCurEnergyItem] = useState<EnergyItem>()
   const {
     commonStore: { dataTypeOptions }
   } = useStore()
   const {
-    store: { filter, filterEquipmentData },
+    store: { filter, filterEquipmentData, selectedArchiveId },
     actions
   } = useContext(storeContext)
 
   useEffect(() => {
-    if (archivesId) {
-      actions.getEnergyList({ archivesId })
+    if (selectedArchiveId) {
+      actions.getEnergyList({ archivesId: selectedArchiveId })
     }
-  }, [archivesId])
+  }, [selectedArchiveId])
 
   useEffect(() => {
     filterEquipmentData.forEach((data) => {
@@ -53,11 +52,14 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
     setCurEnergyItem(item)
   }
 
-  const onClickBack = () => {}
+  const onClickBack = () => {
+    actions.updateTreeMode('')
+    actions.updateSelectedArchivesId('')
+  }
 
   const onClickSave = () => {
     actions.saveArchivesEquipmentRelation({
-      archivesId: archivesId!,
+      archivesId: selectedArchiveId!,
       meterIdList: Array.from(meterIdList)
     })
   }
@@ -95,10 +97,15 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
             style={{ marginTop: 10 }}
             renderItem={(item: EnergyItem) => {
               return (
-                <List.Item key={item.equipmentId} onClick={() => onClickListItem(item)}>
+                <List.Item
+                  key={item.equipmentId}
+                  onClick={() => onClickListItem(item)}
+                >
                   <Checkbox
                     disabled={!Boolean(item.enabledStatus)}
-                    defaultChecked={Boolean(item.enabledStatus) && Boolean(item.bindStatus)}
+                    defaultChecked={
+                      Boolean(item.enabledStatus) && Boolean(item.bindStatus)
+                    }
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />
@@ -120,7 +127,12 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
         <Button size='large' onClick={onClickBack}>
           返回
         </Button>
-        <Button className={Style.button} size='large' type='primary' onClick={onClickSave}>
+        <Button
+          className={Style.button}
+          size='large'
+          type='primary'
+          onClick={onClickSave}
+        >
           保存
         </Button>
       </div>

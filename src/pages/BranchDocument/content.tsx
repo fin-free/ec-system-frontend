@@ -7,10 +7,15 @@ import EditArchivesForm from './components/EditArchievesForm'
 import storeContext from './context'
 import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
+import { useStore } from '@/hooks/storeHook'
 
 const Content: React.FC = () => {
   const { store } = useContext(storeContext)
-  useEffect(() => {}, [])
+  const { commonActions } = useStore()
+  useEffect(() => {
+    //TODO: projectId
+    commonActions.getAchieveList('1')
+  }, [store.curArchivesItem])
 
   return (
     <div className={Styles.root}>
@@ -23,7 +28,7 @@ const Content: React.FC = () => {
           <EquipmentList />
           <div className='content'>
             <div className={Styles.innerContent}>
-              {!store.selectedArchiveId ? <ArchiveTree /> : <EnergyList archivesId={store.selectedArchiveId} />}
+              {store.selectedArchiveId ? <EnergyList /> : <ArchiveTree />}
             </div>
           </div>
         </>

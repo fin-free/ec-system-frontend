@@ -17,8 +17,13 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
     form.setFieldsValue(archievesItem)
   }, [archievesItem])
   const onFormFinish = async (data: any) => {
-    const res = await actions.addArchives(data)
-    messageApi.info(res)
+    const res = archievesItem.key
+      ? await actions.updateArchive(data)
+      : await actions.addArchives(data)
+    if (res) {
+      actions.updateCurArchivesItem(null)
+      messageApi.info(archievesItem.key ? '修改成功' : '添加成功')
+    }
   }
 
   const onClickCancel = () => {

@@ -9,8 +9,7 @@ export default class Actions {
     this._store = store
   }
 
-  async onSearch() // searchParams: { datetime?: string; datetype?: string }
-  {}
+  async onSearch() {} // searchParams: { datetime?: string; datetype?: string }
   async getEnergyList(params?: any) {
     const res = await API.getEnergyList({
       projectId: '1',
@@ -22,7 +21,10 @@ export default class Actions {
       this._store.energyEquipmentData = res
     })
   }
-  async saveArchivesEquipmentRelation(params: { archivesId: string; meterIdList: number[] }) {
+  async saveArchivesEquipmentRelation(params: {
+    archivesId: string
+    meterIdList: number[]
+  }) {
     const res = await API.saveArchivesEquipmentRelation(params)
     console.log(res)
   }
@@ -42,6 +44,14 @@ export default class Actions {
       return null
     }
   }
+  async updateArchive(params: any) {
+    const res = await API.updateArchive(params)
+    if (res) {
+      return res
+    } else {
+      return null
+    }
+  }
   updateEnergyType(type: string) {
     runInAction(() => {
       this._store.filter.energyType = type
@@ -49,7 +59,9 @@ export default class Actions {
     this.getEnergyList()
   }
   updateSelectedArchivesId(id: string) {
-    this._store.selectedArchiveId = id
+    runInAction(() => {
+      this._store.selectedArchiveId = id
+    })
   }
 
   updateFilterInput(value: string) {
@@ -57,5 +69,10 @@ export default class Actions {
   }
   updateCurArchivesItem(item: any) {
     this._store.curArchivesItem = item
+  }
+  updateTreeMode(mode: string) {
+    runInAction(() => {
+      this._store.treeMode = mode
+    })
   }
 }

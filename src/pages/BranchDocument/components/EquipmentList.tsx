@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
@@ -11,10 +11,10 @@ import { TreeNode, ArchiveList } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, rawAchieveList }
+    commonStore: { achieveList, rawAchieveList, defaultSelectedAchieveKeys }
   } = useStore()
   console.log('rawAchieveList: ', rawAchieveList)
-  const { actions } = useContext(storeContext)
+  const { store, actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
@@ -22,6 +22,10 @@ const EquipmentList = () => {
   const [clickedNode, setClickedNode] = useState()
 
   const dataList: { key: React.Key; title: string }[] = []
+
+  useEffect(() => {
+    setExpandedKeys(defaultSelectedAchieveKeys)
+  }, [defaultSelectedAchieveKeys])
   const generateList = (data: TreeNode[]) => {
     for (let i = 0; i < data.length; i++) {
       const node = data[i]
@@ -58,12 +62,19 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
+        if (
+          item.title &&
+          typeof item.title === 'string' &&
+          item.title.indexOf(value) > -1
+        ) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+      .filter(
+        (item, i, self): item is React.Key =>
+          !!(item && self.indexOf(item) === i)
+      )
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -98,7 +109,11 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = () => {
+  const onSelect = (data: any) => {
+    //TODO
+    if (store.treeMode === 'edit' && data[0]) {
+      actions.updateSelectedArchivesId(data[0])
+    }
     // actions.onSearch({
     //   archivesId: selectedKeys[0].toString()
     // })
@@ -106,7 +121,6 @@ const EquipmentList = () => {
 
   const onClickAdd = () => {
     // TODO
-    // const item = getAchieveItem(rawAchieveList, (clickedNode as any).key)
     actions.updateCurArchivesItem({
       parentId: (clickedNode as any).key,
       archivesLevel: 3
@@ -146,25 +160,28 @@ const EquipmentList = () => {
   }
 
   const onClickEdit = () => {
-    // TODO
     actions.updateCurArchivesItem({
       key: (clickedNode as any).key,
-      mode: 'edit'
+      archivesName: (clickedNode as any).title.props.children[2],
+      archivesLevel: 3,
+      parentId: getParentKey((clickedNode as any).key, achieveList)
     })
   }
 
   const onClickManage = () => {
     actions.updateSelectedArchivesId((clickedNode as any).key)
+    actions.updateTreeMode('edit')
   }
 
-  const getContent = () => (
-    <div className={Styles.optionList}>
-      <Button onClick={onClickAdd}>新增子档案</Button>
-      <Button onClick={onClickEdit}>修改同级档案</Button>
-      <Button onClick={onClickDelete}>删除档案</Button>
-      <Button onClick={onClickManage}>配表</Button>
-    </div>
-  )
+  const getContent = () =>
+    store.treeMode === 'edit' ? null : (
+      <div className={Styles.optionList}>
+        <Button onClick={onClickAdd}>新增子档案</Button>
+        <Button onClick={onClickEdit}>修改档案</Button>
+        <Button onClick={onClickDelete}>删除档案</Button>
+        <Button onClick={onClickManage}>配表</Button>
+      </div>
+    )
 
   const onClickTitle = (nodeData: any) => {
     console.log(nodeData)
@@ -174,24 +191,33 @@ const EquipmentList = () => {
   const treeTitleRender = (nodeData: any) => {
     return (
       <Popover content={getContent()} trigger='click'>
-        <div onClick={() => onClickTitle(nodeData)}>{nodeData.title.props.children[2]}</div>
+        <div onClick={() => onClickTitle(nodeData)}>
+          {nodeData.title.props.children[2]}
+        </div>
       </Popover>
     )
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <SearchInput
+        rootClassName='search-input'
+        onChange={onSearch}
+        placeholder='输入名称搜索...'
+      />
       <Tree
-        checkable
-        onExpand={onExpand}
-        autoExpandParent={autoExpandParent}
-        expandedKeys={expandedKeys}
         treeData={treeData}
         onSelect={onSelect}
         titleRender={treeTitleRender}
+        onExpand={onExpand}
+        expandedKeys={expandedKeys}
       />
-      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
+      <Modal
+        title='确认删除档案'
+        open={showDeleteModal}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      >
         是否删除档案？
       </Modal>
     </aside>

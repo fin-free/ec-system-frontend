@@ -14,7 +14,6 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     form.setFieldsValue(energyItem)
   }, [energyItem])
-  const onFormFinish = async () => {}
 
   return (
     <>
@@ -23,7 +22,6 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         style={{ border: '1px solid rgba(255, 255, 255, 0.15)', padding: 50 }}
-        onFinish={onFormFinish}
         autoComplete='off'
         form={form}
       >

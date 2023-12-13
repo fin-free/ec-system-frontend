@@ -16,6 +16,7 @@ export default class Store {
 
   public archiveTreeData = []
   public energyEquipmentData: Array<EnergyItem> = []
+  public treeMode = ''
 
   get filterEquipmentData() {
     return this.energyEquipmentData.filter(

@@ -20,6 +20,11 @@ const customTheme = {
     colorBgElevated: '#001529',
     colorBorder: '#8f8f8f33',
     colorPrimaryBorderHover: '#001529'
+  },
+  components: {
+    Tree: {
+      nodeSelectedBg: '#4f96bc'
+    }
   }
 }
 
