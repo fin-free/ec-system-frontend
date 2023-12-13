@@ -34,6 +34,7 @@ import {
 
 const Router = () => {
   const fullPageRoutes = [
+    { path: ROUTE_PATH_ROOT, element: <Login /> },
     {
       path: ROUTE_PATH_LOGIN,
       element: <Login />
