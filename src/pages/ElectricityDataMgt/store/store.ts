@@ -8,8 +8,8 @@ export default class Store {
   }
 
   public mode = 'table'
+  public selectedBuildingId: string = ''
   public filters = {
-    buildingId: '17',
     datatype: '0002',
     datetype: '0011',
     functiontype: '0021',

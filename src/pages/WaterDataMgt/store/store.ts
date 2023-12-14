@@ -8,8 +8,8 @@ export default class Store {
   }
 
   public mode = 'table'
+  public selectedBuildingId: string = ''
   public filters = {
-    buildingId: '17',
     datatype: '0001',
     datetype: '0011',
     projectId: '1'
@@ -21,6 +21,5 @@ export default class Store {
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 
-  public waterChartData: any = []
   public waterTableData?: TableData = undefined
 }

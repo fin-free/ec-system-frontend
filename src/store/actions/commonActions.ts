@@ -1,9 +1,10 @@
-import Store from '../modules/commonStore'
 import { flattenDeep, get } from 'lodash'
-import { optionTypes } from '@/common/constants/index'
-import { DictItem, TreeNode, BuildList, ArchiveList } from '@/types'
 
 import API from '@/api/commonApis'
+import { optionTypes } from '@/common/constants/index'
+import { ArchiveList, BuildList, DictItem, TreeNode } from '@/types'
+
+import Store from '../modules/commonStore'
 
 export default class CommonActions {
   private _store: Store
@@ -26,21 +27,11 @@ export default class CommonActions {
       API.getDictList({ dictType: optionTypes.DataType })
     ]).then((res) => {
       if (res) {
-        this._store.dateTypeOptions = this.transformDictToOption(
-          get(res, [0, 'data'], [])
-        )
-        this._store.energyTypeOptions = this.transformDictToOption(
-          get(res, [1, 'data'], [])
-        )
-        this._store.alarmTypeOptions = this.transformDictToOption(
-          get(res, [2, 'data'], [])
-        )
-        this._store.functionTypeOptions = this.transformDictToOption(
-          get(res, [3, 'data'], [])
-        )
-        this._store.dataTypeOptions = this.transformDictToOption(
-          get(res, [4, 'data'], [])
-        )
+        this._store.dateTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
+        this._store.energyTypeOptions = this.transformDictToOption(get(res, [1, 'data'], []))
+        this._store.alarmTypeOptions = this.transformDictToOption(get(res, [2, 'data'], []))
+        this._store.functionTypeOptions = this.transformDictToOption(get(res, [3, 'data'], []))
+        this._store.dataTypeOptions = this.transformDictToOption(get(res, [4, 'data'], []))
       }
     })
   }
@@ -52,7 +43,8 @@ export default class CommonActions {
         this.transformAchieveListToTree(get(res, 'data', []), treeData)
         this._store.rawAchieveList = get(res, 'data', [])
         this._store.achieveList = treeData
-        this._store.defaultSelectedAchieveKeys = this.getAllKeys(treeData)
+        this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
+        this._store.defaultSelectedAchieveKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
       }
     })
   }
@@ -63,7 +55,8 @@ export default class CommonActions {
         const treeData: Array<TreeNode> = []
         this.transformBuildingListToTree(get(res, 'data', []), treeData)
         this._store.buildingList = treeData
-        this._store.defaultSelectedBuildingKeys = this.getAllKeys(treeData)
+        this._store.defaultExpandBuildingKeys = this.getAllKeys(treeData)
+        this._store.defaultSelectedBuildingKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
       }
     })
   }
@@ -123,5 +116,20 @@ export default class CommonActions {
     })
 
     return flattenDeep(nestedKeys)
+  }
+
+  findFirstLeafNode(node: TreeNode): TreeNode | null {
+    if (!node.children || node.children.length === 0) {
+      return node
+    }
+
+    for (const child of node.children) {
+      const leafNode = this.findFirstLeafNode(child)
+      if (leafNode) {
+        return leafNode
+      }
+    }
+
+    return null
   }
 }

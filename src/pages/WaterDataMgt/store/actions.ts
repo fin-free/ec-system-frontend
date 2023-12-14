@@ -11,9 +11,10 @@ export default class Actions {
     this._store = store
   }
 
-  async getEnvironmentData() {
+  async getEnvironmentData(buildingId?: string) {
     const payload = {
       ...this._store.filters,
+      buildingId: buildingId || this._store.selectedBuildingId,
       pageNum: this._store.pagination.current.toString(),
       pageSize: this._store.pagination.pageSize.toString()
     }
@@ -26,7 +27,6 @@ export default class Actions {
             pageSize: get(res, ['data', 'pageSize'], 10),
             showTotal: (total: number) => `共 ${total} 条数据`
           }
-          this._store.waterChartData = get(res, ['data', 'list'], [])
           this._store.waterTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData
@@ -66,6 +66,12 @@ export default class Actions {
   updateMode(mode: string) {
     runInAction(() => {
       this._store.mode = mode
+    })
+  }
+
+  setSelectedBuildingId(id: string) {
+    runInAction(() => {
+      this._store.selectedBuildingId = id
     })
   }
 }

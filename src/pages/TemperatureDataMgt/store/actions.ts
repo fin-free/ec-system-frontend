@@ -11,9 +11,10 @@ export default class Actions {
     this._store = store
   }
 
-  async getEnvironmentData() {
+  async getEnvironmentData(buildingId?: string) {
     const payload = {
       ...this._store.filters,
+      buildingId: buildingId || this._store.selectedBuildingId,
       pageNum: this._store.pagination.current.toString(),
       pageSize: this._store.pagination.pageSize.toString()
     }
@@ -60,5 +61,11 @@ export default class Actions {
       this._store.pagination.pageSize = pageSize
     })
     this.getEnvironmentData()
+  }
+
+  setSelectedBuildingId(id: string) {
+    runInAction(() => {
+      this._store.selectedBuildingId = id
+    })
   }
 }

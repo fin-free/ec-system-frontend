@@ -1,26 +1,29 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
+import { TreeNode } from '@/types'
 
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
-import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { buildingList, defaultSelectedBuildingKeys }
+    commonStore: { buildingList, defaultSelectedBuildingKeys, defaultExpandBuildingKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
 
   useEffect(() => {
-    setExpandedKeys(defaultSelectedBuildingKeys)
-  }, [defaultSelectedBuildingKeys])
+    setExpandedKeys(defaultExpandBuildingKeys)
+    setSelectedKeys(defaultSelectedBuildingKeys)
+    actions.setSelectedBuildingId(defaultSelectedBuildingKeys[0])
+  }, [defaultExpandBuildingKeys, defaultSelectedBuildingKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
   const generateList = (data: TreeNode[]) => {
@@ -99,10 +102,11 @@ const EquipmentList = () => {
 
   const treeData = loop(buildingList)
 
-  const onSelect = (selectedKeys: React.Key[]) => {
-    actions.onSearch({
-      buildingId: selectedKeys[0].toString()
-    })
+  const onSelect = (keys: React.Key[]) => {
+    setSelectedKeys(keys)
+    const selectedBuildId = keys[0].toString()
+    actions.setSelectedBuildingId(selectedBuildId)
+    actions.getEnvironmentData(selectedBuildId)
   }
 
   return (
@@ -112,6 +116,7 @@ const EquipmentList = () => {
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}
+        selectedKeys={selectedKeys}
         treeData={treeData}
         onSelect={onSelect}
       />

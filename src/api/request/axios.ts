@@ -58,7 +58,7 @@ instance.interceptors.response.use(
     const now = dayjs().valueOf()
     const tokenSaveTime = parseInt(localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || '')
     const tokenExpire = parseInt(localStorage.getItem(AUTH_TOKEN_EXPIRE) || '')
-    if (tokenSaveTime && now - tokenSaveTime > tokenExpire) {
+    if (tokenSaveTime && now - tokenSaveTime > tokenExpire * 1000) {
       localStorage.clear()
       window.location.href = ROUTE_PATH_LOGIN
     }
