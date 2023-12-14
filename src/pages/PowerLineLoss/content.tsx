@@ -17,7 +17,7 @@ const Content: React.FC = () => {
       ? lossData.map((root) => {
           const newRoot = {} as any
           newRoot.id = String(root.archivesId)
-          newRoot.label = root.archivesName
+          newRoot.label = `${root.archivesName} \n用电量: ${root.energyValue}\n 线损：${root.loseValue} 线损率：${root.loseRateValue}%`
           newRoot.children = mapLossToTreeData(root.childrenList)
           return newRoot
         })
@@ -38,7 +38,7 @@ const Content: React.FC = () => {
         // 节点类型，cicle:圆形，rect:矩形，ellipse:椭圆，diamond:菱形，triangle：三角形，star：五角星，image：图片，modelRect：卡片
         type: 'rect',
         // size 设置矩形的长和宽
-        size: [60, 34],
+        size: [80, 54],
         // 指定边连入节点的连接点的位置，可以为空，具体可以看一下官网是通过0、0.5、1来控制哪个点的。
         anchorPoints: [
           [0.5, 1],
@@ -77,8 +77,8 @@ const Content: React.FC = () => {
       defaultEdge: {
         type: 'line'
       },
-      width: 1000, // Number，必须，图的宽度
-      height: 600 // Number，必须，图的高度
+      width: 1500, // Number，必须，图的宽度
+      height: 800 // Number，必须，图的高度
     })
     graphRef.current = graph
     return () => {
@@ -88,6 +88,7 @@ const Content: React.FC = () => {
   useEffect(() => {
     const graph = graphRef.current
     graph?.clear()
+    debugger
     if (lossCompareData.length > 0) {
       graph?.data(mapLossToTreeData(lossCompareData)[0])
       graph?.render()

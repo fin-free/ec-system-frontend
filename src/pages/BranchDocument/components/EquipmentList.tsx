@@ -11,7 +11,7 @@ import { TreeNode, ArchiveList } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, rawAchieveList, defaultSelectedAchieveKeys }
+    commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys }
   } = useStore()
   console.log('rawAchieveList: ', rawAchieveList)
   const { store, actions } = useContext(storeContext)
@@ -24,8 +24,9 @@ const EquipmentList = () => {
   const dataList: { key: React.Key; title: string }[] = []
 
   useEffect(() => {
-    setExpandedKeys(defaultSelectedAchieveKeys)
-  }, [defaultSelectedAchieveKeys])
+    debugger
+    setExpandedKeys(defaultExpandAchieveKeys)
+  }, [defaultExpandAchieveKeys])
   const generateList = (data: TreeNode[]) => {
     for (let i = 0; i < data.length; i++) {
       const node = data[i]
@@ -55,7 +56,7 @@ const EquipmentList = () => {
 
   const onExpand = (newExpandedKeys: React.Key[]) => {
     setExpandedKeys(newExpandedKeys)
-    setAutoExpandParent(false)
+    // setAutoExpandParent(false)
   }
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

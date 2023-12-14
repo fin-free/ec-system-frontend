@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
-import * as API from '@/api/consumptionAnalysis'
+import * as API from '@/api/lineComparison'
 
 import Store from './store'
 
@@ -11,35 +11,40 @@ export default class Actions {
     this._store = store
   }
 
-  async getConsumptionData() {
-    await API.getEnergyConsumptionData(this._store.filters).then((res) => {
+  async getLineComparisonData(archivesIds: string[]) {
+    const payload = {
+      ...this._store.filters,
+      archivesIds: archivesIds
+    }
+    await API.getLineComparisonData(payload).then((res) => {
       if (res) {
+        debugger
         runInAction(() => {
-          this._store.energyConsumptionData = get(res, 'data', []).map((d: object, index: number) => {
-            const rowData = { ...d, orderNum: index + 1 }
-            return rowData
-          })
+          this._store.lineComparisonDataChartData = res
+          this._store.lineComparisonDataTableData = res.map(
+            (d: object, index: number) => {
+              const columnData = { ...d, orderNum: index + 1 }
+              return columnData
+            }
+          )
         })
       }
     })
   }
 
-  async onSearch(searchParams: {
-    startTime?: string
-    endTime?: string
-    datetype?: string
-    functiontype?: string
-    archivesId?: string
-  }) {
-    runInAction(() => {
-      this._store.filters = { ...this._store.filters, ...searchParams }
-    })
-    this.getConsumptionData()
+  async onSearch(archivesIds: string[]) {
+    this.getLineComparisonData(archivesIds)
   }
 
   updateMode(mode: string) {
     runInAction(() => {
       this._store.mode = mode
+    })
+  }
+
+  setSelectedArchiveId(id: string) {
+    runInAction(() => {
+      this._store.selectedArchiveId = id
     })
   }
 }

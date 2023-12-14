@@ -29,29 +29,33 @@ const Toolbar: React.FC = () => {
     actions.getLossCompareData()
   }
 
-  const handleEngrgyTypeChange = () => {}
+  const handleEngrgyTypeChange = (value: string) => {
+    debugger
+    filters.datatype = value
+  }
 
   return (
     <div className={Styles.root}>
-      <div>
-        <Select
-          value={filters.datatype}
-          placeholder='设备类型'
-          style={{ width: 200, marginBottom: 10 }}
-          onChange={handleEngrgyTypeChange}
-          options={dataTypeOptions}
-        />
-        <Radio.Group
-          className={Styles.radioGroup}
-          onChange={onDateTypeChange}
-          defaultValue='day'
-        >
-          <Radio.Button value='0012'>按日</Radio.Button>
-          <Radio.Button value='0013'>按月</Radio.Button>
-        </Radio.Group>
-        <DatePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      </div>
-      <Button type='primary' onClick={onClickSearch}>
+      <Select
+        value={filters.datatype}
+        placeholder='设备类型'
+        onChange={handleEngrgyTypeChange}
+        options={dataTypeOptions}
+      />
+      <Radio.Group
+        className={Styles.radioGroup}
+        onChange={onDateTypeChange}
+        defaultValue='day'
+      >
+        <Radio.Button value='0012'>按日</Radio.Button>
+        <Radio.Button value='0013'>按月</Radio.Button>
+      </Radio.Group>
+      <DatePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
+      <Button
+        className={Styles.searchBtn}
+        type='primary'
+        onClick={onClickSearch}
+      >
         查询
       </Button>
     </div>

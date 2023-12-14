@@ -2,10 +2,11 @@
   display: flex;
   column-gap: 24px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-bottom: 16px;
 }
 
-.radioGroup {
-  margin-right: 50px;
+.searchBtn {
+  position: absolute;
+  right: 16px;
 }

@@ -10,7 +10,6 @@ export default class Store {
   public filters = {
     projectId: '1',
     datetype: '0011',
-    energyid: '0002',
     datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     datatype: '0001'
   }

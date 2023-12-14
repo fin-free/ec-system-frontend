@@ -8,16 +8,25 @@ export default class Store {
     makeAutoObservable(this)
   }
 
-  public mode = 'table'
+  public mode = 'chart'
+  public selectedArchiveId: string = ''
   public filters = {
     projectId: '1',
     datetype: '0011',
     datatype: '0002',
-    archivesId: '1',
     startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
   }
-  public energyConsumptionData = []
 
-  public electricityTableData?: TableData = undefined
+  public lineComparisonDataChartData: {
+    archivesId: number
+    archivesName: string
+    list: {
+      clearingPeriod: string
+      energyValue: number
+      proportion: number
+    }[]
+  }[] = [[] as any]
+
+  public lineComparisonDataTableData?: TableData = undefined
 }

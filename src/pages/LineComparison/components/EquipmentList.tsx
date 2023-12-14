@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
@@ -11,12 +11,22 @@ import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList }
+    commonStore: {
+      achieveList,
+      defaultExpandAchieveKeys,
+      defaultSelectedAchieveKeys
+    }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
+  const [checkedKeys, setCheckedKeys] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
+
+  useEffect(() => {
+    setExpandedKeys(defaultExpandAchieveKeys)
+    actions.setSelectedArchiveId(defaultSelectedAchieveKeys[0])
+  }, [defaultExpandAchieveKeys, defaultSelectedAchieveKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
   const generateList = (data: TreeNode[]) => {
@@ -55,12 +65,19 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
+        if (
+          item.title &&
+          typeof item.title === 'string' &&
+          item.title.indexOf(value) > -1
+        ) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+      .filter(
+        (item, i, self): item is React.Key =>
+          !!(item && self.indexOf(item) === i)
+      )
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -95,22 +112,28 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = (selectedKeys: React.Key[]) => {
-    actions.onSearch({
-      archivesId: selectedKeys[0].toString()
-    })
+  const onCheck = (list: {
+    checked: React.Key[]
+    halfChecked: React.Key[]
+  }) => {
+    actions.getLineComparisonData(list.checked as string[])
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <SearchInput
+        rootClassName='search-input'
+        onChange={onSearch}
+        placeholder='输入名称搜索...'
+      />
       <Tree
         checkable
+        checkStrictly
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}
         treeData={treeData}
-        onSelect={onSelect}
+        onCheck={onCheck}
       />
     </aside>
   )

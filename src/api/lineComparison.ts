@@ -2,12 +2,11 @@ import request from './request'
 
 type LineComparisonPayload = {
   datetype: string //0011 小时  0012 日 0013 月
-  energyid: string //0001 水  0002 电
-  archivesId: string //建筑Id
+  datatype: string //0001 水  0002 电
   projectId: string //项目Id
   startTime: string //查询开始时间 yyyy-MM-dd HH:mm:ss
   endTime: string //查询结束时间 yyyy-MM-dd HH:mm:ss
-  archivesIds: Array<number> //建筑Id集合
+  archivesIds: Array<string> //建筑Id集合
 }
 
 const getLineComparisonData = async (params: LineComparisonPayload) => {
