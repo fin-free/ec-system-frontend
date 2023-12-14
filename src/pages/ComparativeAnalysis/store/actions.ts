@@ -20,11 +20,14 @@ export default class Actions {
       if (res) {
         runInAction(() => {
           const { yoyOrQoq } = this._store.filters
-          this._store.energyComparativeChartData = get(res, 'data', []).filter((d: any) => d.type === yoyOrQoq)[0]?.list
-          this._store.energyComparativeTableData = get(res, 'data', []).map((d: object, index: number) => {
-            const rowData = { ...d, orderNum: index + 1 }
-            return rowData
-          })
+          this._store.energyComparativeChartNowData = get(res, 'data', []).filter((d: any) => d.type === 'now')[0]?.list
+          this._store.energyComparativeCharYoyQoqData = get(res, 'data', []).filter(
+            (d: any) => d.type === yoyOrQoq
+          )[0]?.list
+          this._store.energyComparativeTableData = get(res, 'data', []).map((d: object, index: number) => ({
+            ...d,
+            orderNum: index + 1
+          }))
         })
       }
     })

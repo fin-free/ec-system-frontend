@@ -76,7 +76,6 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
     } else {
       meterIdList.delete(item.equipmentId)
     }
-    debugger
   }
 
   return (

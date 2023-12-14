@@ -16,7 +16,7 @@ const DataTable: React.FC = () => {
   const columns = [
     { title: '序号', dataIndex: 'orderNum', width: 100 },
     { title: '日期', dataIndex: 'clearingPeriod' },
-    { title: '用量', dataIndex: 'energyValue' },
+    { title: '用量', dataIndex: 'energyValue', render: (value: number) => (value ? `${value}kwh` : '--') },
     { title: '占比', dataIndex: 'proportion' }
   ]
 

@@ -24,6 +24,16 @@ export default class Store {
     energyValue: number
     proportion: number
   }[] = []
+  public energyComparativeChartNowData: {
+    clearingPeriod: string
+    energyValue: number
+    proportion: number
+  }[] = []
+  public energyComparativeCharYoyQoqData: {
+    clearingPeriod: string
+    energyValue: number
+    proportion: number
+  }[] = []
 
   public energyComparativeTableData?: TableData = undefined
 }
