@@ -3,7 +3,7 @@ import request from './request'
 type TimeComparePayload = {
   datetype: string
   datatype: string
-  archivesId: string
+  archivesId?: string
   projectId: string
   yoyOrQoq: string
   startTime: string

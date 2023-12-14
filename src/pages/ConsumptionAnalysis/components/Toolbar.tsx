@@ -1,8 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
-import { observer, useStore } from '@/hooks/storeHook'
+
+import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
@@ -12,10 +13,13 @@ const { RangePicker } = DatePicker
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
-  const {} = useStore()
   const { actions } = useContext(storeContext)
+  const [dates, setDates] = useState<RangeValue>(null)
+  const [value, setValue] = useState<RangeValue>(null)
+  const [maxDateRange, setMaxDateRange] = useState<number>(1)
 
   const onDateChange = (date: RangeValue) => {
+    setValue(date)
     actions.onSearch({
       startTime: date![0]!.format('YYYY-MM-DD HH:mm:ss'),
       endTime: date![1]!.format('YYYY-MM-DD HH:mm:ss')
@@ -23,13 +27,35 @@ const Toolbar: React.FC = () => {
   }
 
   const onDataTypeChange = (e: RadioChangeEvent) => {
+    const dataType = e.target.value
+    switch (dataType) {
+      case '0011':
+        setMaxDateRange(1)
+        break
+      case '0012':
+        setMaxDateRange(7)
+        break
+      case '0013':
+        setMaxDateRange(30)
+        break
+    }
+
     actions.onSearch({
-      datetype: e.target.value
+      datetype: dataType
     })
   }
 
   const onModeChange = (e: RadioChangeEvent) => {
     actions.updateMode(e.target.value)
+  }
+
+  const disabledDate = (current: Dayjs) => {
+    if (!dates) {
+      return false
+    }
+    const tooLate = dates[0] && current.diff(dates[0], 'days') >= maxDateRange
+    const tooEarly = dates[1] && dates[1].diff(current, 'days') >= maxDateRange
+    return !!tooEarly || !!tooLate
   }
 
   return (
@@ -46,7 +72,13 @@ const Toolbar: React.FC = () => {
         }}
         defaultValue='0002'
       />
-      <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
+      <RangePicker
+        value={dates || value}
+        format={'YYYY-MM-DD'}
+        onChange={onDateChange}
+        disabledDate={disabledDate}
+        onCalendarChange={(val) => setDates(val)}
+      />
       <Radio.Group onChange={onDataTypeChange} defaultValue='0011'>
         <Radio.Button value='0011'>按小时</Radio.Button>
         <Radio.Button value='0012'>按日</Radio.Button>

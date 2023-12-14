@@ -11,16 +11,19 @@ import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, defaultSelectedAchieveKeys }
+    commonStore: { achieveList, defaultExpandAchieveKeys, defaultSelectedAchieveKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
+  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
 
   useEffect(() => {
-    setExpandedKeys(defaultSelectedAchieveKeys)
-  }, [defaultSelectedAchieveKeys])
+    setExpandedKeys(defaultExpandAchieveKeys)
+    setSelectedKeys(defaultSelectedAchieveKeys)
+    actions.setSelectedArchiveId(defaultSelectedAchieveKeys[0])
+  }, [defaultExpandAchieveKeys, defaultSelectedAchieveKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
   const generateList = (data: TreeNode[]) => {
@@ -99,10 +102,11 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = (selectedKeys: React.Key[]) => {
-    actions.onSearch({
-      archivesId: selectedKeys[0].toString()
-    })
+  const onSelect = (keys: React.Key[]) => {
+    setSelectedKeys(keys)
+    const selectedArchiveId = selectedKeys[0].toString()
+    actions.setSelectedArchiveId(selectedArchiveId)
+    actions.getConsumptionData(selectedArchiveId)
   }
 
   return (
@@ -113,6 +117,7 @@ const EquipmentList = () => {
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}
+        selectedKeys={selectedKeys}
         treeData={treeData}
         onSelect={onSelect}
       />

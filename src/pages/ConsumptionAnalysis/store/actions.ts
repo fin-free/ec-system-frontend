@@ -11,8 +11,12 @@ export default class Actions {
     this._store = store
   }
 
-  async getConsumptionData() {
-    await API.getEnergyConsumptionData(this._store.filters).then((res) => {
+  async getConsumptionData(selectedArchiveId?: string) {
+    const payload = {
+      ...this._store.filters,
+      archivesId: selectedArchiveId || this._store.selectedArchiveId
+    }
+    await API.getEnergyConsumptionData(payload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.energyConsumptionChartData = get(res, 'data', [])
@@ -41,6 +45,12 @@ export default class Actions {
   updateMode(mode: string) {
     runInAction(() => {
       this._store.mode = mode
+    })
+  }
+
+  setSelectedArchiveId(id: string) {
+    runInAction(() => {
+      this._store.selectedArchiveId = id
     })
   }
 }

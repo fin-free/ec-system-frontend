@@ -8,15 +8,22 @@ import Styles from './index.module.scss'
 import ColumnChart from './components/ColumnChart'
 import LineChart from './components/LineChart'
 
+import { observer, useStore } from '@/hooks/storeHook'
+
 const Content: React.FC = () => {
   const {
     actions,
     store: { mode }
   } = useContext(storeContext)
+  const {
+    commonStore: { defaultSelectedAchieveKeys }
+  } = useStore()
 
   useEffect(() => {
-    actions.getConsumptionData()
-  }, [])
+    if (defaultSelectedAchieveKeys && defaultSelectedAchieveKeys.length > 0) {
+      actions.getConsumptionData(defaultSelectedAchieveKeys[0])
+    }
+  }, [defaultSelectedAchieveKeys])
 
   return (
     <div className={Styles.root}>
