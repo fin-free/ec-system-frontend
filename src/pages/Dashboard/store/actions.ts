@@ -31,10 +31,8 @@ export default class Actions {
     })
   }
 
-  async getEnergyCompareData() {
-    await ConsumptionApi.getEnergyConsumptionData(
-      this._store.energyConsumptionPayload
-    ).then((res) => {
+  async getEnergyConsumptionData() {
+    await ConsumptionApi.getEnergyConsumptionData(this._store.energyConsumptionPayload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.energyConsumptionData = get(res, 'data', [])
@@ -43,18 +41,29 @@ export default class Actions {
     })
   }
 
-  async onSearch(searchParams: {
-    datetype: string
-    startTime?: string
-    endTime?: string
-  }) {
+  async getWaterCompareData() {
+    await ConsumptionApi.getEnergyConsumptionData(this._store.waterConsumptionPayload).then((res) => {
+      if (res) {
+        runInAction(() => {
+          this._store.waterConsumptionData = get(res, 'data', [])
+        })
+      }
+    })
+  }
+
+  async onSearch(searchParams: { datetype: string; startTime?: string; endTime?: string }) {
     runInAction(() => {
       this._store.energyConsumptionPayload = {
         ...this._store.energyConsumptionPayload,
         ...searchParams
       }
+      this._store.waterConsumptionPayload = {
+        ...this._store.energyConsumptionPayload,
+        ...searchParams
+      }
     })
-    this.getEnergyCompareData()
+    this.getEnergyConsumptionData()
+    this.getWaterCompareData()
   }
   async getAlarmData() {
     const res: {
@@ -68,9 +77,7 @@ export default class Actions {
       endTime: ''
     })
     if (res) {
-      res.list = res.list.map((listItem) =>
-        Object.assign(listItem, { key: listItem.alarmId })
-      )
+      res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))
       runInAction(() => {
         this._store.alarmData = get(res, 'list', [])
       })

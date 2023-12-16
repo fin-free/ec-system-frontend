@@ -89,7 +89,7 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
         {!collapsed && <span>能源管理系统</span>}
       </div>
       <Menu
-        style={{ width: collapsed ? 60 : 180 }}
+        style={{ width: collapsed ? 60 : 190 }}
         onClick={onMenuItemClick}
         onOpenChange={onOpenChange}
         defaultSelectedKeys={[NavKeys.electricityDataSearch]}

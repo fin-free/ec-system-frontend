@@ -16,11 +16,10 @@ const customTheme = {
   token: {
     motion: false,
     colorBgContainer: 'transparent',
-    colorTextBase: '#ffffff',
+    colorTextBase: '#d8d8d8',
     colorBgElevated: '#0a0a24',
     colorBorder: '#8f8f8f33',
-    colorPrimaryBorderHover: '#001529',
-    colorText: '#d0d0d0',
+    colorText: '#d8d8d8',
     colorBgTextHover: '#1b1b3d',
     bgElevated: 'transparent'
   },
@@ -34,7 +33,7 @@ const customTheme = {
     Tree: {
       borderRadius: 0,
       colorBgContainer: 'transparent',
-      nodeSelectedBg: '#4f96bc'
+      nodeSelectedBg: '#26266d'
     }
   }
 }

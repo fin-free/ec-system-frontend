@@ -103,7 +103,7 @@ const DataTable: React.FC = () => {
         dataIndex: 'dataItemValueTime',
         render: (val: string) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
       },
-      { title: 'PF', dataIndex: 'powerFactorAvg' },
+      { title: 'PF', dataIndex: 'powerFactorTotal' },
       { title: 'PFA', dataIndex: 'powerFactorPhaseA' },
       { title: 'PFB', dataIndex: 'powerFactorPhaseB' },
       { title: 'PFC', dataIndex: 'powerFactorPhaseC' },

@@ -1,4 +1,14 @@
 .root {
   height: 100%;
-  color: $font_color_base;
+
+  :global {
+    .ant-tree-switcher {
+      padding: 4px 0;
+    }
+
+    .ant-tree-node-content-wrapper {
+      padding: 4px 16px;
+      border-radius: 4px;
+    }
+  }
 }

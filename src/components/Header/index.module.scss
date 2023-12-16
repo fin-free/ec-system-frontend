@@ -12,12 +12,22 @@
   }
 
   :global {
-    .logout {
+    .account {
       display: flex;
       align-items: center;
 
-      > span {
+      &:hover {
+        cursor: pointer;
+      }
+
+      >span {
         margin-right: 16px;
+      }
+    }
+
+    .login-out-overlay {
+      &:hover {
+        color: #000;
       }
     }
   }
