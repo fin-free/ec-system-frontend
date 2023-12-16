@@ -58,7 +58,7 @@ export const NavLabels = {
   [NavKeys.gatewayList]: '网关列表',
   [NavKeys.branchDocument]: '支路档案',
   [NavKeys.lineComparison]: '线路对比',
-  [NavKeys.powerLineLoss]: '用电线损'
+  [NavKeys.powerLineLoss]: '线路损耗'
 }
 
 export interface INavMenus {

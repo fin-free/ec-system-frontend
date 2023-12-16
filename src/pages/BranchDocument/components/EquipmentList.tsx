@@ -24,7 +24,6 @@ const EquipmentList = () => {
   const dataList: { key: React.Key; title: string }[] = []
 
   useEffect(() => {
-    debugger
     setExpandedKeys(defaultExpandAchieveKeys)
   }, [defaultExpandAchieveKeys])
   const generateList = (data: TreeNode[]) => {

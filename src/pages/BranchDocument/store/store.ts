@@ -9,7 +9,7 @@ export default class Store {
   public selectedArchiveId = ''
   public selectedEquipmentId = ''
   public filter = {
-    energyType: '0001'
+    datatype: '0002'
   }
   public equipmentInput = ''
   public curArchivesItem: any

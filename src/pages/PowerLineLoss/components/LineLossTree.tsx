@@ -1,22 +1,24 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import G6, { TreeGraph } from '@antv/g6'
-import { useStore, observer } from '@/hooks/storeHook'
+import { observer } from '@/hooks/storeHook'
+import storeContext from '../context'
 // import storeContext from '../context'
 const ArchiveTree: React.FC = () => {
   const {
-    commonStore: { achieveList }
-  } = useStore()
+    store: { treeLossCompareData }
+  } = useContext(storeContext)
   // const { actions } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
-  const mapTreeData = (root: any) => {
-    if (!root) return {}
-    const newRoot = {} as any
-    newRoot.id = String(root.key)
-    newRoot.label = root.title
-    newRoot.children = root.children.map((child: any) => {
-      return mapTreeData(child)
-    })
-    return newRoot
+  const mapLossToTreeData = (lossData: Array<any>) => {
+    return lossData?.length > 0
+      ? lossData.map((root) => {
+          const newRoot = {} as any
+          newRoot.id = String(root.archivesId)
+          newRoot.label = `${root.archivesName} \n用电量: ${root.energyValue}\n线损：${root.loseValue} 线损率：${root.loseRateValue}%`
+          newRoot.children = mapLossToTreeData(root.childrenList)
+          return newRoot
+        })
+      : []
   }
   useEffect(() => {
     const graph = new G6.TreeGraph({
@@ -55,17 +57,24 @@ const ArchiveTree: React.FC = () => {
         // 配置节点中的文字。
         labelCfg: {
           // 节点文字位置
-          // position: 'top',
+          position: 'center',
           // 偏移量
-          // offset: 5,
+          // offset: -15,
           // 标签的样式属性。
           style: {
             // 文本颜色
             fill: '#535D79',
             // 文本字体大小
-            fontSize: 8
+            fontSize: 6
           }
         }
+      },
+      modes: {
+        default: [
+          {
+            type: 'scroll-canvas'
+          }
+        ]
       },
       defaultEdge: {
         type: 'polyline'
@@ -85,14 +94,15 @@ const ArchiveTree: React.FC = () => {
       graphRef.current?.destroy()
     }
   }, [])
+
   useEffect(() => {
     const graph = graphRef.current
     graph?.clear()
-    if (achieveList.length > 0) {
-      graph?.data(mapTreeData(achieveList[0]))
+    if (treeLossCompareData.length > 0) {
+      graph?.data(mapLossToTreeData(treeLossCompareData)[0])
       graph?.render()
     }
-  }, [achieveList])
+  }, [treeLossCompareData])
   return <div id='mountRoot'></div>
 }
 

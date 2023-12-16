@@ -83,7 +83,7 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
       <div className={Style.listBlock}>
         <div className={Style.listWrapper}>
           <Select
-            value={filter.energyType}
+            value={filter.datatype}
             placeholder='设备类型'
             style={{ width: 200, marginBottom: 10 }}
             onChange={handleEngrgyTypeChange}

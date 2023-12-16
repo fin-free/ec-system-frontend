@@ -45,7 +45,6 @@ const DataTable: React.FC = () => {
         }
       })
     })
-    debugger
     return Array.from(source.values())
   }
   useEffect(() => {

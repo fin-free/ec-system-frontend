@@ -54,7 +54,7 @@ export default class Actions {
   }
   updateEnergyType(type: string) {
     runInAction(() => {
-      this._store.filter.energyType = type
+      this._store.filter.datatype = type
     })
     this.getEnergyList()
   }

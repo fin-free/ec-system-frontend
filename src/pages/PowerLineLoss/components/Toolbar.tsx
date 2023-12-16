@@ -40,6 +40,7 @@ const Toolbar: React.FC = () => {
           { label: '电', value: '0002' },
           { label: '水', value: '0001' }
         ]}
+        defaultValue={'0002'}
       />
       <Radio.Group
         className={Styles.radioGroup}

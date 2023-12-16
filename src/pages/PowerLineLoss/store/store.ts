@@ -22,7 +22,7 @@ export default class Store {
     projectId: '1',
     datetype: '0011',
     datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    datatype: '0001'
+    datatype: '0002'
   }
   public lossCompareData: lossCompareItem[] = []
 
@@ -45,7 +45,6 @@ export default class Store {
       return null
     }
     if (this.selectedArchivesId) {
-      debugger
       return (
         getData(this.lossCompareData, this.selectedArchivesId) ||
         this.lossCompareData

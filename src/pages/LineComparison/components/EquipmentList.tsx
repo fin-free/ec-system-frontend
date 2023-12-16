@@ -129,6 +129,7 @@ const EquipmentList = () => {
       <Tree
         checkable
         checkStrictly
+        selectable={false}
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}
         expandedKeys={expandedKeys}

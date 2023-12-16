@@ -26,7 +26,6 @@ export default class Store {
     proportion: number
   }[] = []
   get filterAlarmData() {
-    debugger
     if (this.eventStatus < 0) {
       return this.alarmData
     }

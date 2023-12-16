@@ -91,14 +91,18 @@ const getArchiveTree = async (params: any) => {
   }
 }
 
-const getEnergyList = async (params: any) => {
-  const { energyType, projectId, archivesId } = params
+const getEnergyList = async (params: {
+  projectId: string
+  datatype: string
+  archivesId: number
+}) => {
+  const { datatype, projectId, archivesId } = params
   try {
     const res = await request({
       url: `sys-archives/matching/equipment/list`,
       method: 'POST',
       data: {
-        energyType,
+        datatype,
         projectId,
         archivesId
       }

@@ -67,12 +67,10 @@ export default class Actions {
       pageSize: '',
       endTime: ''
     })
-    debugger
     if (res) {
       res.list = res.list.map((listItem) =>
         Object.assign(listItem, { key: listItem.alarmId })
       )
-      debugger
       runInAction(() => {
         this._store.alarmData = get(res, 'list', [])
       })
