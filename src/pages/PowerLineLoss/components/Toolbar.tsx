@@ -10,9 +10,6 @@ import Styles from './Toolbar.module.scss'
 
 const Toolbar: React.FC = () => {
   const {
-    commonStore: { dataTypeOptions }
-  } = useStore()
-  const {
     actions,
     store: { filters }
   } = useContext(storeContext)
@@ -30,7 +27,6 @@ const Toolbar: React.FC = () => {
   }
 
   const handleEngrgyTypeChange = (value: string) => {
-    debugger
     filters.datatype = value
   }
 
@@ -40,7 +36,10 @@ const Toolbar: React.FC = () => {
         value={filters.datatype}
         placeholder='设备类型'
         onChange={handleEngrgyTypeChange}
-        options={dataTypeOptions}
+        options={[
+          { label: '电', value: '0002' },
+          { label: '水', value: '0001' }
+        ]}
       />
       <Radio.Group
         className={Styles.radioGroup}

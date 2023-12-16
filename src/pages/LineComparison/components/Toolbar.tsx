@@ -23,8 +23,14 @@ const Toolbar: React.FC = () => {
 
   const onDateChange = (date: RangeValue) => {
     setValue(date)
-    filters.startTime = date![0]!.format('YYYY-MM-DD HH:mm:ss')
-    filters.endTime = date![1]!.format('YYYY-MM-DD HH:mm:ss')
+    const startTime = date![0]!.format('YYYY-MM-DD HH:mm:ss')
+    const endTime = date![1]!.format('YYYY-MM-DD HH:mm:ss')
+    filters.startTime = startTime
+    filters.endTime = endTime
+    actions.getLineComparisonData({
+      startTime,
+      endTime
+    })
   }
 
   const onDateTypeChange = (e: RadioChangeEvent) => {
@@ -42,6 +48,16 @@ const Toolbar: React.FC = () => {
     }
 
     filters.datetype = dateType
+    actions.getLineComparisonData({
+      datetype: dateType
+    })
+  }
+
+  const onDataTypeChange = (type: string) => {
+    filters.datatype = type
+    actions.getLineComparisonData({
+      datatype: type
+    })
   }
 
   const onModeChange = (e: RadioChangeEvent) => {
@@ -64,9 +80,7 @@ const Toolbar: React.FC = () => {
           { label: '电', value: '0002' },
           { label: '水', value: '0001' }
         ]}
-        onChange={(val) => {
-          filters.datatype = val
-        }}
+        onChange={onDataTypeChange}
         defaultValue='0002'
       />
       <RangePicker

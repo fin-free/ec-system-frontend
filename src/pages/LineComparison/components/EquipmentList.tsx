@@ -17,9 +17,8 @@ const EquipmentList = () => {
       defaultSelectedAchieveKeys
     }
   } = useStore()
-  const { actions } = useContext(storeContext)
+  const { store, actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
-  const [checkedKeys, setCheckedKeys] = useState<string[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
 
@@ -116,7 +115,8 @@ const EquipmentList = () => {
     checked: React.Key[]
     halfChecked: React.Key[]
   }) => {
-    actions.getLineComparisonData(list.checked as string[])
+    actions.updateCheckedArchivesIds(list.checked as string[])
+    actions.getLineComparisonData({ archivesIds: list.checked })
   }
 
   return (

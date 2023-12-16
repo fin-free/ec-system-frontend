@@ -2,7 +2,7 @@ import request from './request'
 
 type LossComparePayload = {
   datetype: string //0012日  0013月
-  energyid: string //0001 水 0002 电
+  datatype: string //0001 水 0002 电
   datetime: string //选择的时间 yyyy-MM-dd HH:mm:ss
   projectId: string //项目Id
 }

@@ -18,12 +18,6 @@ const Content: React.FC = () => {
     commonStore: { defaultSelectedAchieveKeys }
   } = useStore()
 
-  useEffect(() => {
-    if (defaultSelectedAchieveKeys && defaultSelectedAchieveKeys.length > 0) {
-      actions.getLineComparisonData(defaultSelectedAchieveKeys)
-    }
-  }, [defaultSelectedAchieveKeys])
-
   return (
     <div className={Styles.root}>
       <EquipmentList />

@@ -106,10 +106,8 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = (selectedKeys: React.Key[]) => {
-    // actions.onSearch({
-    //   archivesId: selectedKeys[0].toString()
-    // })
+  const onSelect = (selectedKeys: string[]) => {
+    actions.updateSelectedArchivesId(selectedKeys[0])
   }
 
   return (

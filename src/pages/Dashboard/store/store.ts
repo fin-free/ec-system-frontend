@@ -1,11 +1,13 @@
-import { makeAutoObservable } from 'mobx'
+import { computed, makeAutoObservable } from 'mobx'
 
 import { StatisticsCard } from '../types'
 import dayjs from 'dayjs'
-
+import { Item } from '../types'
 export default class Store {
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {
+      filterAlarmData: computed
+    })
   }
 
   public energyConsumptionPayload = {
@@ -16,5 +18,18 @@ export default class Store {
     endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')
   }
   public statisticsList: Array<StatisticsCard> = []
-  public energyConsumptionData: { clearingPeriod: string; energyValue: number; proportion: number }[] = []
+  public alarmData: Array<Item> = []
+  public eventStatus: number = 0
+  public energyConsumptionData: {
+    clearingPeriod: string
+    energyValue: number
+    proportion: number
+  }[] = []
+  get filterAlarmData() {
+    debugger
+    if (this.eventStatus < 0) {
+      return this.alarmData
+    }
+    return this.alarmData.filter((data) => data.status === this.eventStatus)
+  }
 }

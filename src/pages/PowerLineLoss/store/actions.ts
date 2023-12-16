@@ -20,10 +20,18 @@ export default class Actions {
     })
   }
 
-  async onSearch(searchParams: { datetime?: string; datetype?: string; archivesId: string }) {
+  async onSearch(searchParams: {
+    datetime?: string
+    datetype?: string
+    archivesId: string
+  }) {
     runInAction(() => {
       this._store.filters = { ...this._store.filters, ...searchParams }
     })
     this.getLossCompareData()
+  }
+
+  updateSelectedArchivesId(id: string) {
+    this._store.selectedArchivesId = id
   }
 }

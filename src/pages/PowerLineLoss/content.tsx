@@ -8,7 +8,7 @@ import G6, { TreeGraph } from '@antv/g6'
 
 const Content: React.FC = () => {
   const {
-    store: { lossCompareData },
+    store: { treeLossCompareData },
     actions
   } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
@@ -33,12 +33,19 @@ const Content: React.FC = () => {
         type: 'compactBox',
         direction: 'TB'
       },
+      modes: {
+        default: [
+          {
+            type: 'scroll-canvas'
+          }
+        ]
+      },
       fitView: true,
       defaultNode: {
         // 节点类型，cicle:圆形，rect:矩形，ellipse:椭圆，diamond:菱形，triangle：三角形，star：五角星，image：图片，modelRect：卡片
         type: 'rect',
         // size 设置矩形的长和宽
-        size: [80, 54],
+        size: [60, 54],
         // 指定边连入节点的连接点的位置，可以为空，具体可以看一下官网是通过0、0.5、1来控制哪个点的。
         anchorPoints: [
           [0.5, 1],
@@ -75,9 +82,21 @@ const Content: React.FC = () => {
         }
       },
       defaultEdge: {
-        type: 'line'
+        type: 'polyline',
+        style: {
+          stroke: 'rgb(79, 79, 79)',
+          cursor: 'default'
+        }
+        // labelCfg: {
+        //   position: 'middle',
+        //   style: {
+        //     textAlign: 'center',
+        //     textBaseline: 'middle',
+        //     fontStyle: 'normal'
+        //   }
+        // }
       },
-      width: 1500, // Number，必须，图的宽度
+      width: 1000, // Number，必须，图的宽度
       height: 800 // Number，必须，图的高度
     })
     graphRef.current = graph
@@ -88,19 +107,18 @@ const Content: React.FC = () => {
   useEffect(() => {
     const graph = graphRef.current
     graph?.clear()
-    debugger
-    if (lossCompareData.length > 0) {
-      graph?.data(mapLossToTreeData(lossCompareData)[0])
+    if (treeLossCompareData.length > 0) {
+      graph?.data(mapLossToTreeData(treeLossCompareData)[0])
       graph?.render()
     }
-  }, [lossCompareData])
+  }, [treeLossCompareData])
 
   return (
     <div className={Styles.root}>
       <EquipmentList />
       <div className='content'>
         <Toolbar />
-        <div id='mountNode'></div>
+        <div style={{ width: 1000, height: 800 }} id='mountNode'></div>
       </div>
     </div>
   )
