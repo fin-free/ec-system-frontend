@@ -77,7 +77,7 @@ export default class CommonActions {
       const node: TreeNode = {
         key: `${archivesId}`,
         title: archivesName,
-        selectable: !childrenList || childrenList.length === 0
+        selectable: true
       }
       treeData.push(node)
 
@@ -94,7 +94,7 @@ export default class CommonActions {
       const node: TreeNode = {
         key: `${buildingId}`,
         title: buildingName,
-        selectable: !childrenList || childrenList.length === 0
+        selectable: true
       }
       treeData.push(node)
 

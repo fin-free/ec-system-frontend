@@ -7,6 +7,7 @@ export default class Store {
     makeAutoObservable(this)
   }
 
+  public loading = false
   public mode = 'table'
   public selectedBuildingId: string = ''
   public filters = {

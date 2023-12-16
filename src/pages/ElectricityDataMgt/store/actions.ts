@@ -12,6 +12,7 @@ export default class Actions {
   }
 
   async getElectricityTableData(buildingId?: string) {
+    this.setLoadingState(true)
     const payload = {
       ...this._store.filters,
       buildingId: buildingId || this._store.selectedBuildingId,
@@ -33,6 +34,7 @@ export default class Actions {
           })
         })
       }
+      this.setLoadingState(false)
     })
   }
 
@@ -66,6 +68,12 @@ export default class Actions {
   setSelectedBuildingId(id: string) {
     runInAction(() => {
       this._store.selectedBuildingId = id
+    })
+  }
+
+  setLoadingState(loading: boolean) {
+    runInAction(() => {
+      this._store.loading = loading
     })
   }
 }

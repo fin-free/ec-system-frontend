@@ -33,7 +33,7 @@ const Content: React.FC = () => {
         {mode === 'table' ? (
           <DataTable />
         ) : (
-          <div>
+          <div className='charts-container'>
             <ColumnChart />
             <LineChart />
           </div>

@@ -15,14 +15,25 @@ const customTheme = {
   algorithm: theme.darkAlgorithm,
   token: {
     motion: false,
-    colorBgContainer: '#001529',
+    colorBgContainer: 'transparent',
     colorTextBase: '#ffffff',
-    colorBgElevated: '#001529',
+    colorBgElevated: '#0a0a24',
     colorBorder: '#8f8f8f33',
-    colorPrimaryBorderHover: '#001529'
+    colorPrimaryBorderHover: '#001529',
+    colorText: '#d0d0d0',
+    colorBgTextHover: '#1b1b3d',
+    bgElevated: 'transparent'
   },
   components: {
+    Menu: {
+      colorItemBgActive: '#26266d',
+      colorItemTextActive: '#ffffff',
+      colorItemBgSelected: '#26266d',
+      colorItemTextSelected: '#ffffff'
+    },
     Tree: {
+      borderRadius: 0,
+      colorBgContainer: 'transparent',
       nodeSelectedBg: '#4f96bc'
     }
   }

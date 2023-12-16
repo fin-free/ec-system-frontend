@@ -19,11 +19,10 @@ const ConsumptionChart: React.FC = () => {
   const options = {
     chart: {
       type: 'column',
-      backgroundColor: '#001529'
+      backgroundColor: 'transparent'
     },
     title: {
-      text: '用能统计',
-      style: { color: '#ffffff' }
+      text: ''
     },
     plotOptions: {
       series: {

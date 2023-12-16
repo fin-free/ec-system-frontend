@@ -1,4 +1,17 @@
 .root {
   display: flex;
   height: calc(100vh - 98px);
+
+  :global {
+    .charts-container {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      row-gap: 16px;
+
+      >div {
+        flex: 1
+      }
+    }
+  }
 }

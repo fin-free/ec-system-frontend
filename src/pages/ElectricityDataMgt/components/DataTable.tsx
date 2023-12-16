@@ -12,7 +12,7 @@ import Styles from './DataTable.module.scss'
 const DataTable: React.FC = () => {
   const {
     actions,
-    store: { electricityTableData, pagination, filters }
+    store: { loading, electricityTableData, pagination, filters }
   } = useContext(storeContext)
 
   const renderCollectStatus = (val: number) => {
@@ -113,6 +113,7 @@ const DataTable: React.FC = () => {
 
   return (
     <Table
+      loading={loading}
       className={Styles.root}
       columns={columns[filters.functiontype]}
       dataSource={electricityTableData}

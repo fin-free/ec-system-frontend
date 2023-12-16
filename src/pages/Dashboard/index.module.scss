@@ -1,5 +1,8 @@
 .root {
   padding: 24px;
-  height: 100%;
+  height: calc(100vh - 57px);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
 }

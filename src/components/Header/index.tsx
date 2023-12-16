@@ -20,7 +20,7 @@ const Header: React.FC<IProps> = ({ collapsed, userInfo, onToggleClick, onLogout
         <MenuFoldOutlined onClick={() => onToggleClick(true)} />
       )}
       <div className='logout'>
-        <span>{userInfo?.userId}</span>
+        <span>{userInfo?.realName}</span>
         <PoweroffOutlined className='logout-icon' onClick={onLogout} />
       </div>
     </div>

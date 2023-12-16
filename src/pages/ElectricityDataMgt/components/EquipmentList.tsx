@@ -104,6 +104,7 @@ const EquipmentList = () => {
   const treeData = loop(buildingList)
 
   const onSelect = (keys: React.Key[]) => {
+    debugger
     setSelectedKeys(keys)
     const selectedBuildId = keys[0].toString()
     actions.setSelectedBuildingId(selectedBuildId)

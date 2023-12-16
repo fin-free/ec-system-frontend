@@ -6,9 +6,13 @@ export interface ILoginParams {
 }
 
 export type UserInfo = {
-  projectId?: string
-  projectName?: string
-  userId?: string
+  id?: number
+  username?: string
+  realName?: string
+  gender?: number
+  email?: string
+  mobile?: string
+  status?: number
 }
 
 export type ActiveTab = {

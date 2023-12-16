@@ -16,7 +16,7 @@ const ConsumptionChart: React.FC = () => {
   const options = {
     chart: {
       type: 'line',
-      backgroundColor: '#001529'
+      backgroundColor: 'transparent'
     },
     title: {
       text: ''

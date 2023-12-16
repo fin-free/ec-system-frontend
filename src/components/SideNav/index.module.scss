@@ -24,6 +24,11 @@
 
     .ant-menu {
       height: 100%;
+      border: none !important;
+
+      .ant-menu-inline {
+        background: transparent !important;
+      }
     }
   }
 }

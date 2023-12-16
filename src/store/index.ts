@@ -29,7 +29,8 @@ const createRootStore = async () => {
 
   try {
     if (localStorage.getItem(AUTH_TOKEN_KEY)) {
-      await commonActions.init()
+      await authActions.init()
+      commonActions.init()
     }
   } catch (e) {
     console.log('init auth info failed : ' + e)

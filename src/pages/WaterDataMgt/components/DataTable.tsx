@@ -13,7 +13,7 @@ import Styles from './DataTable.module.scss'
 const DataTable: React.FC = () => {
   const {
     actions,
-    store: { waterTableData, pagination }
+    store: { loading, waterTableData, pagination }
   } = useContext(storeContext)
 
   const renderCollectStatus = (val: number) => {
@@ -43,6 +43,7 @@ const DataTable: React.FC = () => {
 
   return (
     <Table
+      loading={loading}
       className={Styles.root}
       columns={columns}
       dataSource={waterTableData}

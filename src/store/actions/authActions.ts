@@ -1,4 +1,3 @@
-import Axios from 'axios'
 import dayjs from 'dayjs'
 import { get } from 'lodash'
 import { Md5 } from 'ts-md5'
@@ -8,6 +7,7 @@ import { AUTH_TOKEN_EXPIRE, AUTH_TOKEN_KEY, AUTH_TOKEN_SAVE_TIME } from '@/commo
 import { ILoginParams } from '@/types'
 
 import AuthStore from '../modules/authStore'
+import { runInAction } from 'mobx'
 
 export default class AuthActions {
   private _authStore: AuthStore
@@ -15,21 +15,29 @@ export default class AuthActions {
     this._authStore = authStore
   }
 
+  async init() {
+    if (!!localStorage.getItem(AUTH_TOKEN_KEY)) {
+      API.getUserInfo().then((res) => {
+        runInAction(() => {
+          this._authStore.setUserInfo(get(res, 'data', {}))
+        })
+      })
+    }
+  }
+
   async toLogin(param: ILoginParams) {
     const { userName, password } = param
     if (!userName && !password) return false
 
-    return Axios.post('api/iot/sys/login', {
-      username: userName,
-      password: Md5.hashStr(password).toString()
-    })
+    return API.login({ userName, password: Md5.hashStr(password).toString() })
       .then((response) => {
-        if (response && response.status === 200) {
-          const { token, projectId, projectName, userId, expire } = get(response, ['data', 'data'])
+        if (response && response.code === 200) {
+          const { token, expire } = get(response, 'data', {})
           localStorage.setItem(AUTH_TOKEN_KEY, `${token}`)
           localStorage.setItem(AUTH_TOKEN_SAVE_TIME, dayjs().valueOf().toString())
           localStorage.setItem(AUTH_TOKEN_EXPIRE, `${expire}`)
-          this._authStore.setUserInfo({ projectId, projectName, userId })
+
+          this.init()
           return true
         }
         return false

@@ -97,7 +97,6 @@ const SideNav: React.FC<IProps> = ({ collapsed }: IProps) => {
         openKeys={openKeys}
         selectedKeys={[activeNav]}
         mode='inline'
-        theme='dark'
         inlineCollapsed={collapsed}
         items={items}
       />

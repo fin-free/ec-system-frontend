@@ -24,7 +24,7 @@ const ConsumptionChart: React.FC = () => {
   const options = {
     chart: {
       type: 'line',
-      backgroundColor: '#001529'
+      backgroundColor: 'transparent'
     },
     title: {
       text: ''
@@ -45,17 +45,15 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     xAxis: {
-      categories: lineComparisonDataChartData?.[0]?.list?.map(
-        (d) => d.clearingPeriod
-      ),
+      categories: lineComparisonDataChartData?.[0]?.list?.map((d) => d.clearingPeriod),
       labels: {
         style: {
           color: 'white'
         },
         formatter: function (value: any) {
-          return `${dayjs(value.value).format(
-            dataRangeLabelFormat[filters.datetype]
-          )}${dataRangeLabelUnit[filters.datetype]}`
+          return `${dayjs(value.value).format(dataRangeLabelFormat[filters.datetype])}${
+            dataRangeLabelUnit[filters.datetype]
+          }`
         }
       }
     },
