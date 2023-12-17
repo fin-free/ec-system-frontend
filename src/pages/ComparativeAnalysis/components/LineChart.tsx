@@ -1,9 +1,11 @@
 import { useContext } from 'react'
+
+import dayjs from 'dayjs'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-import dayjs from 'dayjs'
 import { observer } from '@/hooks/storeHook'
+
 import storeContext from '../context'
 
 const ConsumptionChart: React.FC = () => {
@@ -15,13 +17,17 @@ const ConsumptionChart: React.FC = () => {
 
   const options = {
     chart: {
-      type: 'line',
+      type: 'spline',
       backgroundColor: 'transparent'
     },
     title: {
       text: ''
     },
     plotOptions: {
+      spline: {
+        shadow: false,
+        color: '#3e3e8e'
+      },
       series: {
         dataLabels: {
           enabled: true,
@@ -51,7 +57,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }

@@ -29,6 +29,12 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
+      column: {
+        borderColor: '',
+        shadow: false,
+        borderRadius: 0,
+        color: '#3e3e8e'
+      },
       series: {
         dataLabels: {
           enabled: true,
@@ -56,7 +62,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }

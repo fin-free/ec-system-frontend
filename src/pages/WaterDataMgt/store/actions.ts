@@ -25,7 +25,7 @@ export default class Actions {
           this._store.pagination = {
             total: get(res, ['data', 'total'], 0),
             current: get(res, ['data', 'pageNumber'], 0),
-            pageSize: get(res, ['data', 'pageSize'], 10),
+            pageSize: get(res, ['data', 'pageSize'], 15),
             showTotal: (total: number) => `共 ${total} 条数据`
           }
           this._store.waterTableData = get(res, ['data', 'list'], []).map((d: object, index: number) => {

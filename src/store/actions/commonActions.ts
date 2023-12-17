@@ -44,7 +44,8 @@ export default class CommonActions {
         this._store.rawAchieveList = get(res, 'data', [])
         this._store.achieveList = treeData
         this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
-        this._store.defaultSelectedAchieveKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
+        // this._store.defaultSelectedAchieveKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
+        this._store.defaultSelectedAchieveKeys = [get(treeData, [0, 'key'], '')]
       }
     })
   }

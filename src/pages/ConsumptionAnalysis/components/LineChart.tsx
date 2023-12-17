@@ -17,7 +17,7 @@ const ConsumptionChart: React.FC = () => {
 
   const options = {
     chart: {
-      type: 'line',
+      type: 'areaspline',
       backgroundColor: 'transparent'
     },
     title: {
@@ -29,6 +29,11 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
+      areaspline: {
+        borderColor: '',
+        shadow: false,
+        color: '#3e3e8e'
+      },
       series: {
         dataLabels: {
           enabled: true,
@@ -56,7 +61,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }
@@ -64,6 +69,9 @@ const ConsumptionChart: React.FC = () => {
       labels: {
         style: {
           color: 'white'
+        },
+        formatter: function () {
+          return ''
         }
       }
     },

@@ -21,7 +21,7 @@ const ConsumptionChart: React.FC = () => {
 
   const energyOptions = {
     chart: {
-      type: 'column',
+      type: 'areaspline',
       backgroundColor: 'transparent'
     },
     title: {
@@ -33,10 +33,9 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
-      column: {
+      areaspline: {
         borderColor: '',
         shadow: false,
-        borderRadius: 0,
         color: '#3e3e8e'
       },
       series: {
@@ -66,7 +65,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }
@@ -83,7 +82,7 @@ const ConsumptionChart: React.FC = () => {
 
   const wateroptions = {
     chart: {
-      type: 'column',
+      type: 'areaspline',
       backgroundColor: 'transparent'
     },
     title: {
@@ -95,10 +94,9 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
-      column: {
+      areaspline: {
         borderColor: '',
         shadow: false,
-        borderRadius: 0,
         color: '#3e3e8e'
       },
       series: {
@@ -128,7 +126,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }
