@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+import { Button, Checkbox, List, Select } from 'antd'
+
 import SearchInput from '@/components/SearchInput'
-import EnergyForm from './EnergyForm'
 import { observer, useStore } from '@/hooks/storeHook'
-import { Select, List, Button, Checkbox } from 'antd'
+
 import storeContext from '../context'
-import Style from './EnergyList.module.scss'
 import { EnergyItem } from '../types'
+
+import EnergyForm from './EnergyForm'
+import Style from './EnergyList.module.scss'
+
 interface IProps {
   archivesId?: string
 }
@@ -19,7 +23,7 @@ const energyLabelMap: Record<any, any> = {
 
 const meterIdList = new Set<number>()
 
-const EnergyList: React.FC<IProps> = (props: IProps) => {
+const EnergyList: React.FC<IProps> = () => {
   const [curEnergyItem, setCurEnergyItem] = useState<EnergyItem>()
   const {
     commonStore: { dataTypeOptions }
@@ -96,15 +100,10 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
             style={{ marginTop: 10 }}
             renderItem={(item: EnergyItem) => {
               return (
-                <List.Item
-                  key={item.equipmentId}
-                  onClick={() => onClickListItem(item)}
-                >
+                <List.Item key={item.equipmentId} onClick={() => onClickListItem(item)}>
                   <Checkbox
-                    disabled={!Boolean(item.enabledStatus)}
-                    defaultChecked={
-                      Boolean(item.enabledStatus) && Boolean(item.bindStatus)
-                    }
+                    disabled={!item.enabledStatus}
+                    defaultChecked={Boolean(item.enabledStatus) && Boolean(item.bindStatus)}
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />
@@ -126,12 +125,7 @@ const EnergyList: React.FC<IProps> = (props: IProps) => {
         <Button size='large' onClick={onClickBack}>
           返回
         </Button>
-        <Button
-          className={Style.button}
-          size='large'
-          type='primary'
-          onClick={onClickSave}
-        >
+        <Button className={Style.button} size='large' type='primary' onClick={onClickSave}>
           保存
         </Button>
       </div>

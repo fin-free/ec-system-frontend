@@ -1,13 +1,15 @@
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
-import * as API from '@/api/dashboard'
 import * as AlarmAPI from '@/api/alarmMgt'
 import * as ConsumptionApi from '@/api/consumptionAnalysis'
+import * as API from '@/api/dashboard'
 import { STATISTICS_SUMMARY_LABEL } from '@/common/constants/labels'
 
-import Store from './store'
 import { Item } from '../types'
+
+import Store from './store'
+
 export default class Actions {
   private _store: Store
   constructor(store: Store) {

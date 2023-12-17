@@ -1,10 +1,14 @@
-import { Radio, Table, Typography, RadioChangeEvent } from 'antd'
-import { ChangeEvent, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+
+import { Radio, RadioChangeEvent, Table, Typography } from 'antd'
+
+import { observer } from '@/hooks/storeHook'
+
+import storeContext from '../context'
+import { Item } from '../types'
 
 import Styles from './AlarmTable.module.scss'
-import storeContext from '../context'
-import { observer } from '@/hooks/storeHook'
-import { Item } from '../types'
+
 const AlarmTable: React.FC = () => {
   const { store, actions } = useContext(storeContext)
 
@@ -18,15 +22,7 @@ const AlarmTable: React.FC = () => {
     CANCELLED: 2
   }
 
-  const alarmType = [
-    '全部',
-    '过压告警',
-    '过流告警',
-    '超功率告警',
-    '温度告警',
-    '湿度告警',
-    '集中器掉线'
-  ]
+  const alarmType = ['全部', '过压告警', '过流告警', '超功率告警', '温度告警', '湿度告警', '集中器掉线']
 
   const eventStatusMap = {
     [EventStatus.WAIT_FOR_CONFIRM]: '待确认',
@@ -50,16 +46,10 @@ const AlarmTable: React.FC = () => {
         return (_: any, record: Item) => {
           return record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickConfirm(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
                 确认
               </Typography.Link>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickCancel(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickCancel(record)}>
                 取消
               </Typography.Link>
             </div>
@@ -106,12 +96,7 @@ const AlarmTable: React.FC = () => {
           <Radio.Button value={-1}>全部</Radio.Button>
         </Radio.Group>
       </div>
-      <Table
-        bordered
-        dataSource={store.filterAlarmData}
-        columns={columns}
-        className={Styles.mainTable}
-      />
+      <Table size='small' bordered dataSource={store.filterAlarmData} columns={columns} className={Styles.mainTable} />
     </div>
   )
 }

@@ -1,21 +1,23 @@
 import { useContext } from 'react'
+
 import { Radio } from 'antd'
+import { RadioChangeEvent } from 'antd/lib'
+import dayjs from 'dayjs'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-import dayjs from 'dayjs'
 import { observer } from '@/hooks/storeHook'
+
 import storeContext from '../context'
+
 import Styles from './ConsumptionChart.module.scss'
-import { RadioChangeEvent } from 'antd/lib'
 
 const ConsumptionChart: React.FC = () => {
   const { store, actions } = useContext(storeContext)
   const { energyConsumptionData, energyConsumptionPayload } = store
 
-  const chartTitleFormat: { [key: string]: string } = { '0011': 'YYYY-MM-DD', '0012': 'YYYY-MM', '0013': 'YYYY' }
   const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
-  const dataRangeLabelUnit: { [key: string]: string } = { '0011': '小时', '0012': '', '0013': '月' }
+  const dataRangeLabelUnit: { [key: string]: string } = { '0011': 'h', '0012': '', '0013': '月' }
 
   const energyOptions = {
     chart: {
@@ -23,7 +25,7 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: `能耗（${dayjs().format(chartTitleFormat[energyConsumptionPayload.datetype])}）`,
+      text: '最近24小时用电走势（kWh）',
       align: 'left',
       style: {
         fontSize: 14,
@@ -31,6 +33,12 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
+      column: {
+        borderColor: '',
+        shadow: false,
+        borderRadius: 0,
+        color: '#3e3e8e'
+      },
       series: {
         dataLabels: {
           enabled: true,
@@ -79,7 +87,7 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: `用水（${dayjs().format(chartTitleFormat[energyConsumptionPayload.datetype])}）`,
+      text: '最近24小时用水走势（t）',
       align: 'left',
       style: {
         fontSize: 14,
@@ -87,6 +95,12 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
+      column: {
+        borderColor: '',
+        shadow: false,
+        borderRadius: 0,
+        color: '#3e3e8e'
+      },
       series: {
         dataLabels: {
           enabled: true,
@@ -134,8 +148,8 @@ const ConsumptionChart: React.FC = () => {
       case '0011':
         actions.onSearch({
           datetype: '0011',
-          startTime: dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'),
-          endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')
+          startTime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+          endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         })
         break
       case '0012':

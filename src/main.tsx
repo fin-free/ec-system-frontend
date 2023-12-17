@@ -18,10 +18,11 @@ const customTheme = {
     colorBgContainer: 'transparent',
     colorTextBase: '#d8d8d8',
     colorBgElevated: '#0a0a24',
-    colorBorder: '#8f8f8f33',
+    colorBorder: '#26266d',
     colorText: '#d8d8d8',
     colorBgTextHover: '#1b1b3d',
-    bgElevated: 'transparent'
+    bgElevated: 'transparent',
+    controlOutline: '#26266d'
   },
   components: {
     Menu: {

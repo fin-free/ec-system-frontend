@@ -1,8 +1,8 @@
+import dayjs from 'dayjs'
 import { computed, makeAutoObservable } from 'mobx'
 
-import { StatisticsCard } from '../types'
-import dayjs from 'dayjs'
-import { Item } from '../types'
+import { Item, StatisticsCard } from '../types'
+
 export default class Store {
   constructor() {
     makeAutoObservable(this, {
@@ -14,15 +14,15 @@ export default class Store {
     datetype: '0011',
     datatype: '0002',
     projectId: '1',
-    startTime: dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')
+    startTime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }
   public waterConsumptionPayload = {
     datetype: '0011',
     datatype: '0001',
     projectId: '1',
-    startTime: dayjs().startOf('day').format('YYYY-MM-DD 00:00:00'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD 24:00:00')
+    startTime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }
   public statisticsList: Array<StatisticsCard> = []
   public alarmData: Array<Item> = []

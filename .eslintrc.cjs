@@ -35,6 +35,7 @@ module.exports = {
     'react/prop-types': 0,
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'no-tabs': 0,
     'no-mixed-spaces-and-tabs': 0,
     indent: ['off', 'tab'],

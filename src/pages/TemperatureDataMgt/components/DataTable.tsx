@@ -43,6 +43,7 @@ const DataTable: React.FC = () => {
 
   return (
     <Table
+      size='small'
       loading={loading}
       className={Styles.root}
       columns={columns}

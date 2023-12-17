@@ -1,5 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
 import { Dropdown } from 'antd'
+
 import { UserInfo } from '@/types'
 
 import Styles from './index.module.scss'

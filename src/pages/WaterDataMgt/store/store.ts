@@ -18,7 +18,7 @@ export default class Store {
   public pagination = {
     total: 0,
     current: 1,
-    pageSize: 10,
+    pageSize: 15,
     showTotal: (total: number) => `共 ${total} 条数据`
   }
 

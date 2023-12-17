@@ -17,7 +17,7 @@ const EquipmentList = () => {
   const { store, actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
-  const [autoExpandParent, setAutoExpandParent] = useState(true)
+  // const [autoExpandParent, setAutoExpandParent] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [clickedNode, setClickedNode] = useState()
 
@@ -62,22 +62,15 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
-    setAutoExpandParent(true)
+    // setAutoExpandParent(true)
   }
 
   const loop = (data: TreeNode[]): TreeNode[] =>
@@ -191,20 +184,14 @@ const EquipmentList = () => {
   const treeTitleRender = (nodeData: any) => {
     return (
       <Popover content={getContent()} trigger='click'>
-        <div onClick={() => onClickTitle(nodeData)}>
-          {nodeData.title.props.children[2]}
-        </div>
+        <div onClick={() => onClickTitle(nodeData)}>{nodeData.title.props.children[2]}</div>
       </Popover>
     )
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
         treeData={treeData}
         onSelect={onSelect}
@@ -212,12 +199,7 @@ const EquipmentList = () => {
         onExpand={onExpand}
         expandedKeys={expandedKeys}
       />
-      <Modal
-        title='确认删除档案'
-        open={showDeleteModal}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-      >
+      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
         是否删除档案？
       </Modal>
     </aside>
