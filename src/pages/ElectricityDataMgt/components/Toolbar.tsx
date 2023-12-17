@@ -2,6 +2,7 @@ import { useContext } from 'react'
 
 import { DatePicker, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 
 import { observer, useStore } from '@/hooks/storeHook'
 
@@ -43,7 +44,11 @@ const Toolbar: React.FC = () => {
 
   return (
     <div className={Styles.root}>
-      <RangePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
+      <RangePicker
+        format={'YYYY-MM-DD'}
+        onChange={onDateChange}
+        defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
+      />
       <Select options={functionTypeOptions} defaultValue={filters?.functiontype} onChange={onFunctionTypeChange} />
       <Select options={dateTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
     </div>

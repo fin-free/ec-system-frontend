@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
 import { TableData } from '@/types/ElectricityDataMgt'
@@ -11,6 +12,8 @@ export default class Store {
   public mode = 'table'
   public selectedBuildingId: string = ''
   public filters = {
+    startTime: dayjs().startOf('month').format('YYYY-MM-DD 00:00:00'),
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     datatype: '0002',
     datetype: '0011',
     functiontype: '0021',

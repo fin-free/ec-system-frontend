@@ -56,7 +56,8 @@ export default class CommonActions {
         this.transformBuildingListToTree(get(res, 'data', []), treeData)
         this._store.buildingList = treeData
         this._store.defaultExpandBuildingKeys = this.getAllKeys(treeData)
-        this._store.defaultSelectedBuildingKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
+        // this._store.defaultSelectedBuildingKeys = [this.findFirstLeafNode(treeData[0])?.key || '']
+        this._store.defaultSelectedBuildingKeys = [get(treeData, [0, 'key'], '')]
       }
     })
   }

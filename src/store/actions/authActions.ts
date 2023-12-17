@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { get } from 'lodash'
+import { runInAction } from 'mobx'
 import { Md5 } from 'ts-md5'
 
 import * as API from '@/api/login'
@@ -7,7 +8,6 @@ import { AUTH_TOKEN_EXPIRE, AUTH_TOKEN_KEY, AUTH_TOKEN_SAVE_TIME } from '@/commo
 import { ILoginParams } from '@/types'
 
 import AuthStore from '../modules/authStore'
-import { runInAction } from 'mobx'
 
 export default class AuthActions {
   private _authStore: AuthStore
@@ -16,7 +16,7 @@ export default class AuthActions {
   }
 
   async init() {
-    if (!!localStorage.getItem(AUTH_TOKEN_KEY)) {
+    if (localStorage.getItem(AUTH_TOKEN_KEY)) {
       API.getUserInfo().then((res) => {
         runInAction(() => {
           this._authStore.setUserInfo(get(res, 'data', {}))
