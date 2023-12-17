@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 
 import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -13,7 +14,10 @@ const { RangePicker } = DatePicker
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
-  const { actions } = useContext(storeContext)
+  const {
+    actions,
+    store: { filters }
+  } = useContext(storeContext)
   const [dates, setDates] = useState<RangeValue>(null)
   const [value, setValue] = useState<RangeValue>(null)
   const [maxDateRange, setMaxDateRange] = useState<number>(1)
@@ -75,6 +79,7 @@ const Toolbar: React.FC = () => {
       <RangePicker
         value={dates || value}
         format={'YYYY-MM-DD'}
+        defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
         onChange={onDateChange}
         disabledDate={disabledDate}
         onCalendarChange={(val) => setDates(val)}

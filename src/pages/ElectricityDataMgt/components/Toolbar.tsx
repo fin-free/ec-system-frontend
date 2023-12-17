@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import { DatePicker, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
@@ -22,6 +22,8 @@ const Toolbar: React.FC = () => {
     actions,
     store: { filters }
   } = useContext(storeContext)
+  const [selectedDateType, setSelectedDateType] = useState<string>(filters.datetype)
+  const [selectedFunctionType, setSelectedFunctionType] = useState<string>(filters.functiontype)
 
   const onDateChange = (date: RangeValue) => {
     actions.onSearch({
@@ -30,17 +32,27 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onDataTypeChange = (value: string) => {
+  const onDateTypeChange = (value: string) => {
+    setSelectedDateType(value)
     actions.onSearch({
-      datetype: value
+      datetype: value,
+      functiontype: selectedFunctionType
     })
   }
 
   const onFunctionTypeChange = (value: string) => {
+    setSelectedFunctionType(value)
+    if (value !== '0021' && selectedDateType === '0011') {
+      setSelectedDateType('0012')
+    }
     actions.onSearch({
+      datetype: selectedDateType,
       functiontype: value
     })
   }
+
+  const dateTypeOpts =
+    filters.functiontype === '0021' ? dateTypeOptions : dateTypeOptions.filter((opt) => opt.value !== '0011')
 
   return (
     <div className={Styles.root}>
@@ -49,8 +61,8 @@ const Toolbar: React.FC = () => {
         onChange={onDateChange}
         defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
       />
-      <Select options={functionTypeOptions} defaultValue={filters?.functiontype} onChange={onFunctionTypeChange} />
-      <Select options={dateTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
+      <Select options={functionTypeOptions} value={selectedFunctionType} onChange={onFunctionTypeChange} />
+      <Select options={dateTypeOpts} value={selectedDateType} onChange={onDateTypeChange} />
     </div>
   )
 }

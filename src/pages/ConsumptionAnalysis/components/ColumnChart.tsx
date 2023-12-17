@@ -1,9 +1,11 @@
 import { useContext } from 'react'
+
+import dayjs from 'dayjs'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-import dayjs from 'dayjs'
 import { observer } from '@/hooks/storeHook'
+
 import storeContext from '../context'
 
 const ConsumptionChart: React.FC = () => {
@@ -11,7 +13,7 @@ const ConsumptionChart: React.FC = () => {
   const { energyConsumptionChartData, filters } = store
 
   const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
-  const dataRangeLabelUnit: { [key: string]: string } = { '0011': '小时', '0012': '', '0013': '月' }
+  const dataRangeLabelUnit: { [key: string]: string } = { '0011': 'h', '0012': '', '0013': '月' }
 
   const options = {
     chart: {
@@ -19,7 +21,12 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: ''
+      text: filters.datatype === '0002' ? '总用电能(kWh)' : '总用水量(t)',
+      align: 'left',
+      style: {
+        fontSize: 14,
+        color: '#d8d8d8'
+      }
     },
     plotOptions: {
       series: {
@@ -32,9 +39,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     legend: {
-      itemStyle: {
-        color: '#ffffff'
-      }
+      enabled: false
     },
     xAxis: {
       categories: energyConsumptionChartData.map((d) => d.clearingPeriod),

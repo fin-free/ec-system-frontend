@@ -43,7 +43,11 @@ const Toolbar: React.FC = () => {
         onChange={onDateChange}
         defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
       />
-      <Select options={dateTypeOptions} defaultValue={filters?.datetype} onChange={onDataTypeChange} />
+      <Select
+        options={dateTypeOptions.filter((opt) => opt.value !== '0011')}
+        defaultValue={filters?.datetype}
+        onChange={onDataTypeChange}
+      />
     </div>
   )
 }
