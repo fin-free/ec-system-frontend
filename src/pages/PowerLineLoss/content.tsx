@@ -1,10 +1,12 @@
-import EquipmentList from './components/EquipmentList'
-import Toolbar from './components/Toolbar'
-import { observer } from '@/hooks/storeHook'
-import Styles from './index.module.scss'
-import LineLossTree from './components/lineLossTree'
 import { useContext, useEffect } from 'react'
+
+import { observer } from '@/hooks/storeHook'
+
+import EquipmentList from './components/EquipmentList'
+import LineLossTree from './components/LineLossTree'
+import Toolbar from './components/Toolbar'
 import storeContext from './context'
+import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
   const { actions } = useContext(storeContext)
