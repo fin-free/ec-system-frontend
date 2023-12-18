@@ -19,18 +19,30 @@ export default class Actions {
   async fetchData() {
     const res: {
       list: Array<Item>
+      pageNum: number
+      pageSize: number
+      total: number
+      totalPage: number
     } = await API.getAlarmList({
-      status: this._store.eventStatus ?? '',
-      type: this._store.alarmType ?? '',
+      status: this._store.eventStatus > -1 ? this._store.eventStatus : '',
+      type: this._store.alarmType > 0 ? this._store.alarmType : '',
       startTime: this._store.timeRange?.[0]?.toISOString() ?? '',
-      pageNum: '',
-      pageSize: '',
+      pageNum: this._store.pagination.current.toString(),
+      pageSize: this._store.pagination.pageSize.toString(),
       endTime: this._store.timeRange?.[1]?.toISOString() ?? ''
     })
 
     if (res) {
-      res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))
+      res.list = res.list.map((listItem) =>
+        Object.assign(listItem, { key: listItem.alarmId })
+      )
       runInAction(() => {
+        this._store.pagination = {
+          ...this._store.pagination,
+          total: res.total,
+          pageSize: res.pageSize,
+          showTotal: (total: number) => `共 ${total} 条数据`
+        }
         this._store.alarmData = get(res, 'list', [])
       })
     }
@@ -38,8 +50,8 @@ export default class Actions {
 
   async resetData() {
     runInAction(() => {
-      this._store.alarmType = undefined
-      this._store.eventStatus = undefined
+      this._store.alarmType = 0
+      this._store.eventStatus = -1
       this._store.timeRange = null
     })
     await this.fetchData()
@@ -60,5 +72,35 @@ export default class Actions {
         })
       })
     }
+  }
+  changeAlarmType(type: any) {
+    runInAction(() => {
+      this._store.alarmType = type
+    })
+  }
+
+  changeEventStatus(type: any) {
+    runInAction(() => {
+      this._store.eventStatus = type
+    })
+  }
+
+  changeTimeRange(timeRange: any) {
+    runInAction(() => {
+      this._store.timeRange = timeRange
+    })
+  }
+  async updatePagination(pagination: {
+    current: number
+    pageSize: number
+    total?: number
+    showTotal?: (total: number) => string
+  }) {
+    const { current, pageSize } = pagination
+    runInAction(() => {
+      this._store.pagination.current = current
+      this._store.pagination.pageSize = pageSize
+    })
+    this.fetchData()
   }
 }

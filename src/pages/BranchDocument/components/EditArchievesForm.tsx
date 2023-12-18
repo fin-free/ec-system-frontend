@@ -1,4 +1,4 @@
-import { Form, Button, Input, message } from 'antd'
+import { Form, Button, Input, message, Select } from 'antd'
 import React, { useContext, useEffect } from 'react'
 import { observer } from '@/hooks/storeHook'
 import Styles from '../index.module.scss'
@@ -8,9 +8,16 @@ interface IProps {
   archievesItem: any
 }
 
+const archivesLevelMap = ['项目', '小区', '楼栋', '单元', '楼层', '房间']
+
+const archivesLevelOptions = archivesLevelMap.map((item, index) => ({
+  label: item,
+  value: index + 1
+}))
+
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { archievesItem } = props
-  const { actions } = useContext(storeContext)
+  const { actions, store } = useContext(storeContext)
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
   useEffect(() => {
@@ -28,6 +35,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
 
   const onClickCancel = () => {
     actions.updateCurArchivesItem(null)
+    actions.updateTreeMode('')
   }
 
   return (
@@ -50,11 +58,14 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
           name='archivesLevel'
           rules={[{ required: true, message: '请输入档案级别！' }]}
         >
-          <Input disabled />
+          <Select
+            disabled={store.treeMode === 'edit'}
+            options={archivesLevelOptions}
+          />
         </Form.Item>
         <Form.Item
           label='上级档案'
-          name='parentId'
+          name='parentName'
           rules={[{ required: true, message: '请输入上级档案！' }]}
         >
           <Input disabled />

@@ -38,6 +38,15 @@ export type TreeNode = {
   selectable?: boolean
 }
 
+export type RawTreeNode = {
+  archivesId: number
+  archivesLevel: number
+  archivesName: string
+  childrenList: RawTreeNode[]
+  matchingStatus: number
+  parentId: number
+  parentName: string
+}
 export type BuildList = {
   buildingId: number
   buildingName: string

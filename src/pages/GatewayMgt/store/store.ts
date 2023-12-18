@@ -22,4 +22,10 @@ export default class Store {
   changeProductModel(model: any) {
     this.productModel = model
   }
+  public pagination = {
+    total: 0,
+    current: 1,
+    pageSize: 10,
+    showTotal: (total: number) => `共 ${total} 条数据`
+  }
 }

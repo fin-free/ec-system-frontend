@@ -8,7 +8,7 @@ import { GatewayItem } from './typings'
 import EditForm from './components/editForm'
 
 const columnNameMap: Record<string, string> = {
-  gatewayId: '序号',
+  order: '序号',
   gatewayName: '设备名称',
   gatewayNum: '设备编号',
   productModel: '设备型号',
@@ -136,41 +136,25 @@ const Content: React.FC = () => {
     <div className={Styles.root}>
       {contextHolder}
       {showEditForm ? (
-        <>
-          <Button
-            className={Styles.primaryButton}
-            onClick={onClickBack}
-            shape='circle'
-            icon={<ArrowLeftOutlined />}
-          ></Button>
-          <EditForm gatewayItem={curGatewayItem} />
-        </>
+        <EditForm gatewayItem={curGatewayItem} onClickBack={onClickBack} />
       ) : (
         <>
-          <Flex justify='space-between' flex='1 1 0%'>
-            <Flex align='center' justify='flex-start' flex='0.4 0.5 0%'>
-              <Flex align='center' flex='0.5 0.5 0%'>
-                设备编号：
-                <Flex align='center' flex='0.7 0.5 0%'>
-                  <Input
-                    value={store.gatewayNum}
-                    onChange={handleGatewayNumChange}
-                    placeholder='请输入设备编号'
-                  />
-                </Flex>
-              </Flex>
-              <Flex align='center' flex='0.5 0.5 0%'>
-                产品型号：
-                <Flex align='center' flex='0.7 0.5 0%'>
-                  <Input
-                    value={store.productModel}
-                    onChange={handleProductModelChange}
-                    placeholder='请输入产品型号'
-                  />
-                </Flex>
-              </Flex>
-            </Flex>
-            <Flex justify='space-between' flex='0.2 0.5 0%'>
+          <div className={Styles.toolbarWrapper}>
+            设备编号：
+            <Input
+              style={{ width: 140 }}
+              value={store.gatewayNum}
+              onChange={handleGatewayNumChange}
+              placeholder='请输入设备编号'
+            />
+            产品型号：
+            <Input
+              style={{ width: 140 }}
+              value={store.productModel}
+              onChange={handleProductModelChange}
+              placeholder='请输入产品型号'
+            />
+            <div className={Styles.buttonWrapper}>
               <Button
                 type='primary'
                 className={Styles.primaryButton}
@@ -179,21 +163,32 @@ const Content: React.FC = () => {
                 查询
               </Button>
               <Button onClick={handleResetClick}>重置</Button>
-              <Button
-                type='primary'
-                className={Styles.primaryButton}
-                onClick={handleAddClick}
-              >
-                新增
-              </Button>
-            </Flex>
-          </Flex>
-          <Table
-            bordered
-            dataSource={store.gatewayData}
-            columns={columns}
-            className={Styles.mainTable}
-          />
+            </div>
+          </div>
+          <div className={Styles.secondToolBarWrapper}>
+            <Button
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleAddClick}
+            >
+              新增
+            </Button>
+          </div>
+          <div className={Styles.tableWrapper}>
+            <Table
+              bordered
+              dataSource={store.gatewayData}
+              columns={columns}
+              className={Styles.mainTable}
+              pagination={store.pagination}
+              onChange={({ current, pageSize }) => {
+                actions.updatePagination({
+                  current: current as number,
+                  pageSize: pageSize as number
+                })
+              }}
+            />
+          </div>
           <Modal
             title='确认删除设备'
             open={showDeleteModal}

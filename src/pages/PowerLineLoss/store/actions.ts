@@ -34,4 +34,22 @@ export default class Actions {
   updateSelectedArchivesId(id: string) {
     this._store.selectedArchivesId = id
   }
+
+  updateDateTypeChange(type: string) {
+    runInAction(() => {
+      this._store.filters.datetype = type
+    })
+  }
+
+  updateDateTimeChange(date: string) {
+    runInAction(() => {
+      this._store.filters.datetime = date
+    })
+  }
+
+  updateDataTypeChange(type: string) {
+    runInAction(() => {
+      this._store.filters.datatype = type
+    })
+  }
 }

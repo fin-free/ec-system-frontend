@@ -20,8 +20,8 @@ export default class Store {
   public mode = 'table'
   public filters = {
     projectId: '1',
-    datetype: '0011',
-    datetime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    datetype: '0012',
+    datetime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'), // 默认取昨天
     datatype: '0002'
   }
   public lossCompareData: lossCompareItem[] = []

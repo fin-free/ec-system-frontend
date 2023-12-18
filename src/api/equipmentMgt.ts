@@ -1,15 +1,15 @@
 import request from './request'
 
 const getEquipmentList = async (params: any) => {
-  const { equipmentNum, status, projectId } = params
+  const { equipmentNum, status, projectId, pageNum, pageSize } = params
   try {
     const res = await request({
       url: `/sys-equipment/list`,
       method: 'POST',
       data: {
         equipmentNum, //设备地址
-        pageNum: 1, //页数
-        pageSize: 100, //页码
+        pageNum, //页数
+        pageSize, //页码
         status, //设备状态 0 未使用 1已注册 2正常使用
         projectId //项目Id
       }
@@ -157,4 +157,10 @@ const getEquipmentInfo = async (params: any) => {
   }
 }
 
-export { getEquipmentList, addEquipment, updateEquipment, deleteEquipment, getEquipmentInfo }
+export {
+  getEquipmentList,
+  addEquipment,
+  updateEquipment,
+  deleteEquipment,
+  getEquipmentInfo
+}

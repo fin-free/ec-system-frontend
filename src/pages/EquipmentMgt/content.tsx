@@ -17,7 +17,7 @@ import { EquipmentItem } from './typings'
 import EditForm from './components/editForm'
 
 const columnNameMap: Record<string, string> = {
-  equipmentId: '序号',
+  order: '序号',
   equipmentName: '设备名称',
   equipmentNum: '设备编号',
   productModel: '设备型号',
@@ -58,12 +58,12 @@ const Content: React.FC = () => {
 
   const handleAddClick = () => {
     setShowEditForm(true)
-    setCurEquipmentId(undefined)
+    setCurEquipmentItem(undefined)
   }
 
   const onClickEdit = (record: EquipmentItem) => {
     setShowEditForm(true)
-    setCurEquipmentId(record.equipmentId)
+    setCurEquipmentItem(record)
   }
 
   const onClickDelete = (record: EquipmentItem) => {
@@ -146,7 +146,7 @@ const Content: React.FC = () => {
   }
 
   const onClickBack = () => {
-    setCurEquipmentId(undefined)
+    setCurEquipmentItem(undefined)
     setShowEditForm(false)
   }
 
@@ -154,41 +154,26 @@ const Content: React.FC = () => {
     <div className={Styles.root}>
       {contextHolder}
       {showEditForm ? (
-        <>
-          <Button
-            className={Styles.primaryButton}
-            onClick={onClickBack}
-            shape='circle'
-            icon={<ArrowLeftOutlined />}
-          ></Button>
-          <EditForm equipmentId={curEquipmentId} />
-        </>
+        <EditForm equipmentItem={curEquipmentItem} onClickBack={onClickBack} />
       ) : (
         <>
-          <Flex justify='space-between' flex='1 1 0%'>
-            <Flex align='center' justify='flex-start' flex='0.4 0.5 0%'>
-              <Flex align='center' flex='0.5 0.5 0%'>
-                设备编号：
-                <Flex align='center' flex='0.7 0.5 0%'>
-                  <Input
-                    value={store.equipmentNum}
-                    onChange={handleEquipmentNumChange}
-                    placeholder='请输入设备编号'
-                  />
-                </Flex>
-              </Flex>
-              <Flex align='center' flex='0.5 0.5 0%'>
-                设备状态：
-                <Select
-                  value={store.equipmentStatus}
-                  placeholder='请选择设备状态'
-                  style={{ width: 120 }}
-                  onChange={handleEquipmentStatusChange}
-                  options={equipmentStatusOptions}
-                />
-              </Flex>
-            </Flex>
-            <Flex justify='space-between' flex='0.2 0.5 0%'>
+          <div className={Styles.toolbarWrapper}>
+            设备编号：
+            <Input
+              style={{ width: 140 }}
+              value={store.equipmentNum}
+              onChange={handleEquipmentNumChange}
+              placeholder='请输入设备编号'
+            />
+            设备状态：
+            <Select
+              value={store.equipmentStatus}
+              placeholder='请选择设备状态'
+              style={{ width: 140 }}
+              onChange={handleEquipmentStatusChange}
+              options={equipmentStatusOptions}
+            />
+            <div className={Styles.buttonWrapper}>
               <Button
                 type='primary'
                 className={Styles.primaryButton}
@@ -197,21 +182,32 @@ const Content: React.FC = () => {
                 查询
               </Button>
               <Button onClick={handleResetClick}>重置</Button>
-              <Button
-                type='primary'
-                className={Styles.primaryButton}
-                onClick={handleAddClick}
-              >
-                新增
-              </Button>
-            </Flex>
-          </Flex>
-          <Table
-            bordered
-            dataSource={store.equipmentData}
-            columns={columns}
-            className={Styles.mainTable}
-          />
+            </div>
+          </div>
+          <div className={Styles.secondToolBarWrapper}>
+            <Button
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleAddClick}
+            >
+              新增
+            </Button>
+          </div>
+          <div className={Styles.tableWrapper}>
+            <Table
+              bordered
+              dataSource={store.equipmentData}
+              columns={columns}
+              className={Styles.mainTable}
+              pagination={store.pagination}
+              onChange={({ current, pageSize }) => {
+                actions.updatePagination({
+                  current: current as number,
+                  pageSize: pageSize as number
+                })
+              }}
+            />
+          </div>
           <Modal
             title='确认删除设备'
             open={showDeleteModal}

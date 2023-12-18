@@ -6,13 +6,14 @@ export default class Store {
   public equipmentStatus = undefined
   public equipmentNum = undefined
   public projectId = undefined
+  public pagination = {
+    total: 0,
+    current: 1,
+    pageSize: 10,
+    showTotal: (total: number) => `共 ${total} 条数据`
+  }
   constructor() {
-    makeAutoObservable(this, {
-      equipmentData: observable,
-      equipmentStatus: observable,
-      equipmentNum: observable,
-      projectId: observable
-    })
+    makeAutoObservable(this)
   }
 
   changeEquipmentNum(num: any) {

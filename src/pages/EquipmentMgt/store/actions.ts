@@ -19,16 +19,28 @@ export default class Actions {
   async fetchEquipmentData() {
     const res: {
       list: Array<EquipmentItem>
+      pageNum: number
+      pageSize: number
+      total: number
+      totalPage: number
     } = await API.getEquipmentList({
       equipmentNum: this._store.equipmentNum ?? '',
       status: this._store.equipmentStatus ?? '',
-      projectId: this._store.projectId ?? '1' // 默认projectId
+      projectId: this._store.projectId ?? '1', // 默认projectId
+      pageNum: this._store.pagination.current,
+      pageSize: this._store.pagination.pageSize
     })
     if (res) {
-      res.list = res.list.map((listItem) =>
-        Object.assign(listItem, { key: listItem.equipmentId })
+      res.list = res.list.map((listItem, index) =>
+        Object.assign(listItem, { key: listItem.equipmentId, order: index + 1 })
       )
       runInAction(() => {
+        this._store.pagination = {
+          ...this._store.pagination,
+          total: res.total,
+          pageSize: res.pageSize,
+          showTotal: (total: number) => `共 ${total} 条数据`
+        }
         this._store.equipmentData = get(res, 'list', [])
       })
     }
@@ -88,5 +100,19 @@ export default class Actions {
     } else {
       return {}
     }
+  }
+
+  async updatePagination(pagination: {
+    current: number
+    pageSize: number
+    total?: number
+    showTotal?: (total: number) => string
+  }) {
+    const { current, pageSize } = pagination
+    runInAction(() => {
+      this._store.pagination.current = current
+      this._store.pagination.pageSize = pageSize
+    })
+    this.fetchEquipmentData()
   }
 }

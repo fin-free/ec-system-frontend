@@ -1,15 +1,16 @@
 import request from './request'
 
 const getGatewayList = async (params: any) => {
-  const { gatewayNum, productModel, projectId, status } = params
+  const { gatewayNum, productModel, projectId, status, pageNum, pageSize } =
+    params
   try {
     const res = await request({
       url: `/sys-gateway/list`,
       method: 'POST',
       data: {
         gatewayNum, //设备地址
-        pageNum: 1, //页数
-        pageSize: 100, //页码
+        pageNum, //页数
+        pageSize, //页码
         productModel, //表型
         projectId, //项目Id
         status
@@ -27,7 +28,8 @@ const getGatewayList = async (params: any) => {
 }
 
 const addGateway = async (params: any) => {
-  const { type, gatewayName, gatewayNum, productModel, status, projectId } = params
+  const { type, gatewayName, gatewayNum, productModel, status, projectId } =
+    params
   try {
     const res = await request({
       url: `/sys-gateway/add`,
@@ -53,7 +55,15 @@ const addGateway = async (params: any) => {
 }
 
 const updateGateway = async (params: any) => {
-  const { energyType, gatewayName, gatewayNum, productModel, status, gatewayId, projectId } = params
+  const {
+    energyType,
+    gatewayName,
+    gatewayNum,
+    productModel,
+    status,
+    gatewayId,
+    projectId
+  } = params
   try {
     const res = await request({
       url: `/sys-gateway/update`,
@@ -115,4 +125,10 @@ const getGatewayInfo = async (params: any) => {
   }
 }
 
-export { getGatewayList, addGateway, updateGateway, deleteGateway, getGatewayInfo }
+export {
+  getGatewayList,
+  addGateway,
+  updateGateway,
+  deleteGateway,
+  getGatewayInfo
+}

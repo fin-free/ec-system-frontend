@@ -7,6 +7,7 @@ import { observer, useStore } from '@/hooks/storeHook'
 import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
+import dayjs from 'dayjs'
 
 const Toolbar: React.FC = () => {
   const {
@@ -15,19 +16,18 @@ const Toolbar: React.FC = () => {
   } = useContext(storeContext)
 
   const onDateChange = (date: Dayjs | null) => {
-    filters.datetime = date?.format('YYYY-MM-DD HH:mm:ss')!
+    actions.updateDateTimeChange(date?.format('YYYY-MM-DD HH:mm:ss')!)
+    actions.getLossCompareData()
   }
 
   const onDateTypeChange = (e: RadioChangeEvent) => {
-    filters.datetype = e.target.value
-  }
-
-  const onClickSearch = () => {
+    actions.updateDateTypeChange(e.target.value)
     actions.getLossCompareData()
   }
 
   const handleEngrgyTypeChange = (value: string) => {
-    filters.datatype = value
+    actions.updateDataTypeChange(value)
+    actions.getLossCompareData()
   }
 
   return (
@@ -45,19 +45,17 @@ const Toolbar: React.FC = () => {
       <Radio.Group
         className={Styles.radioGroup}
         onChange={onDateTypeChange}
-        defaultValue='day'
+        defaultValue='0012'
       >
         <Radio.Button value='0012'>按日</Radio.Button>
         <Radio.Button value='0013'>按月</Radio.Button>
       </Radio.Group>
-      <DatePicker format={'YYYY-MM-DD'} onChange={onDateChange} />
-      <Button
-        className={Styles.searchBtn}
-        type='primary'
-        onClick={onClickSearch}
-      >
-        查询
-      </Button>
+      <DatePicker
+        defaultValue={dayjs().add(-1, 'day')}
+        picker={filters.datetype === '0012' ? 'date' : 'month'}
+        format={filters.datetype === '0012' ? 'YYYY-MM-DD' : 'YYYY-MM'}
+        onChange={onDateChange}
+      />
     </div>
   )
 }

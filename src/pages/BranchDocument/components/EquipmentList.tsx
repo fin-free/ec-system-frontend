@@ -7,19 +7,22 @@ import { Popover, Button, Modal } from 'antd'
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
-import { TreeNode, ArchiveList } from '@/types'
+import { TreeNode, ArchiveList, RawTreeNode } from '@/types'
+import { NodeData } from '../types'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys }
+    commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys },
+    commonActions
   } = useStore()
   console.log('rawAchieveList: ', rawAchieveList)
   const { store, actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
+  const [showPopoverNodeKey, setShowPopoverNodeKey] = useState<number | null>()
   // const [autoExpandParent, setAutoExpandParent] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [clickedNode, setClickedNode] = useState()
+  const [selectedNode, setSelectedNode] = useState<NodeData>()
 
   const dataList: { key: React.Key; title: string }[] = []
 
@@ -36,6 +39,16 @@ const EquipmentList = () => {
       }
     }
   }
+
+  useEffect(() => {
+    const handler = () => {
+      setShowPopoverNodeKey(null)
+    }
+    window.addEventListener('click', handler)
+    return () => {
+      window.removeEventListener('click', handler)
+    }
+  }, [])
 
   generateList(achieveList)
   const getParentKey = (key: React.Key, tree: TreeNode[]): React.Key => {
@@ -62,20 +75,27 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
+        if (
+          item.title &&
+          typeof item.title === 'string' &&
+          item.title.indexOf(value) > -1
+        ) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+      .filter(
+        (item, i, self): item is React.Key =>
+          !!(item && self.indexOf(item) === i)
+      )
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     // setAutoExpandParent(true)
   }
 
-  const loop = (data: TreeNode[]): TreeNode[] =>
+  const loop = (data: RawTreeNode[]): TreeNode[] =>
     data.map((item) => {
-      const strTitle = item.title as string
+      const strTitle = item.archivesName as string
       const index = strTitle.indexOf(searchValue)
       const beforeStr = strTitle.substring(0, index)
       const afterStr = strTitle.slice(index + searchValue.length)
@@ -90,34 +110,42 @@ const EquipmentList = () => {
           <span>{strTitle}</span>
         )
 
-      if (item.children) {
-        return { title, key: item.key, children: loop(item.children) }
+      if (item.childrenList) {
+        return {
+          title,
+          key: String(item.archivesId),
+          children: loop(item.childrenList),
+          ...item,
+          childrenList: undefined
+        }
       }
 
       return {
         title,
-        key: item.key
+        key: String(item.archivesId),
+        ...item
       }
     })
 
-  const treeData = loop(achieveList)
+  const treeData = loop(rawAchieveList as any)
 
-  const onSelect = (data: any) => {
+  const onSelect = (
+    selectedKeys: string[],
+    e: { selected: boolean; selectedNodes: NodeData[]; node: NodeData }
+  ) => {
+    // console.log('select', selectedKeys, e.selected, e.selectedNodes, e.node)
+    setSelectedNode(e.selectedNodes[0])
+    commonActions.getAchieveListById({
+      projectId: '1',
+      archivesId: e.selectedNodes[0].archivesId
+    })
     //TODO
-    if (store.treeMode === 'edit' && data[0]) {
-      actions.updateSelectedArchivesId(data[0])
-    }
+    // if (store.treeMode === 'edit' && data[0]) {
+    //   actions.updateSelectedArchivesId(data[0])
+    // }
     // actions.onSearch({
     //   archivesId: selectedKeys[0].toString()
     // })
-  }
-
-  const onClickAdd = () => {
-    // TODO
-    actions.updateCurArchivesItem({
-      parentId: (clickedNode as any).key,
-      archivesLevel: 3
-    })
   }
 
   const getAchieveItem = (list: ArchiveList, key: string): any => {
@@ -135,35 +163,45 @@ const EquipmentList = () => {
     return null
   }
 
-  const onClickDelete = () => {
-    console.log(clickedNode)
-    setShowDeleteModal(true)
-  }
-
-  const handleModalOk = () => {
-    actions.deleteArchives({
-      archivesId: (clickedNode as any).key,
-      archivesName: (clickedNode as any).title.props.children[2]
+  const onClickAdd = () => {
+    actions.updateCurArchivesItem({
+      parentId: selectedNode?.archivesId,
+      parentName: selectedNode?.archivesName,
+      archivesLevel: selectedNode?.archivesLevel
     })
-    setShowDeleteModal(false)
   }
 
-  const handleModalCancel = () => {
-    setShowDeleteModal(false)
+  const onClickDelete = () => {
+    setShowDeleteModal(true)
   }
 
   const onClickEdit = () => {
     actions.updateCurArchivesItem({
-      key: (clickedNode as any).key,
-      archivesName: (clickedNode as any).title.props.children[2],
-      archivesLevel: 3,
-      parentId: getParentKey((clickedNode as any).key, achieveList)
+      archivesName: selectedNode?.archivesName,
+      archivesLevel: selectedNode?.archivesLevel,
+      parentId: selectedNode?.parentId,
+      parentName: selectedNode?.parentName,
+      archivesId: selectedNode?.archivesId
     })
   }
 
   const onClickManage = () => {
-    actions.updateSelectedArchivesId((clickedNode as any).key)
+    actions.updateSelectedArchivesId(selectedNode?.archivesId as number)
     actions.updateTreeMode('edit')
+  }
+
+  const handleModalOk = async () => {
+    const res = await actions.deleteArchives({
+      archivesId: selectedNode?.archivesId,
+      archivesName: selectedNode?.archivesName
+    })
+    commonActions.getAchieveList('1')
+    setShowDeleteModal(false)
+    setSelectedNode(undefined)
+  }
+
+  const handleModalCancel = () => {
+    setShowDeleteModal(false)
   }
 
   const getContent = () =>
@@ -176,22 +214,32 @@ const EquipmentList = () => {
       </div>
     )
 
-  const onClickTitle = (nodeData: any) => {
-    console.log(nodeData)
-    setClickedNode(nodeData)
+  const onRightClickNode = (e: any, nodeData: NodeData) => {
+    e.preventDefault()
+    setShowPopoverNodeKey(nodeData.archivesId)
+    setSelectedNode(nodeData)
   }
 
-  const treeTitleRender = (nodeData: any) => {
+  const treeTitleRender = (nodeData: NodeData) => {
     return (
-      <Popover content={getContent()} trigger='click'>
-        <div onClick={() => onClickTitle(nodeData)}>{nodeData.title.props.children[2]}</div>
+      <Popover
+        content={getContent()}
+        open={showPopoverNodeKey === nodeData.archivesId}
+      >
+        <div onContextMenu={(e) => onRightClickNode(e, nodeData)}>
+          {nodeData.archivesName}
+        </div>
       </Popover>
     )
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <SearchInput
+        rootClassName='search-input'
+        onChange={onSearch}
+        placeholder='输入名称搜索...'
+      />
       <Tree
         treeData={treeData}
         onSelect={onSelect}
@@ -199,7 +247,12 @@ const EquipmentList = () => {
         onExpand={onExpand}
         expandedKeys={expandedKeys}
       />
-      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
+      <Modal
+        title='确认删除档案'
+        open={showDeleteModal}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      >
         是否删除档案？
       </Modal>
     </aside>

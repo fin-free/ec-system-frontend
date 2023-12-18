@@ -58,7 +58,7 @@ export default class Actions {
     })
     this.getEnergyList()
   }
-  updateSelectedArchivesId(id: string) {
+  updateSelectedArchivesId(id: number) {
     runInAction(() => {
       this._store.selectedArchiveId = id
     })

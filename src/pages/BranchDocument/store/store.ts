@@ -6,7 +6,7 @@ export default class Store {
       filterEquipmentData: computed
     })
   }
-  public selectedArchiveId = ''
+  public selectedArchiveId = 0
   public selectedEquipmentId = ''
   public filter = {
     datatype: '0002'
