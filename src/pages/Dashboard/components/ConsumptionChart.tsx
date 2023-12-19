@@ -16,8 +16,12 @@ const ConsumptionChart: React.FC = () => {
   const { store, actions } = useContext(storeContext)
   const { energyConsumptionData, energyConsumptionPayload } = store
 
-  const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
-  const dataRangeLabelUnit: { [key: string]: string } = { '0011': 'h', '0012': '', '0013': '月' }
+  const dataRangeLabelFormat: { [key: string]: string } = {
+    '0011': 'MM-DD HH:mm',
+    '0012': 'MM-DD',
+    '0013': 'M'
+  }
+  const dataRangeLabelUnit: { [key: string]: string } = { '0011': '', '0012': '', '0013': '月' }
 
   const energyOptions = {
     chart: {
@@ -34,24 +38,45 @@ const ConsumptionChart: React.FC = () => {
     },
     plotOptions: {
       areaspline: {
-        borderColor: '',
-        shadow: false,
-        color: '#3e3e8e'
+        marker: {
+          enable: true,
+          fillColor: 'rgba(255,255,255,.2)',
+          radius: 3
+        },
+        color: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#3e3e8e'],
+            [1, 'rgba(0,0,0,.1)']
+          ]
+        }
       },
       series: {
         dataLabels: {
-          enabled: true,
-          style: {
-            color: '#d8d8d8'
-          }
+          enabled: false
         }
+      }
+    },
+    tooltip: {
+      formatter: function (this: any) {
+        return `
+        <p style="font-weight:bold;">时间:</p>
+        <p>
+          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}
+        </p>
+        <p style="font-weight:bold;"><br><br>用能:</p>
+        <p>${this.y} kWh</p>`
       }
     },
     legend: {
       enabled: false
     },
     xAxis: {
+      startOnTick: true,
+      endOnTick: true,
       categories: energyConsumptionData.map((d) => d.clearingPeriod),
+      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 6,
+      lineColor: '#3e3e3e',
       labels: {
         style: {
           color: '#d8d8d8'
@@ -64,6 +89,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      gridLineColor: '#3e3e3e',
       title: {
         text: '',
         style: {
@@ -95,24 +121,46 @@ const ConsumptionChart: React.FC = () => {
     },
     plotOptions: {
       areaspline: {
-        borderColor: '',
-        shadow: false,
-        color: '#3e3e8e'
+        marker: {
+          enable: true,
+          fillColor: 'rgba(255,255,255,.2)',
+          radius: 3
+        },
+        color: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#3e3e8e'],
+            [1, 'rgba(0,0,0,.1)']
+          ]
+        }
       },
       series: {
         dataLabels: {
-          enabled: true,
-          style: {
-            color: '#ffffff'
-          }
+          enabled: false
         }
+      }
+    },
+    tooltip: {
+      formatter: function (this: any) {
+        return `
+        <span style="font-weight:bold;">时间:</span>
+        <span>
+          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}
+        </span>
+        <p style="font-weight:bold;"><br><br>用水:</p>
+        <span>${this.y} t</span>`
       }
     },
     legend: {
       enabled: false
     },
     xAxis: {
+      // startOnTick: true,
+      // endOnTick: true,
+
       categories: energyConsumptionData.map((d) => d.clearingPeriod),
+      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 6,
+      lineColor: '#3e3e3e',
       labels: {
         style: {
           color: 'white'
@@ -125,6 +173,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      gridLineColor: '#3e3e3e',
       title: {
         text: '',
         style: {
