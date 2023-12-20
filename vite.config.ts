@@ -28,7 +28,8 @@ export default defineConfig(({ mode }) => {
         libList: [
           {
             libName: 'antd',
-            style: (name) => name !== 'theme' && `antd/es/${name}/style/index.js`
+            style: (name) =>
+              name !== 'theme' && `antd/es/${name}/style/index.js`
           }
         ]
       }),
@@ -60,10 +61,10 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       proxy: {
-        '/api': {
-          target: 'http://123.56.220.41:8080',
+        '/iot': {
+          target: 'http://123.56.220.41:8080/iot',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          rewrite: (path) => path.replace(/^\/iot/, '')
         }
       }
     }

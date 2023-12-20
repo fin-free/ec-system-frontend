@@ -3,12 +3,16 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 import { get } from 'lodash'
 
-import { AUTH_TOKEN_EXPIRE, AUTH_TOKEN_KEY, AUTH_TOKEN_SAVE_TIME } from '@/common/constants/auth'
+import {
+  AUTH_TOKEN_EXPIRE,
+  AUTH_TOKEN_KEY,
+  AUTH_TOKEN_SAVE_TIME
+} from '@/common/constants/auth'
 import { ROUTE_PATH_LOGIN } from '@/routes/routePath'
 import { rootStore } from '@/store'
 
 const instance = axios.create({
-  baseURL: '/api/iot',
+  baseURL: '/iot',
   timeout: 300000
 })
 
@@ -56,7 +60,9 @@ instance.interceptors.response.use(
     }
 
     const now = dayjs().valueOf()
-    const tokenSaveTime = parseInt(localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || '')
+    const tokenSaveTime = parseInt(
+      localStorage.getItem(AUTH_TOKEN_SAVE_TIME) || ''
+    )
     const tokenExpire = parseInt(localStorage.getItem(AUTH_TOKEN_EXPIRE) || '')
     if (tokenSaveTime && now - tokenSaveTime > tokenExpire * 1000) {
       localStorage.clear()
