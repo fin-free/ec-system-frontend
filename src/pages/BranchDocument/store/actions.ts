@@ -15,7 +15,7 @@ export default class Actions {
     const res = await API.getEnergyList({
       projectId: '1',
       ...this._store.filter,
-      archivesId: this._store.selectedArchiveId,
+      archivesId: this._store.selectedNode?.archivesId,
       ...params
     })
     runInAction(() => {
@@ -23,7 +23,7 @@ export default class Actions {
     })
   }
   async saveArchivesEquipmentRelation(params: {
-    archivesId: string
+    archivesId: number
     meterIdList: number[]
   }) {
     const res = await API.saveArchivesEquipmentRelation(params)
@@ -78,6 +78,8 @@ export default class Actions {
   }
 
   updateSelectedNode(node: NodeData) {
-    this._store.selectedNode = node
+    runInAction(() => {
+      this._store.selectedNode = node
+    })
   }
 }

@@ -28,7 +28,7 @@ const Content: React.FC = () => {
           <EquipmentList />
           <div className='content'>
             <div className={Styles.innerContent}>
-              {store.selectedArchiveId ? <EnergyList /> : <ArchiveTree />}
+              {store.treeMode === 'manage' ? <EnergyList /> : <ArchiveTree />}
             </div>
           </div>
         </>

@@ -25,7 +25,6 @@ const ArchiveTree: React.FC = () => {
   const getNode = (list: TreeNode[], id: number): TreeNode[] | undefined => {
     if (!list || list.length === 0) return undefined
     for (const data of list) {
-      debugger
       if (data.key === String(id)) {
         return [data]
       }

@@ -29,15 +29,16 @@ const EnergyList: React.FC<IProps> = () => {
     commonStore: { dataTypeOptions }
   } = useStore()
   const {
-    store: { filter, filterEquipmentData, selectedArchiveId },
+    store: { filter, filterEquipmentData, selectedNode, treeMode },
     actions
   } = useContext(storeContext)
 
   useEffect(() => {
-    if (selectedArchiveId) {
-      actions.getEnergyList({ archivesId: selectedArchiveId })
+    debugger
+    if (selectedNode?.archivesId && treeMode === 'manage') {
+      actions.getEnergyList({ archivesId: selectedNode.archivesId })
     }
-  }, [selectedArchiveId])
+  }, [selectedNode, treeMode])
 
   useEffect(() => {
     filterEquipmentData.forEach((data) => {
@@ -58,12 +59,11 @@ const EnergyList: React.FC<IProps> = () => {
 
   const onClickBack = () => {
     actions.updateTreeMode('')
-    actions.updateSelectedArchivesId('')
   }
 
   const onClickSave = () => {
     actions.saveArchivesEquipmentRelation({
-      archivesId: selectedArchiveId!,
+      archivesId: selectedNode?.archivesId!,
       meterIdList: Array.from(meterIdList)
     })
   }
@@ -100,10 +100,15 @@ const EnergyList: React.FC<IProps> = () => {
             style={{ marginTop: 10 }}
             renderItem={(item: EnergyItem) => {
               return (
-                <List.Item key={item.equipmentId} onClick={() => onClickListItem(item)}>
+                <List.Item
+                  key={item.equipmentId}
+                  onClick={() => onClickListItem(item)}
+                >
                   <Checkbox
                     disabled={!item.enabledStatus}
-                    defaultChecked={Boolean(item.enabledStatus) && Boolean(item.bindStatus)}
+                    defaultChecked={
+                      Boolean(item.enabledStatus) && Boolean(item.bindStatus)
+                    }
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />
@@ -125,7 +130,12 @@ const EnergyList: React.FC<IProps> = () => {
         <Button size='large' onClick={onClickBack}>
           返回
         </Button>
-        <Button className={Style.button} size='large' type='primary' onClick={onClickSave}>
+        <Button
+          className={Style.button}
+          size='large'
+          type='primary'
+          onClick={onClickSave}
+        >
           保存
         </Button>
       </div>

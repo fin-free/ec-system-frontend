@@ -135,8 +135,10 @@ const EquipmentList = () => {
     selectedKeys: string[],
     e: { selected: boolean; selectedNodes: NodeData[]; node: NodeData }
   ) => {
-    setSelectedNode(e.selectedNodes[0])
-    actions.updateSelectedNode(e.selectedNodes[0])
+    if (e.selectedNodes[0]) {
+      setSelectedNode(e.selectedNodes[0])
+      actions.updateSelectedNode(e.selectedNodes[0])
+    }
   }
 
   const getAchieveItem = (list: ArchiveList, key: string): any => {
@@ -177,8 +179,8 @@ const EquipmentList = () => {
   }
 
   const onClickManage = () => {
-    actions.updateSelectedArchivesId(selectedNode?.archivesId as number)
-    actions.updateTreeMode('edit')
+    // actions.updateSelectedArchivesId(selectedNode?.archivesId as number)
+    actions.updateTreeMode('manage')
   }
 
   const handleModalOk = async () => {
@@ -196,7 +198,7 @@ const EquipmentList = () => {
   }
 
   const getContent = () =>
-    store.treeMode === 'edit' ? null : (
+    store.treeMode === 'manage' ? null : (
       <div className={Styles.optionList}>
         <Button onClick={onClickAdd}>新增子档案</Button>
         <Button onClick={onClickEdit}>修改档案</Button>
@@ -209,6 +211,7 @@ const EquipmentList = () => {
     e.preventDefault()
     setShowPopoverNodeKey(nodeData.archivesId)
     setSelectedNode(nodeData)
+    actions.updateSelectedNode(nodeData)
   }
 
   const treeTitleRender = (nodeData: NodeData) => {
@@ -237,6 +240,7 @@ const EquipmentList = () => {
         titleRender={treeTitleRender}
         onExpand={onExpand}
         expandedKeys={expandedKeys}
+        selectedKeys={[String(selectedNode?.archivesId)]}
       />
       <Modal
         title='确认删除档案'
