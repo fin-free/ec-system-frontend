@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext } from 'react'
 import G6, { TreeGraph } from '@antv/g6'
 import { useStore, observer } from '@/hooks/storeHook'
-// import storeContext from '../context'
+import storeContext from '../context'
+import { TreeNode } from '@/types'
 const ArchiveTree: React.FC = () => {
   const {
     commonStore: { achieveList }
   } = useStore()
-  // const { actions } = useContext(storeContext)
+  const {
+    store: { selectedNode },
+    actions
+  } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
   const mapTreeData = (root: any) => {
     if (!root) return {}
@@ -17,6 +21,18 @@ const ArchiveTree: React.FC = () => {
       return mapTreeData(child)
     })
     return newRoot
+  }
+  const getNode = (list: TreeNode[], id: number): TreeNode[] | undefined => {
+    if (!list || list.length === 0) return undefined
+    for (const data of list) {
+      debugger
+      if (data.key === String(id)) {
+        return [data]
+      }
+      const res = getNode(data.children!, id)
+      if (res) return res
+    }
+    return undefined
   }
   useEffect(() => {
     const graph = new G6.TreeGraph({
@@ -89,10 +105,16 @@ const ArchiveTree: React.FC = () => {
     const graph = graphRef.current
     graph?.clear()
     if (achieveList.length > 0) {
-      graph?.data(mapTreeData(achieveList[0]))
+      graph?.data(
+        mapTreeData(
+          selectedNode
+            ? getNode(achieveList, selectedNode?.archivesId)?.[0]
+            : achieveList[0]
+        )
+      )
       graph?.render()
     }
-  }, [achieveList])
+  }, [achieveList, selectedNode])
   return <div id='mountRoot'></div>
 }
 

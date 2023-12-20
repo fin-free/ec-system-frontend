@@ -15,7 +15,6 @@ const EquipmentList = () => {
     commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys },
     commonActions
   } = useStore()
-  console.log('rawAchieveList: ', rawAchieveList)
   const { store, actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
@@ -23,6 +22,7 @@ const EquipmentList = () => {
   // const [autoExpandParent, setAutoExpandParent] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNode, setSelectedNode] = useState<NodeData>()
+  const [treeArchivesData, setTreeArchivesData] = useState<ArchiveList>()
 
   const dataList: { key: React.Key; title: string }[] = []
 
@@ -39,6 +39,10 @@ const EquipmentList = () => {
       }
     }
   }
+
+  useEffect(() => {
+    setTreeArchivesData(loop(rawAchieveList))
+  }, [rawAchieveList])
 
   useEffect(() => {
     const handler = () => {
@@ -127,25 +131,12 @@ const EquipmentList = () => {
       }
     })
 
-  const treeData = loop(rawAchieveList as any)
-
   const onSelect = (
     selectedKeys: string[],
     e: { selected: boolean; selectedNodes: NodeData[]; node: NodeData }
   ) => {
-    // console.log('select', selectedKeys, e.selected, e.selectedNodes, e.node)
     setSelectedNode(e.selectedNodes[0])
-    commonActions.getAchieveListById({
-      projectId: '1',
-      archivesId: e.selectedNodes[0].archivesId
-    })
-    //TODO
-    // if (store.treeMode === 'edit' && data[0]) {
-    //   actions.updateSelectedArchivesId(data[0])
-    // }
-    // actions.onSearch({
-    //   archivesId: selectedKeys[0].toString()
-    // })
+    actions.updateSelectedNode(e.selectedNodes[0])
   }
 
   const getAchieveItem = (list: ArchiveList, key: string): any => {
@@ -241,7 +232,7 @@ const EquipmentList = () => {
         placeholder='输入名称搜索...'
       />
       <Tree
-        treeData={treeData}
+        treeData={treeArchivesData}
         onSelect={onSelect}
         titleRender={treeTitleRender}
         onExpand={onExpand}

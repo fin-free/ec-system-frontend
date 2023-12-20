@@ -3,6 +3,7 @@ import { runInAction } from 'mobx'
 import * as API from '@/api/branchDocument'
 
 import Store from './store'
+import { NodeData } from '../types'
 export default class Actions {
   private _store: Store
   constructor(store: Store) {
@@ -74,5 +75,9 @@ export default class Actions {
     runInAction(() => {
       this._store.treeMode = mode
     })
+  }
+
+  updateSelectedNode(node: NodeData) {
+    this._store.selectedNode = node
   }
 }

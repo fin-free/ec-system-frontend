@@ -1,5 +1,5 @@
 import { computed, makeAutoObservable } from 'mobx'
-import { EnergyItem } from '../types'
+import { EnergyItem, NodeData } from '../types'
 export default class Store {
   constructor() {
     makeAutoObservable(this, {
@@ -13,6 +13,7 @@ export default class Store {
   }
   public equipmentInput = ''
   public curArchivesItem: any
+  public selectedNode: NodeData | undefined = undefined
 
   public archiveTreeData = []
   public energyEquipmentData: Array<EnergyItem> = []
