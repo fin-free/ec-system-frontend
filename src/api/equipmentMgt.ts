@@ -55,7 +55,7 @@ const addEquipment = async (params: any) => {
         powerMin, //最小功率
         productModel, //表型
         powerMax, //最大功率
-        status, //设备状态 0 未使用 1已注册 2正常使用
+        status: status ?? 0, //设备状态 0 未使用 1已注册 2正常使用
         temperatureMax, //最大温度值
         voltageThresholdMax, //最大电压阈值
         currentMagnification //电流倍率

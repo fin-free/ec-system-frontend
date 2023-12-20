@@ -67,6 +67,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
       : await actions.addEquipment(data)
     if (res) {
       messageApi.info(res)
+      onClickBack()
     }
   }
 

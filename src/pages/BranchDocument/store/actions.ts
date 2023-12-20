@@ -27,7 +27,7 @@ export default class Actions {
     meterIdList: number[]
   }) {
     const res = await API.saveArchivesEquipmentRelation(params)
-    console.log(res)
+    return res
   }
   async deleteArchives(params: any) {
     const res = await API.deleteArchive(params)

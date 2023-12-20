@@ -22,10 +22,9 @@ const addArchive = async (params: archiveType) => {
       }
     })
     const { code, data, message } = res ?? {}
-    if (code === 200 && data) {
-      return message
-    } else {
-      throw new Error(message)
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('addArchive error: ', error)
@@ -40,10 +39,9 @@ const updateArchive = async (params: archiveType) => {
       data: params
     })
     const { code, data, message } = res ?? {}
-    if (code === 200 && data) {
-      return data
-    } else {
-      throw new Error(message)
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('updateArchive error: ', error)
@@ -126,7 +124,7 @@ const saveArchivesEquipmentRelation = async (params: any) => {
     })
     const { code, data, message } = res ?? {}
     if (code === 200 && data) {
-      return data
+      return message
     } else {
       throw new Error(message)
     }

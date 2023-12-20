@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Button, Checkbox, List, Select } from 'antd'
+import { Button, Checkbox, List, Select, message } from 'antd'
 
 import SearchInput from '@/components/SearchInput'
 import { observer, useStore } from '@/hooks/storeHook'
@@ -32,15 +32,16 @@ const EnergyList: React.FC<IProps> = () => {
     store: { filter, filterEquipmentData, selectedNode, treeMode },
     actions
   } = useContext(storeContext)
+  const [messageApi, contextHolder] = message.useMessage()
 
   useEffect(() => {
-    debugger
     if (selectedNode?.archivesId && treeMode === 'manage') {
       actions.getEnergyList({ archivesId: selectedNode.archivesId })
     }
   }, [selectedNode, treeMode])
 
   useEffect(() => {
+    meterIdList.clear()
     filterEquipmentData.forEach((data) => {
       if (data.enabledStatus && data.bindStatus) {
         meterIdList.add(data.equipmentId)
@@ -61,11 +62,14 @@ const EnergyList: React.FC<IProps> = () => {
     actions.updateTreeMode('')
   }
 
-  const onClickSave = () => {
-    actions.saveArchivesEquipmentRelation({
+  const onClickSave = async () => {
+    const res = await actions.saveArchivesEquipmentRelation({
       archivesId: selectedNode?.archivesId!,
       meterIdList: Array.from(meterIdList)
     })
+    if (res) {
+      messageApi.info(res)
+    }
   }
 
   const onSearch = (e: any) => {
@@ -84,6 +88,7 @@ const EnergyList: React.FC<IProps> = () => {
 
   return (
     <div className={Style.listContainer}>
+      {contextHolder}
       <div className={Style.listBlock}>
         <div className={Style.listWrapper}>
           <Select

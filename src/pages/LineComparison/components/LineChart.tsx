@@ -61,7 +61,7 @@ const ConsumptionChart: React.FC = () => {
     },
     yAxis: {
       title: {
-        text: 'kWh',
+        text: '',
         style: {
           color: '#e8e8e8'
         }

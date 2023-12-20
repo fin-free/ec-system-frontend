@@ -41,7 +41,11 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         })
       : await actions.addArchives({ ...data, parentId: archievesItem.parentId })
     if (res) {
-      messageApi.info(res)
+      if (res?.code === 200) {
+        message.info(res?.message)
+      } else {
+        message.error(res?.message)
+      }
       setTimeout(() => {
         actions.updateCurArchivesItem(null)
       }, 500)

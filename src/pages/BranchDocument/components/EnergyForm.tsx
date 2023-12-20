@@ -1,11 +1,13 @@
 import { Form, Input } from 'antd'
 import React, { useEffect } from 'react'
 import { observer } from '@/hooks/storeHook'
-// import Styles from '../index.module.scss'
-// import storeContext from '../context'
 
 interface IProps {
-  energyItem: any
+  energyItem: {
+    equipmentNum?: string
+    productModel?: string
+    currentMagnification?: string
+  }
 }
 
 const EditForm: React.FC<IProps> = (props: IProps) => {
@@ -31,7 +33,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         <Form.Item label='电表型号' name='productModel'>
           <Input disabled />
         </Form.Item>
-        <Form.Item label='电流倍率' name='currentMagnification'>
+        <Form.Item label='倍率' name='currentMagnification'>
           <Input disabled />
         </Form.Item>
       </Form>
