@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react'
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
-import { Popover, Button, Modal } from 'antd'
+import { Popover, Button, Modal, message } from 'antd'
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
@@ -19,10 +19,10 @@ const EquipmentList = () => {
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [showPopoverNodeKey, setShowPopoverNodeKey] = useState<number | null>()
-  // const [autoExpandParent, setAutoExpandParent] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNode, setSelectedNode] = useState<NodeData>()
   const [treeArchivesData, setTreeArchivesData] = useState<ArchiveList>()
+  const [messageApi, contextHolder] = message.useMessage()
 
   const dataList: { key: React.Key; title: string }[] = []
 
@@ -157,6 +157,7 @@ const EquipmentList = () => {
   }
 
   const onClickAdd = () => {
+    actions.updateTreeMode('add')
     actions.updateCurArchivesItem({
       parentId: selectedNode?.archivesId,
       parentName: selectedNode?.archivesName,
@@ -169,6 +170,7 @@ const EquipmentList = () => {
   }
 
   const onClickEdit = () => {
+    actions.updateTreeMode('edit')
     actions.updateCurArchivesItem({
       archivesName: selectedNode?.archivesName,
       archivesLevel: selectedNode?.archivesLevel,
@@ -188,9 +190,15 @@ const EquipmentList = () => {
       archivesId: selectedNode?.archivesId,
       archivesName: selectedNode?.archivesName
     })
-    commonActions.getAchieveList('1')
+    if (res?.code === 200) {
+      message.info(res?.message)
+    } else {
+      message.error(res?.message)
+    }
     setShowDeleteModal(false)
     setSelectedNode(undefined)
+    actions.updateSelectedNode(undefined)
+    commonActions.getAchieveList('1')
   }
 
   const handleModalCancel = () => {

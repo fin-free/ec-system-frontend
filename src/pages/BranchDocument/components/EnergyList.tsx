@@ -101,14 +101,17 @@ const EnergyList: React.FC<IProps> = () => {
             renderItem={(item: EnergyItem) => {
               return (
                 <List.Item
+                  style={
+                    curEnergyItem?.equipmentId === item.equipmentId
+                      ? { background: '#26266d' }
+                      : {}
+                  }
                   key={item.equipmentId}
                   onClick={() => onClickListItem(item)}
                 >
                   <Checkbox
                     disabled={!item.enabledStatus}
-                    defaultChecked={
-                      Boolean(item.enabledStatus) && Boolean(item.bindStatus)
-                    }
+                    defaultChecked={Boolean(item.bindStatus)}
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />

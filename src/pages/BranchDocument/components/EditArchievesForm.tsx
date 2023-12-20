@@ -1,5 +1,5 @@
 import { Form, Button, Input, message, Select } from 'antd'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { observer } from '@/hooks/storeHook'
 import Styles from '../index.module.scss'
 import storeContext from '../context'
@@ -10,28 +10,54 @@ interface IProps {
 
 const archivesLevelMap = ['项目', '小区', '楼栋', '单元', '楼层', '房间']
 
-const archivesLevelOptions = archivesLevelMap.map((item, index) => ({
+const defaultArchivesLevelOptions = archivesLevelMap.map((item, index) => ({
   label: item,
   value: index + 1
 }))
 
+const levelMapping = [[], [1, 2], [2, 3], [3, 4], [4], [5]]
+
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { archievesItem } = props
   const { actions, store } = useContext(storeContext)
+  const [archivesLevelOptions, setArchivesLevelOptions] = useState(
+    defaultArchivesLevelOptions
+  )
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
   useEffect(() => {
-    form.setFieldsValue(archievesItem)
+    console.log(archievesItem)
+    form.setFieldValue('parentName', archievesItem.parentName)
+    form.setFieldValue('archivesName', archievesItem.archivesName)
+    if (store.treeMode === 'edit') {
+      form.setFieldValue('archivesLevel', archievesItem.archivesLevel)
+    }
   }, [archievesItem])
   const onFormFinish = async (data: any) => {
-    const res = archievesItem.key
-      ? await actions.updateArchive(data)
-      : await actions.addArchives(data)
+    const res = archievesItem.archivesId
+      ? await actions.updateArchive({
+          ...data,
+          archivesId: archievesItem.archivesId
+        })
+      : await actions.addArchives({ ...data, parentId: archievesItem.parentId })
     if (res) {
-      actions.updateCurArchivesItem(null)
-      messageApi.info(archievesItem.key ? '修改成功' : '添加成功')
+      messageApi.info(res)
+      setTimeout(() => {
+        actions.updateCurArchivesItem(null)
+      }, 500)
     }
   }
+
+  useEffect(() => {
+    if (archievesItem && archievesItem.archivesLevel) {
+      const toShowLevels = levelMapping[archievesItem.archivesLevel]
+      setArchivesLevelOptions(
+        defaultArchivesLevelOptions.filter((option, index) =>
+          toShowLevels.includes(index)
+        )
+      )
+    }
+  }, [archievesItem])
 
   const onClickCancel = () => {
     actions.updateCurArchivesItem(null)

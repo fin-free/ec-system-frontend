@@ -77,7 +77,7 @@ export default class Actions {
     })
   }
 
-  updateSelectedNode(node: NodeData) {
+  updateSelectedNode(node: NodeData | undefined) {
     runInAction(() => {
       this._store.selectedNode = node
     })

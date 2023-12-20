@@ -55,18 +55,13 @@ const deleteArchive = async (params: archiveType) => {
   try {
     const res = await request({
       url: `sys-archives/delete?archivesId=${archivesId}`,
-      method: 'DELETE',
-      data: {
-        archivesId,
-        projectId: '1',
-        archivesName
-      }
+      method: 'DELETE'
     })
     const { code, data, message } = res ?? {}
-    if (code === 200) {
-      return data
-    } else {
-      throw new Error(message)
+
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('deleteArchive error: ', error)
