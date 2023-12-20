@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 
 import { Radio, RadioChangeEvent, Table, Typography } from 'antd'
+import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -43,8 +44,9 @@ const AlarmTable: React.FC = () => {
   const getColumnsRender = (itemKey: string) => {
     switch (itemKey) {
       case 'operations':
-        return (_: any, record: Item) => {
-          return record.status === EventStatus.WAIT_FOR_CONFIRM ? (
+        // eslint-disable-next-line react/display-name
+        return (_: any, record: Item) =>
+          record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
               <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
                 确认
@@ -53,18 +55,21 @@ const AlarmTable: React.FC = () => {
                 取消
               </Typography.Link>
             </div>
-          ) : undefined
+          ) : null
+      case 'startTime':
+        return (val: any) => {
+          return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
         }
       case 'type':
-        return (_: any, record: Item) => {
-          return alarmType[record.type]
+        return (val: any) => {
+          return alarmType[val]
         }
       case 'status':
-        return (_: any, record: Item) => {
-          return eventStatusMap[record.status]
+        return (val: any) => {
+          return eventStatusMap[val]
         }
       default:
-        return null
+        return (val: any) => val
     }
   }
 
@@ -73,8 +78,10 @@ const AlarmTable: React.FC = () => {
     return {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
-      ...(itemKey === 'alarmDetail' ? { ellipsis: true } : null),
-      ...(render ? { render } : null)
+      ellipsis: itemKey === 'alarmDetail',
+      align: ['status', 'operations'].includes(itemKey) ? 'center' : 'left',
+      width: ['type', 'status', 'operations'].includes(itemKey) ? 130 : itemKey === 'alarmDetail' ? 400 : undefined,
+      render
     }
   })
   const onClickConfirm = (record: Item) => {
