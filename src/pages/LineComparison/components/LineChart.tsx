@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import { observer } from '@/hooks/storeHook'
 import storeContext from '../context'
 
-const ConsumptionChart: React.FC = () => {
+const LineComparisonChart: React.FC = () => {
   const { store } = useContext(storeContext)
   const { lineComparisonDataChartData, filters } = store
 
@@ -16,7 +16,7 @@ const ConsumptionChart: React.FC = () => {
     '0013': 'M'
   }
   const dataRangeLabelUnit: { [key: string]: string } = {
-    '0011': '小时',
+    '0011': 'h',
     '0012': '',
     '0013': '月'
   }
@@ -27,7 +27,12 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: ''
+      text: filters.datatype === '0002' ? '电量对比' : '水量对比',
+      align: 'left',
+      style: {
+        fontSize: 14,
+        color: '#d8d8d8'
+      }
     },
     plotOptions: {
       series: {
@@ -40,6 +45,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     legend: {
+      verticalAlign: 'top',
       itemStyle: {
         color: '#ffffff'
       }
@@ -84,4 +90,4 @@ const ConsumptionChart: React.FC = () => {
   return <HighchartsReact highcharts={Highcharts} options={options} />
 }
 
-export default observer(ConsumptionChart)
+export default observer(LineComparisonChart)
