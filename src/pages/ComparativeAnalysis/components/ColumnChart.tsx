@@ -39,14 +39,7 @@ const ConsumptionChart: React.FC = () => {
       column: {
         borderColor: '',
         shadow: false,
-        borderRadius: 0,
-        color: {
-          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-          stops: [
-            [0, '#3e3e8e'],
-            [1, 'rgba(0,0,0,.1)']
-          ]
-        }
+        borderRadius: 0
       },
       series: {
         dataLabels: {
@@ -98,15 +91,32 @@ const ConsumptionChart: React.FC = () => {
       },
       labels: {
         style: {
-          color: 'd8d8d8'
+          color: '#d8d8d8'
         }
       }
     },
     series: [
-      { name: '本期', data: energyComparativeChartNowData.map((d) => d.energyValue) },
+      {
+        name: '本期',
+        data: energyComparativeChartNowData.map((d) => d.energyValue),
+        color: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#3e3e8e'],
+            [1, 'rgba(0,0,0,.1)']
+          ]
+        }
+      },
       {
         name: filters.yoyOrQoq === 'yoy' ? '同比' : '环比',
-        data: energyComparativeChartYoyQoqData.map((d) => d.energyValue)
+        data: energyComparativeChartYoyQoqData.map((d) => d.energyValue),
+        color: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#4a71a3'],
+            [1, 'rgba(0,0,0,.1)']
+          ]
+        }
       }
     ],
     credits: { enabled: false }

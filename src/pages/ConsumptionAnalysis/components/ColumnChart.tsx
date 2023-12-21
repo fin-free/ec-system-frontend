@@ -74,7 +74,7 @@ const ConsumptionChart: React.FC = () => {
       lineColor: '#3e3e3e',
       labels: {
         style: {
-          color: 'd8d8d8'
+          color: '#d8d8d8'
         },
         formatter: function (value: any) {
           return `${dayjs(value.value).format(dataRangeLabelFormat[filters.datetype])}${
