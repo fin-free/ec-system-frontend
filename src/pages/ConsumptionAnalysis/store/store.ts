@@ -8,6 +8,7 @@ export default class Store {
     makeAutoObservable(this)
   }
 
+  public loading = false
   public mode = 'chart'
   public selectedArchiveId: string = ''
   public filters = {

@@ -72,11 +72,11 @@ const ConsumptionChart: React.FC = () => {
       enabled: false
     },
     xAxis: {
-      startOnTick: true,
-      endOnTick: true,
+      gridLineColor: '#65656533',
+      gridLineWidth: 1,
       categories: energyConsumptionData.map((d) => d.clearingPeriod),
-      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 6,
-      lineColor: '#3e3e3e',
+      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 5,
+      lineColor: '#65656533',
       labels: {
         style: {
           color: '#d8d8d8'
@@ -89,7 +89,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
-      gridLineColor: '#3e3e3e',
+      gridLineColor: '#65656533',
       title: {
         text: '',
         style: {
@@ -155,12 +155,12 @@ const ConsumptionChart: React.FC = () => {
       enabled: false
     },
     xAxis: {
-      // startOnTick: true,
-      // endOnTick: true,
-
+      gridLineColor: '#65656533',
+      gridLineWidth: 1,
+      showLastLabel: true,
       categories: energyConsumptionData.map((d) => d.clearingPeriod),
-      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 6,
-      lineColor: '#3e3e3e',
+      tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 5,
+      lineColor: '#65656533',
       labels: {
         style: {
           color: 'white'
@@ -173,7 +173,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
-      gridLineColor: '#3e3e3e',
+      gridLineColor: '#65656533',
       title: {
         text: '',
         style: {

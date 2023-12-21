@@ -12,6 +12,7 @@ export default class Actions {
   }
 
   async getComparativeData(selectedArchiveId?: string) {
+    this.setLoadingState(true)
     const payload = {
       ...this._store.filters,
       archivesId: selectedArchiveId || this._store.selectedArchiveId
@@ -20,16 +21,26 @@ export default class Actions {
       if (res) {
         runInAction(() => {
           const { yoyOrQoq } = this._store.filters
-          this._store.energyComparativeChartNowData = get(res, 'data', []).filter((d: any) => d.type === 'now')[0]?.list
-          this._store.energyComparativeCharYoyQoqData = get(res, 'data', []).filter(
-            (d: any) => d.type === yoyOrQoq
-          )[0]?.list
-          this._store.energyComparativeTableData = get(res, 'data', []).map((d: object, index: number) => ({
-            ...d,
-            orderNum: index + 1
-          }))
+          this._store.energyComparativeChartNowData =
+            get(res, 'data', []).filter((d: any) => d.type === 'now')[0]?.list || []
+          this._store.energyComparativeChartYoyQoqData =
+            get(res, 'data', []).filter((d: any) => d.type === yoyOrQoq)[0]?.list || []
+
+          this._store.energyComparativeTableData = this._store.energyComparativeChartNowData.map(
+            (d: any, index: number) => {
+              const { clearingPeriod, energyValue } = d
+              return {
+                orderNum: index + 1,
+                time: clearingPeriod,
+                energyValue,
+                yoqTime: this._store.energyComparativeChartYoyQoqData[index]?.clearingPeriod,
+                yoqEnergyValue: this._store.energyComparativeChartYoyQoqData[index]?.energyValue
+              }
+            }
+          )
         })
       }
+      this.setLoadingState(false)
     })
   }
 
@@ -56,6 +67,12 @@ export default class Actions {
   setSelectedArchiveId(id: string) {
     runInAction(() => {
       this._store.selectedArchiveId = id
+    })
+  }
+
+  setLoadingState(loading: boolean) {
+    runInAction(() => {
+      this._store.loading = loading
     })
   }
 }

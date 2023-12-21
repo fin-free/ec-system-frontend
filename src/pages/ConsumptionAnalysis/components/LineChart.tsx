@@ -12,8 +12,12 @@ const ConsumptionChart: React.FC = () => {
   const { store } = useContext(storeContext)
   const { energyConsumptionChartData, filters } = store
 
-  const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
-  const dataRangeLabelUnit: { [key: string]: string } = { '0011': 'h', '0012': '', '0013': '月' }
+  const dataRangeLabelFormat: { [key: string]: string } = {
+    '0011': 'MM-DD HH:mm',
+    '0012': 'MM-DD',
+    '0013': 'M'
+  }
+  const dataRangeLabelUnit: { [key: string]: string } = { '0011': '', '0012': '', '0013': '月' }
 
   const options = {
     chart: {
@@ -30,17 +34,34 @@ const ConsumptionChart: React.FC = () => {
     },
     plotOptions: {
       areaspline: {
-        borderColor: '',
-        shadow: false,
-        color: '#3e3e8e'
+        marker: {
+          enable: true,
+          fillColor: 'rgba(255,255,255,.2)',
+          radius: 3
+        },
+        color: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, '#3e3e8e'],
+            [1, 'rgba(0,0,0,.1)']
+          ]
+        }
       },
       series: {
         dataLabels: {
-          enabled: true,
-          style: {
-            color: '#ffffff'
-          }
+          enabled: false
         }
+      }
+    },
+    tooltip: {
+      formatter: function (this: any) {
+        return `
+        <p style="font-weight:bold;">时间:</p>
+        <p>
+          ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}
+        </p>
+        <p style="font-weight:bold;"><br><br>${filters.datatype === '0002' ? '用能' : '用水'}</p>
+        <p>${this.y} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>`
       }
     },
     legend: {
@@ -48,9 +69,11 @@ const ConsumptionChart: React.FC = () => {
     },
     xAxis: {
       categories: energyConsumptionChartData.map((d) => d.clearingPeriod),
+      tickInterval: filters.datetype === '0013' ? 1 : filters.datetype === '0012' ? 5 : 7,
+      lineColor: '#3e3e3e',
       labels: {
         style: {
-          color: 'white'
+          color: '#d8d8d8'
         },
         formatter: function (value: any) {
           return `${dayjs(value.value).format(dataRangeLabelFormat[filters.datetype])}${
@@ -60,18 +83,13 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      gridLineColor: '#3e3e3e',
       title: {
-        text: '',
-        style: {
-          color: '#e8e8e8'
-        }
+        text: ''
       },
       labels: {
         style: {
-          color: 'white'
-        },
-        formatter: function () {
-          return ''
+          color: 'd8d8d8'
         }
       }
     },

@@ -17,13 +17,14 @@ const Toolbar: React.FC = () => {
   const [pickerType, setPickerType] = useState<'date' | 'month' | 'year'>('date')
 
   const onDataTypeChange = (e: RadioChangeEvent) => {
-    const dataType = e.target.value
+    const dateType = e.target.value
 
-    switch (dataType) {
+    switch (dateType) {
       case '0011':
         setPickerType('date')
         setDate(dayjs())
         actions.onSearch({
+          datetype: dateType,
           startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
           endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
         })
@@ -32,6 +33,7 @@ const Toolbar: React.FC = () => {
         setPickerType('month')
         setDate(dayjs())
         actions.onSearch({
+          datetype: dateType,
           startTime: dayjs().startOf('month').format('YYYY-MM-DD 00:00:00'),
           endTime: dayjs().format('YYYY-MM-DD 24:00:00')
         })
@@ -40,6 +42,7 @@ const Toolbar: React.FC = () => {
         setPickerType('year')
         setDate(dayjs())
         actions.onSearch({
+          datetype: dateType,
           startTime: dayjs().startOf('year').format('YYYY-MM-DD 00:00:00'),
           endTime: dayjs().endOf('year').format('YYYY-MM-DD 24:00:00')
         })
@@ -80,34 +83,37 @@ const Toolbar: React.FC = () => {
 
   return (
     <div className={Styles.root}>
-      <Select
-        options={[
-          { label: '电', value: '0002' },
-          { label: '水', value: '0001' }
-        ]}
-        onChange={(val) => {
-          actions.onSearch({
-            datatype: val
-          })
-        }}
-        defaultValue='0002'
-      />
-      <DatePicker
-        allowClear={false}
-        value={date}
-        picker={pickerType}
-        disabledDate={disabledDate}
-        onChange={onDateChange}
-      />
-      <Radio.Group onChange={onYoyOrQoqChange} defaultValue='yoy'>
-        <Radio.Button value='yoy'>同比</Radio.Button>
-        <Radio.Button value='qoq'>环比</Radio.Button>
-      </Radio.Group>
-      <Radio.Group onChange={onDataTypeChange} defaultValue='0011'>
-        <Radio.Button value='0011'>按小时</Radio.Button>
-        <Radio.Button value='0012'>按日</Radio.Button>
-        <Radio.Button value='0013'>按月</Radio.Button>
-      </Radio.Group>
+      <div className='filters'>
+        <Select
+          options={[
+            { label: '电', value: '0002' },
+            { label: '水', value: '0001' }
+          ]}
+          onChange={(val) => {
+            actions.onSearch({
+              datatype: val
+            })
+          }}
+          defaultValue='0002'
+        />
+        <DatePicker
+          allowClear={false}
+          value={date}
+          picker={pickerType}
+          disabledDate={disabledDate}
+          onChange={onDateChange}
+        />
+        <Radio.Group onChange={onYoyOrQoqChange} defaultValue='yoy'>
+          <Radio.Button value='yoy'>同比</Radio.Button>
+          <Radio.Button value='qoq'>环比</Radio.Button>
+        </Radio.Group>
+        <Radio.Group onChange={onDataTypeChange} defaultValue='0011'>
+          <Radio.Button value='0011'>按小时</Radio.Button>
+          <Radio.Button value='0012'>按日</Radio.Button>
+          <Radio.Button value='0013'>按月</Radio.Button>
+        </Radio.Group>
+      </div>
+
       <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='chart'>
         <Radio.Button value='chart'>图表</Radio.Button>
         <Radio.Button value='table'>数据</Radio.Button>

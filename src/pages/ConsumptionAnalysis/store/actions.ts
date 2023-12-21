@@ -12,6 +12,7 @@ export default class Actions {
   }
 
   async getConsumptionData(selectedArchiveId?: string) {
+    this.setLoadingState(true)
     const payload = {
       ...this._store.filters,
       archivesId: selectedArchiveId || this._store.selectedArchiveId
@@ -26,6 +27,7 @@ export default class Actions {
           })
         })
       }
+      this.setLoadingState(false)
     })
   }
 
@@ -51,6 +53,12 @@ export default class Actions {
   setSelectedArchiveId(id: string) {
     runInAction(() => {
       this._store.selectedArchiveId = id
+    })
+  }
+
+  setLoadingState(loading: boolean) {
+    runInAction(() => {
+      this._store.loading = loading
     })
   }
 }

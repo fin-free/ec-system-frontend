@@ -1,13 +1,12 @@
 import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
-import { TableData } from '@/types/ElectricityDataMgt'
-
 export default class Store {
   constructor() {
     makeAutoObservable(this)
   }
 
+  public loading = false
   public mode = 'chart'
   public selectedArchiveId: string = ''
   public filters = {
@@ -29,11 +28,11 @@ export default class Store {
     energyValue: number
     proportion: number
   }[] = []
-  public energyComparativeCharYoyQoqData: {
+  public energyComparativeChartYoyQoqData: {
     clearingPeriod: string
     energyValue: number
     proportion: number
   }[] = []
 
-  public energyComparativeTableData?: TableData = undefined
+  public energyComparativeTableData: any = undefined
 }

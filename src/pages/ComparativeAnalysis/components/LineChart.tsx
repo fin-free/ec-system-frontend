@@ -10,7 +10,7 @@ import storeContext from '../context'
 
 const ConsumptionChart: React.FC = () => {
   const { store } = useContext(storeContext)
-  const { energyComparativeChartNowData = [], energyComparativeCharYoyQoqData = [], filters } = store
+  const { energyComparativeChartNowData = [], energyComparativeChartYoyQoqData = [], filters } = store
 
   const dataRangeLabelFormat: { [key: string]: string } = { '0011': 'HH', '0012': 'MM-DD', '0013': 'M' }
   const dataRangeLabelUnit: { [key: string]: string } = { '0011': '小时', '0012': '', '0013': '月' }
@@ -72,7 +72,7 @@ const ConsumptionChart: React.FC = () => {
       { name: '本期', data: energyComparativeChartNowData.map((d) => d.energyValue) },
       {
         name: filters.yoyOrQoq === 'yoy' ? '同比' : '环比',
-        data: energyComparativeCharYoyQoqData.map((d) => d.energyValue)
+        data: energyComparativeChartYoyQoqData.map((d) => d.energyValue)
       }
     ],
     credits: { enabled: false }
