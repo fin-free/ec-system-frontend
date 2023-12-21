@@ -1,8 +1,10 @@
 import React from 'react'
 
 import { ConfigProvider, theme } from 'antd'
-import zh_CN from 'antd/locale/zh_CN'
+import locale from 'antd/locale/zh_CN'
 import ReactDOM from 'react-dom/client'
+
+import 'dayjs/locale/zh-cn'
 
 import StoreContext from '@/contexts/storeContext'
 import createRootStore from '@/store'
@@ -56,7 +58,7 @@ createRootStore()
     root.render(
       <React.StrictMode>
         <StoreContext.Provider value={store}>
-          <ConfigProvider locale={zh_CN} theme={customTheme}>
+          <ConfigProvider locale={locale} theme={customTheme}>
             <App />
           </ConfigProvider>
         </StoreContext.Provider>
