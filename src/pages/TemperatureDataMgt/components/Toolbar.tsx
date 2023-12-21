@@ -1,27 +1,26 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
-import { DatePicker, Select } from 'antd'
+import { DatePicker, Input } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
-import { observer, useStore } from '@/hooks/storeHook'
+import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
 
+const { Search } = Input
 const { RangePicker } = DatePicker
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
   const {
-    commonStore: { dateTypeOptions }
-  } = useStore()
-  const {
     actions,
     store: { filters }
   } = useContext(storeContext)
+  const [keyWord, setKeyWord] = useState<string>('')
 
   const onDateChange = (date: RangeValue) => {
     actions.onSearch({
@@ -30,9 +29,9 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onDataTypeChange = (value: string) => {
+  const onSearch = () => {
     actions.onSearch({
-      datetype: value
+      equipmentNum: keyWord
     })
   }
 
@@ -43,10 +42,11 @@ const Toolbar: React.FC = () => {
         onChange={onDateChange}
         defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
       />
-      <Select
-        options={dateTypeOptions.filter((opt) => opt.value !== '0011')}
-        defaultValue={filters?.datetype}
-        onChange={onDataTypeChange}
+      <Search
+        placeholder='请输入设备地址'
+        onSearch={onSearch}
+        value={keyWord}
+        onChange={(e) => setKeyWord(e.target.value)}
       />
     </div>
   )

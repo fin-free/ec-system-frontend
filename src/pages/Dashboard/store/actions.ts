@@ -60,7 +60,7 @@ export default class Actions {
         ...searchParams
       }
       this._store.waterConsumptionPayload = {
-        ...this._store.energyConsumptionPayload,
+        ...this._store.waterConsumptionPayload,
         ...searchParams
       }
     })

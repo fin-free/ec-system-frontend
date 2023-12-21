@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 
-import { DatePicker, Select } from 'antd'
+import { DatePicker, Input, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -10,6 +10,7 @@ import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
 
+const { Search } = Input
 const { RangePicker } = DatePicker
 
 type RangeValue = [Dayjs | null, Dayjs | null] | null
@@ -22,8 +23,7 @@ const Toolbar: React.FC = () => {
     actions,
     store: { filters }
   } = useContext(storeContext)
-  const [selectedDateType, setSelectedDateType] = useState<string>(filters.datetype)
-  const [selectedFunctionType, setSelectedFunctionType] = useState<string>(filters.functiontype)
+  const [keyWord, setKeyWord] = useState<string>('')
 
   const onDateChange = (date: RangeValue) => {
     actions.onSearch({
@@ -32,27 +32,11 @@ const Toolbar: React.FC = () => {
     })
   }
 
-  const onDateTypeChange = (value: string) => {
-    setSelectedDateType(value)
+  const onSearch = () => {
     actions.onSearch({
-      datetype: value,
-      functiontype: selectedFunctionType
+      equipmentNum: keyWord
     })
   }
-
-  const onFunctionTypeChange = (value: string) => {
-    setSelectedFunctionType(value)
-    if (value !== '0021' && selectedDateType === '0011') {
-      setSelectedDateType('0012')
-    }
-    actions.onSearch({
-      datetype: selectedDateType,
-      functiontype: value
-    })
-  }
-
-  const dateTypeOpts =
-    filters.functiontype === '0021' ? dateTypeOptions : dateTypeOptions.filter((opt) => opt.value !== '0011')
 
   return (
     <div className={Styles.root}>
@@ -61,8 +45,32 @@ const Toolbar: React.FC = () => {
         onChange={onDateChange}
         defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
       />
-      <Select options={functionTypeOptions} value={selectedFunctionType} onChange={onFunctionTypeChange} />
-      <Select options={dateTypeOpts} value={selectedDateType} onChange={onDateTypeChange} />
+      <Search
+        placeholder='请输入设备地址'
+        onSearch={onSearch}
+        value={keyWord}
+        onChange={(e) => setKeyWord(e.target.value)}
+      />
+      <Select
+        options={functionTypeOptions}
+        onChange={(value: string) =>
+          actions.onSearch({
+            functiontype: value
+          })
+        }
+        defaultValue={filters.functiontype}
+      />
+      {filters.functiontype === '0021' && (
+        <Select
+          options={dateTypeOptions}
+          onChange={(value: string) =>
+            actions.onSearch({
+              datetype: value
+            })
+          }
+          defaultValue={filters.datetype}
+        />
+      )}
     </div>
   )
 }

@@ -44,6 +44,7 @@ export default class Actions {
     datetype?: string
     functiontype?: string
     buildingId?: string
+    equipmentNum?: string
   }) {
     runInAction(() => {
       this._store.filters = { ...this._store.filters, ...searchParams }

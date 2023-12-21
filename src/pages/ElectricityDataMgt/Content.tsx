@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 
-import { observer, useStore } from '@/hooks/storeHook'
+import { observer } from '@/hooks/storeHook'
 
 import DataTable from './components/DataTable'
 import EquipmentList from './components/EquipmentList'
@@ -9,16 +9,14 @@ import storeContext from './context'
 import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
-  const { actions } = useContext(storeContext)
   const {
-    commonStore: { defaultSelectedBuildingKeys }
-  } = useStore()
+    actions,
+    store: { selectedBuildingId }
+  } = useContext(storeContext)
 
   useEffect(() => {
-    if (defaultSelectedBuildingKeys && defaultSelectedBuildingKeys.length > 0) {
-      actions.getElectricityTableData(defaultSelectedBuildingKeys[0])
-    }
-  }, [defaultSelectedBuildingKeys])
+    if (selectedBuildingId) actions.getElectricityTableData(selectedBuildingId)
+  }, [selectedBuildingId])
 
   return (
     <div className={Styles.root}>

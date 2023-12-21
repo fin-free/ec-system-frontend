@@ -42,8 +42,8 @@ export default class Actions {
     startTime?: string
     endTime?: string
     energytype?: string
-    datetype?: string
     buildingId?: string
+    equipmentNum?: string
   }) {
     runInAction(() => {
       this._store.filters = { ...this._store.filters, ...searchParams }

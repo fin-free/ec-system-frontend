@@ -17,7 +17,8 @@ export default class Store {
     datatype: '0002',
     datetype: '0011',
     functiontype: '0021',
-    projectId: '1'
+    projectId: '1',
+    equipmentNum: ''
   }
 
   public pagination = {

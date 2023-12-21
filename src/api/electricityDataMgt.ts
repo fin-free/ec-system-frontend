@@ -11,6 +11,7 @@ type ElectricityDataPayload = {
   datatype: string
   datetype: string
   functiontype: string
+  equipmentNum?: string
   projectId: string
   pageNum: string
   pageSize: string

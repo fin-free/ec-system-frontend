@@ -15,8 +15,8 @@ export default class Store {
     startTime: dayjs().startOf('month').format('YYYY-MM-DD 00:00:00'),
     endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     datatype: '0001',
-    datetype: '0011',
-    projectId: '1'
+    projectId: '1',
+    equipmentNum: ''
   }
   public pagination = {
     total: 0,
