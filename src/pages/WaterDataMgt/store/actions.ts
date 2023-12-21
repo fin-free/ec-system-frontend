@@ -24,7 +24,7 @@ export default class Actions {
         runInAction(() => {
           this._store.pagination = {
             total: get(res, ['data', 'total'], 0),
-            current: get(res, ['data', 'pageNumber'], 0),
+            current: get(res, ['data', 'pageNum'], 0),
             pageSize: get(res, ['data', 'pageSize'], 15),
             showTotal: (total: number) => `共 ${total} 条数据`
           }
@@ -42,6 +42,7 @@ export default class Actions {
     startTime?: string
     endTime?: string
     energytype?: string
+    datetype?: string
     buildingId?: string
     equipmentNum?: string
   }) {

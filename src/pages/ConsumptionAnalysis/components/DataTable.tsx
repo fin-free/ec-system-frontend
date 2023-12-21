@@ -7,8 +7,6 @@ import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
-import Styles from './DataTable.module.scss'
-
 const DataTable: React.FC = () => {
   const {
     store: { loading, energyConsumptionTableData, filters }
@@ -41,10 +39,9 @@ const DataTable: React.FC = () => {
     <Table
       loading={loading}
       size='small'
-      className={Styles.root}
+      pagination={false}
       columns={columns}
       dataSource={energyConsumptionTableData}
-      pagination={{ pageSize: 15 }}
     />
   )
 }

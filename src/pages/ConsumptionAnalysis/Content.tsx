@@ -1,14 +1,14 @@
 import { useContext, useEffect } from 'react'
 
+import { observer, useStore } from '@/hooks/storeHook'
+
+import ColumnChart from './components/ColumnChart'
 import DataTable from './components/DataTable'
 import EquipmentList from './components/EquipmentList'
+import LineChart from './components/LineChart'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
-import ColumnChart from './components/ColumnChart'
-import LineChart from './components/LineChart'
-
-import { observer, useStore } from '@/hooks/storeHook'
 
 const Content: React.FC = () => {
   const {

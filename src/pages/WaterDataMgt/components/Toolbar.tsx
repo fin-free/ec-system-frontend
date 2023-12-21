@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 
-import { DatePicker, Input } from 'antd'
+import { DatePicker, Input, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
-import { observer } from '@/hooks/storeHook'
+import { observer, useStore } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
@@ -16,6 +16,9 @@ const { RangePicker } = DatePicker
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 const Toolbar: React.FC = () => {
+  const {
+    commonStore: { dateTypeOptions }
+  } = useStore()
   const {
     actions,
     store: { filters }
@@ -47,6 +50,15 @@ const Toolbar: React.FC = () => {
         onSearch={onSearch}
         value={keyWord}
         onChange={(e) => setKeyWord(e.target.value)}
+      />
+      <Select
+        options={dateTypeOptions}
+        defaultValue={filters?.datetype}
+        onChange={(value: string) =>
+          actions.onSearch({
+            datetype: value
+          })
+        }
       />
     </div>
   )

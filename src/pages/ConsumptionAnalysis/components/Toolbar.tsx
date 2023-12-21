@@ -25,8 +25,8 @@ const Toolbar: React.FC = () => {
         setDate(dayjs())
         actions.onSearch({
           datetype: dateType,
-          startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
-          endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+          startTime: dayjs().format('YYYY-MM-DD 00:00:00'),
+          endTime: dayjs().format('YYYY-MM-DD 24:00:00')
         })
         break
       case '0012':
@@ -55,15 +55,14 @@ const Toolbar: React.FC = () => {
   }
 
   const onDateChange: DatePickerProps['onChange'] = (date: Dayjs | null) => {
+    setDate(date)
     const dateRange = pickerType === 'date' ? 'day' : pickerType
-    const startDateformat = pickerType === 'date' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD 00:00:00'
-    const endDateformat = pickerType === 'date' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD 24:00:00'
+    const startDateformat = 'YYYY-MM-DD 00:00:00'
+    const endDateformat = 'YYYY-MM-DD 24:00:00'
     const startTime =
-      dateRange === 'day'
-        ? dayjs(date).add(-1, 'day').format(startDateformat)
-        : dayjs(date).startOf(dateRange).format(startDateformat)
+      dateRange === 'day' ? dayjs(date).format(startDateformat) : dayjs(date).startOf(dateRange).format(startDateformat)
     const endTime =
-      dateRange === 'day' ? dayjs(date).format(startDateformat) : dayjs(date).endOf(dateRange).format(endDateformat)
+      dateRange === 'day' ? dayjs(date).format(endDateformat) : dayjs(date).endOf(dateRange).format(endDateformat)
 
     actions.onSearch({
       startTime,

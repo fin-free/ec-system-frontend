@@ -15,8 +15,8 @@ export default class Store {
     projectId: '1',
     datetype: '0011',
     datatype: '0002',
-    startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    startTime: dayjs().format('YYYY-MM-DD 00:00:00'),
+    endTime: dayjs().format('YYYY-MM-DD 24:00:00')
   }
 
   public energyConsumptionChartData: { clearingPeriod: string; energyValue: number; proportion: number }[] = []

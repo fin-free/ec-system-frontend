@@ -90,7 +90,7 @@ const ConsumptionChart: React.FC = () => {
       },
       labels: {
         style: {
-          color: 'd8d8d8'
+          color: '#d8d8d8'
         }
       }
     },

@@ -69,7 +69,7 @@ const ConsumptionChart: React.FC = () => {
     },
     xAxis: {
       categories: energyConsumptionChartData.map((d) => d.clearingPeriod),
-      tickInterval: filters.datetype === '0013' ? 1 : filters.datetype === '0012' ? 5 : 7,
+      tickInterval: filters.datetype === '0013' ? 1 : filters.datetype === '0012' ? 5 : 3,
       lineColor: '#3e3e3e',
       labels: {
         style: {
@@ -89,7 +89,7 @@ const ConsumptionChart: React.FC = () => {
       },
       labels: {
         style: {
-          color: 'd8d8d8'
+          color: '#d8d8d8'
         }
       }
     },

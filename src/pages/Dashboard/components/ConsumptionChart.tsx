@@ -14,7 +14,7 @@ import Styles from './ConsumptionChart.module.scss'
 
 const ConsumptionChart: React.FC = () => {
   const { store, actions } = useContext(storeContext)
-  const { energyConsumptionData, energyConsumptionPayload } = store
+  const { energyConsumptionData, waterConsumptionData, energyConsumptionPayload } = store
 
   const dataRangeLabelFormat: { [key: string]: string } = {
     '0011': 'MM-DD HH:mm',
@@ -22,6 +22,11 @@ const ConsumptionChart: React.FC = () => {
     '0013': 'M'
   }
   const dataRangeLabelUnit: { [key: string]: string } = { '0011': '', '0012': '', '0013': '月' }
+  const dataRangeTitle: { [key: string]: string } = {
+    '0011': '24小时',
+    '0012': '一个月',
+    '0013': '一年'
+  }
 
   const energyOptions = {
     chart: {
@@ -29,7 +34,7 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: '最近24小时用电走势（kWh）',
+      text: `最近${dataRangeTitle[energyConsumptionPayload.datetype]}用电走势（kWh）`,
       align: 'left',
       style: {
         fontSize: 14,
@@ -89,6 +94,8 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      min: 0,
+      minRange: 1,
       gridLineColor: '#65656533',
       title: {
         text: '',
@@ -112,7 +119,7 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: '最近24小时用水走势（t）',
+      text: `最近${dataRangeTitle[energyConsumptionPayload.datetype]}用水走势（t）`,
       align: 'left',
       style: {
         fontSize: 14,
@@ -158,7 +165,7 @@ const ConsumptionChart: React.FC = () => {
       gridLineColor: '#65656533',
       gridLineWidth: 1,
       showLastLabel: true,
-      categories: energyConsumptionData.map((d) => d.clearingPeriod),
+      categories: waterConsumptionData.map((d) => d.clearingPeriod),
       tickInterval: energyConsumptionPayload.datetype === '0013' ? 1 : 5,
       lineColor: '#65656533',
       labels: {
@@ -173,6 +180,9 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      min: 0,
+      minRange: 1,
+      startOnTick: true,
       gridLineColor: '#65656533',
       title: {
         text: '',
@@ -186,7 +196,7 @@ const ConsumptionChart: React.FC = () => {
         }
       }
     },
-    series: [{ name: '用水', data: energyConsumptionData.map((d) => d.energyValue) }],
+    series: [{ name: '用水', data: waterConsumptionData.map((d) => d.energyValue) }],
     credits: { enabled: false }
   }
 

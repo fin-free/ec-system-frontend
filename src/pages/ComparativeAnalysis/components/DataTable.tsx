@@ -40,7 +40,16 @@ const DataTable: React.FC = () => {
     }
   ]
 
-  return <Table loading={loading} className={Styles.root} columns={columns} dataSource={energyComparativeTableData} />
+  return (
+    <Table
+      loading={loading}
+      size='small'
+      className={Styles.root}
+      pagination={false}
+      columns={columns}
+      dataSource={energyComparativeTableData}
+    />
+  )
 }
 
 export default observer(DataTable)
