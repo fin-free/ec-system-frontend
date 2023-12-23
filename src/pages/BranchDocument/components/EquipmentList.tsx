@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
-
+import {
+  EditOutlined,
+  FileAddOutlined,
+  DeleteOutlined,
+  DashboardOutlined
+} from '@ant-design/icons'
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
-import { Popover, Button, Modal, message } from 'antd'
+import { Popover, Button, Modal, message, Tooltip } from 'antd'
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
@@ -156,12 +161,13 @@ const EquipmentList = () => {
     return null
   }
 
-  const onClickAdd = () => {
+  const onClickAdd = (nodeData: NodeData) => {
+    setSelectedNode(nodeData)
     actions.updateTreeMode('add')
     actions.updateCurArchivesItem({
-      parentId: selectedNode?.archivesId,
-      parentName: selectedNode?.archivesName,
-      archivesLevel: selectedNode?.archivesLevel
+      parentId: nodeData?.archivesId,
+      parentName: nodeData?.archivesName,
+      archivesLevel: nodeData?.archivesLevel
     })
   }
 
@@ -169,18 +175,20 @@ const EquipmentList = () => {
     setShowDeleteModal(true)
   }
 
-  const onClickEdit = () => {
+  const onClickEdit = (nodeData: NodeData) => {
+    setSelectedNode(nodeData)
     actions.updateTreeMode('edit')
     actions.updateCurArchivesItem({
-      archivesName: selectedNode?.archivesName,
-      archivesLevel: selectedNode?.archivesLevel,
-      parentId: selectedNode?.parentId,
-      parentName: selectedNode?.parentName,
-      archivesId: selectedNode?.archivesId
+      archivesName: nodeData?.archivesName,
+      archivesLevel: nodeData?.archivesLevel,
+      parentId: nodeData?.parentId,
+      parentName: nodeData?.parentName,
+      archivesId: nodeData?.archivesId
     })
   }
 
-  const onClickManage = () => {
+  const onClickManage = (nodeData: NodeData) => {
+    setSelectedNode(nodeData)
     // actions.updateSelectedArchivesId(selectedNode?.archivesId as number)
     actions.updateTreeMode('manage')
   }
@@ -205,13 +213,33 @@ const EquipmentList = () => {
     setShowDeleteModal(false)
   }
 
-  const getContent = () =>
+  const getContent = (nodeData: NodeData) =>
     store.treeMode === 'manage' ? null : (
       <div className={Styles.optionList}>
-        <Button onClick={onClickAdd}>新增子档案</Button>
-        <Button onClick={onClickEdit}>修改档案</Button>
-        <Button onClick={onClickDelete}>删除档案</Button>
-        <Button onClick={onClickManage}>配表</Button>
+        <Tooltip title='新增子档案'>
+          <Button
+            icon={<FileAddOutlined />}
+            onClick={() => onClickAdd(nodeData)}
+          />
+        </Tooltip>
+        <Tooltip title='修改档案'>
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => onClickEdit(nodeData)}
+          />
+        </Tooltip>
+        <Tooltip title='删除档案'>
+          <Button
+            icon={<DeleteOutlined />}
+            onClick={() => onClickDelete(nodeData)}
+          />
+        </Tooltip>
+        <Tooltip title='配表'>
+          <Button
+            icon={<DashboardOutlined />}
+            onClick={() => onClickManage(nodeData)}
+          />
+        </Tooltip>
       </div>
     )
 
@@ -225,12 +253,12 @@ const EquipmentList = () => {
   const treeTitleRender = (nodeData: NodeData) => {
     return (
       <Popover
-        content={getContent()}
-        open={showPopoverNodeKey === nodeData.archivesId}
+        content={getContent(nodeData)}
+        // open={showPopoverNodeKey === nodeData.archivesId}
+        trigger={'hover'}
+        placement='right'
       >
-        <div onContextMenu={(e) => onRightClickNode(e, nodeData)}>
-          {nodeData.archivesName}
-        </div>
+        <div>{nodeData.archivesName}</div>
       </Popover>
     )
   }

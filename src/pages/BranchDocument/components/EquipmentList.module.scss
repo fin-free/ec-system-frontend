@@ -13,8 +13,12 @@
 
 .optionList {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
-  width: 120px;
-  height: 120px;
+}
+
+:global {
+  .ant-popover .ant-popover-inner {
+    padding: 4px !important;
+  }
 }

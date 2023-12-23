@@ -2,12 +2,137 @@ import React, { useContext, useEffect, useRef } from 'react'
 import G6, { TreeGraph } from '@antv/g6'
 import { observer } from '@/hooks/storeHook'
 import storeContext from '../context'
-// import storeContext from '../context'
+import Styles from './LineLossTree.module.scss'
+G6.registerNode(
+  'icon-node',
+  {
+    options: {
+      size: [60, 20], // 宽高
+      stroke: '#91d5ff', // 变颜色
+      fill: '#fff' // 填充色
+    },
+    // draw是绘制后的附加操作-节点的配置项  图形分组，节点中图形对象的容器
+    // draw(cfg, group) {
+    //   // 获取节点的配置
+    //   const styles = group.getShapeBase()
+    //   // 解构赋值
+    //   const { labelCfg = {} } = cfg
+
+    //   const w = styles.width
+    //   const h = styles.height
+    //   // 向分组中添加新的图形 图形 配置 rect矩形 xy 代表左上角坐标 w h是宽高
+    //   const keyShape = group.addShape('rect', {
+    //     attrs: {
+    //       ...styles,
+    //       x: -w / 2,
+    //       y: -h / 2
+    //     }
+    //   })
+
+    //   // 文本文字的配置
+    //   if (cfg.label) {
+    //     group.addShape('text', {
+    //       attrs: {
+    //         ...labelCfg.style,
+    //         text: cfg.label,
+    //         x: 50 - w / 2,
+    //         y: 25 - h / 2
+    //       }
+    //     })
+    //   }
+
+    //   return keyShape
+    // },
+    // 更新节点后的操作，一般同 afterDraw 配合使用
+    update: undefined
+  },
+  'rect'
+)
+G6.registerEdge('flow-line', {
+  // 绘制后的附加操作
+  draw(cfg, group) {
+    // 边两端与起始节点和结束节点的交点；
+    const startPoint = cfg.startPoint
+    const endPoint = cfg.endPoint
+    // 边的配置
+    const { style } = cfg
+    const shape = group.addShape('path', {
+      attrs: {
+        stroke: style?.stroke, // 边框的样式
+        endArrow: style?.endArrow, // 结束箭头
+        // 路径
+        path: [
+          ['M', startPoint?.x, startPoint?.y],
+          ['L', startPoint?.x, (startPoint?.y! + endPoint?.y!) / 2],
+          ['L', endPoint?.x, (startPoint?.y! + endPoint?.y!) / 2],
+          ['L', endPoint?.x, endPoint?.y]
+        ]
+      }
+    })
+
+    return shape
+  }
+})
+// 默认的鼠标悬停会加粗,边框颜色改变
+const defaultStateStyles = {
+  hover: {
+    stroke: '#1890ff',
+    lineWidth: 2
+  }
+}
+
+// 默认节点的颜色 边 圆角的配置
+const defaultNodeStyle = {
+  fill: '#26266d',
+  stroke: '#ccc',
+  radius: 5
+}
+
+// 默认边的颜色 末尾箭头
+const defaultEdgeStyle = {
+  stroke: '#ccc'
+}
+
+// 默认布局
+// compactBox 紧凑树布局
+// 从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。
+const defaultLayout = {
+  type: 'compactBox', // 布局类型树
+  direction: 'TB', // TB 根节点在上，往下布局
+  getId: function getId(d: any) {
+    // 节点 id 的回调函数
+    return d.id
+  },
+  getHeight: function getHeight() {
+    // 节点高度的回调函数
+    return 16
+  },
+  getWidth: function getWidth() {
+    // 节点宽度的回调函数
+    return 16
+  },
+  getVGap: function getVGap() {
+    // 节点纵向间距的回调函数
+    return 40
+  },
+  getHGap: function getHGap() {
+    // 节点横向间距的回调函数
+    return 70
+  }
+}
+
+// 文本配置项
+const defaultLabelCfg = {
+  style: {
+    fill: '#fff',
+    fontSize: 10
+  }
+}
+
 const ArchiveTree: React.FC = () => {
   const {
     store: { treeLossCompareData }
   } = useContext(storeContext)
-  // const { actions } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
   const mapLossToTreeData = (lossData: Array<any>) => {
     return lossData?.length > 0
@@ -21,74 +146,82 @@ const ArchiveTree: React.FC = () => {
       : []
   }
   useEffect(() => {
+    // if (typeof window !== 'undefined') {
+    //   window.onresize = () => {
+    //     if (!graph || graph.get('destroyed')) return
+    //     if (!container || !container.scrollWidth || !container.scrollHeight)
+    //       return
+    //     graph.changeSize(container.scrollWidth, container.scrollHeight)
+    //   }
+    // }
+    // 获取容器
+    const container = document.getElementById('mountRoot')
+    // 获取容器的宽高
+    const width = container?.scrollWidth
+    const height = container?.scrollHeight || 500
+
+    // const menu = new G6.Menu({
+    //   offsetX: 10,
+    //   offsetY: 10,
+    //   itemTypes: ['node'],
+    //   getContent(e) {
+    //     const outDiv = document.createElement('div')
+    //     outDiv.style.width = '100px'
+    //     outDiv.innerHTML = `<ul>
+    //      <li>增加节点</li>
+    //      <li>删除节点</li>
+    //      <li>查看节点</li>
+    //      <li>编辑节点</li>
+    //      </ul>`
+    //     return outDiv
+    //   }
+    // })
+
+    // Graph 是 G6 图表的载体-实例化
     const graph = new G6.TreeGraph({
-      container: 'mountRoot',
-      layout: {
-        // Object，对于 TreeGraph 为必须字段
-        type: 'compactBox',
-        direction: 'TB'
-      },
-      fitView: true,
-      defaultNode: {
-        // 节点类型，cicle:圆形，rect:矩形，ellipse:椭圆，diamond:菱形，triangle：三角形，star：五角星，image：图片，modelRect：卡片
-        type: 'rect',
-        // size 设置矩形的长和宽
-        size: [60, 34],
-        // 指定边连入节点的连接点的位置，可以为空，具体可以看一下官网是通过0、0.5、1来控制哪个点的。
-        anchorPoints: [
-          [0.5, 1],
-          [0.5, 0]
-        ],
-        // 节点样式
-        style: {
-          // 节点填充色
-          fill: '#DDE2E9',
-          // 节点的描边颜色。
-          stroke: '',
-          // 阴影颜色
-          shadowColor: '#f00',
-          // 阴影范围
-          shadowBlur: 5,
-          // 鼠标经过是的形状，跟css是一样的。
-          cursor: 'pointer',
-          // 圆角
-          radius: 4
-        },
-        // 配置节点中的文字。
-        labelCfg: {
-          // 节点文字位置
-          position: 'center',
-          // 偏移量
-          // offset: -15,
-          // 标签的样式属性。
-          style: {
-            // 文本颜色
-            fill: '#535D79',
-            // 文本字体大小
-            fontSize: 6
-          }
-        }
-      },
+      container: 'mountRoot', // 图的 DOM 容器
+      width: 1000,
+      height: 800,
+      linkCenter: true, // 指定边是否连入节点的中心
+      // plugins: [menu], // 插件  minimap
       modes: {
+        // 交互模式
+        // default 模式中包含点击选中节点行为和拖拽画布行为;
         default: [
-          {
-            type: 'scroll-canvas'
-          }
+          // {
+          //   // 这个是可以展开可以收起
+          //   type: 'collapse-expand',
+          //   onChange: function onChange(item, collapsed) {
+          //     const data = item?.get('model')
+          //     data.collapsed = collapsed
+          //     return true
+          //   }
+          // },
+          'drag-canvas',
+          'scroll-canvas'
         ]
       },
-      defaultEdge: {
-        type: 'polyline'
+      // 默认状态下节点的配置
+      defaultNode: {
+        type: 'icon-node',
+        size: [120, 60],
+        style: defaultNodeStyle,
+        labelCfg: defaultLabelCfg
       },
-      width: 1000, // Number，必须，图的宽度
-      height: 600 // Number，必须，图的高度
+      // 默认状态下边的配置，
+      defaultEdge: {
+        type: 'flow-line',
+        style: defaultEdgeStyle
+      },
+      // 各个状态下节点的样式-，例如 hover、selected，3.1 版本新增。
+      nodeStateStyles: defaultStateStyles,
+
+      // 各个状态下边的样式-，例如 hover、selected，3.1 版本新增。
+      edgeStateStyles: defaultStateStyles,
+      // 布局配置项
+      layout: defaultLayout
     })
-    // graph.on('node:click', (evt) => {
-    //   const item = evt.item // 被操作的节点 item
-    //   const target = evt.target // 被操作的具体图形
-    //   console.log(item?._cfg?.model?.id, target)
-    //   actions.updateSelectedArchivesId(item?._cfg?.model?.id as string)
-    //   // ...
-    // })
+
     graphRef.current = graph
     return () => {
       graphRef.current?.destroy()
@@ -101,204 +234,13 @@ const ArchiveTree: React.FC = () => {
     if (treeLossCompareData.length > 0) {
       graph?.data(mapLossToTreeData(treeLossCompareData)[0])
       graph?.render()
+      // 让画布内容适应视口。
+      graph?.fitCenter()
+      // 改变视口的缩放比例，在当前画布比例下缩放，是相对比例。
+      graph?.zoom(1)
     }
   }, [treeLossCompareData])
-  return <div id='mountRoot'></div>
+  return <div className={Styles.treeWrapper} id='mountRoot'></div>
 }
 
 export default observer(ArchiveTree)
-
-// Highcharts.chart('container', {
-//   chart: {
-//       spacingBottom: 30,
-//       marginRight: 120
-//   },
-//   title: {
-//       text: 'Phylogenetic language tree'
-//   },
-//   series: [
-//       {
-//           type: 'treegraph',
-//           keys: ['parent', 'id', 'level'],
-//           clip: false,
-//           data: [
-//               [undefined, 'Proto Indo-European'],
-//               ['Proto Indo-European', 'Balto-Slavic'],
-//               ['Proto Indo-European', 'Germanic'],
-//               ['Proto Indo-European', 'Celtic'],
-//               ['Proto Indo-European', 'Italic'],
-//               ['Proto Indo-European', 'Hellenic'],
-//               ['Proto Indo-European', 'Anatolian'],
-//               ['Proto Indo-European', 'Indo-Iranian'],
-//               ['Proto Indo-European', 'Tocharian'],
-//               ['Indo-Iranian', 'Dardic'],
-//               ['Indo-Iranian', 'Indic'],
-//               ['Indo-Iranian', 'Iranian'],
-//               ['Iranian', 'Old Persian'],
-//               ['Old Persian', 'Middle Persian'],
-//               ['Indic', 'Sanskrit'],
-//               ['Italic', 'Osco-Umbrian'],
-//               ['Italic', 'Latino-Faliscan'],
-//               ['Latino-Faliscan', 'Latin'],
-//               ['Celtic', 'Brythonic'],
-//               ['Celtic', 'Goidelic'],
-//               ['Germanic', 'North Germanic'],
-//               ['Germanic', 'West Germanic'],
-//               ['Germanic', 'East Germanic'],
-//               ['North Germanic', 'Old Norse'],
-//               ['North Germanic', 'Old Swedish'],
-//               ['North Germanic', 'Old Danish'],
-//               ['West Germanic', 'Old English'],
-//               ['West Germanic', 'Old Frisian'],
-//               ['West Germanic', 'Old Dutch'],
-//               ['West Germanic', 'Old Low German'],
-//               ['West Germanic', 'Old High German'],
-//               ['Old Norse', 'Old Icelandic'],
-//               ['Old Norse', 'Old Norwegian'],
-//               ['Old Swedish', 'Middle Swedish'],
-//               ['Old Danish', 'Middle Danish'],
-//               ['Old English', 'Middle English'],
-//               ['Old Dutch', 'Middle Dutch'],
-//               ['Old Low German', 'Middle Low German'],
-//               ['Old High German', 'Middle High German'],
-//               ['Balto-Slavic', 'Baltic'],
-//               ['Balto-Slavic', 'Slavic'],
-//               ['Slavic', 'East Slavic'],
-//               ['Slavic', 'West Slavic'],
-//               ['Slavic', 'South Slavic'],
-//               // Leaves:
-//               ['Proto Indo-European', 'Phrygian', 6],
-//               ['Proto Indo-European', 'Armenian', 6],
-//               ['Proto Indo-European', 'Albanian', 6],
-//               ['Proto Indo-European', 'Thracian', 6],
-//               ['Tocharian', 'Tocharian A', 6],
-//               ['Tocharian', 'Tocharian B', 6],
-//               ['Anatolian', 'Hittite', 6],
-//               ['Anatolian', 'Palaic', 6],
-//               ['Anatolian', 'Luwic', 6],
-//               ['Anatolian', 'Lydian', 6],
-//               ['Iranian', 'Balochi', 6],
-//               ['Iranian', 'Kurdish', 6],
-//               ['Iranian', 'Pashto', 6],
-//               ['Iranian', 'Sogdian', 6],
-//               ['Old Persian', 'Pahlavi', 6],
-//               ['Middle Persian', 'Persian', 6],
-//               ['Hellenic', 'Greek', 6],
-//               ['Dardic', 'Dard', 6],
-//               ['Sanskrit', 'Sindhi', 6],
-//               ['Sanskrit', 'Romani', 6],
-//               ['Sanskrit', 'Urdu', 6],
-//               ['Sanskrit', 'Hindi', 6],
-//               ['Sanskrit', 'Bihari', 6],
-//               ['Sanskrit', 'Assamese', 6],
-//               ['Sanskrit', 'Bengali', 6],
-//               ['Sanskrit', 'Marathi', 6],
-//               ['Sanskrit', 'Gujarati', 6],
-//               ['Sanskrit', 'Punjabi', 6],
-//               ['Sanskrit', 'Sinhalese', 6],
-//               ['Osco-Umbrian', 'Umbrian', 6],
-//               ['Osco-Umbrian', 'Oscan', 6],
-//               ['Latino-Faliscan', 'Faliscan', 6],
-//               ['Latin', 'Portugese', 6],
-//               ['Latin', 'Spanish', 6],
-//               ['Latin', 'French', 6],
-//               ['Latin', 'Romanian', 6],
-//               ['Latin', 'Italian', 6],
-//               ['Latin', 'Catalan', 6],
-//               ['Latin', 'Franco-Provençal', 6],
-//               ['Latin', 'Rhaeto-Romance', 6],
-//               ['Brythonic', 'Welsh', 6],
-//               ['Brythonic', 'Breton', 6],
-//               ['Brythonic', 'Cornish', 6],
-//               ['Brythonic', 'Cuymbric', 6],
-//               ['Goidelic', 'Modern Irish', 6],
-//               ['Goidelic', 'Scottish Gaelic', 6],
-//               ['Goidelic', 'Manx', 6],
-//               ['East Germanic', 'Gothic', 6],
-//               ['Middle Low German', 'Low German', 6],
-//               ['Middle High German', '(High) German', 6],
-//               ['Middle High German', 'Yiddish', 6],
-//               ['Middle English', 'English', 6],
-//               ['Middle Dutch', 'Hollandic', 6],
-//               ['Middle Dutch', 'Flemish', 6],
-//               ['Middle Dutch', 'Dutch', 6],
-//               ['Middle Dutch', 'Limburgish', 6],
-//               ['Middle Dutch', 'Brabantian', 6],
-//               ['Middle Dutch', 'Rhinelandic', 6],
-//               ['Old Frisian', 'Frisian', 6],
-//               ['Middle Danish', 'Danish', 6],
-//               ['Middle Swedish', 'Swedish', 6],
-//               ['Old Norwegian', 'Norwegian', 6],
-//               ['Old Norse', 'Faroese', 6],
-//               ['Old Icelandic', 'Icelandic', 6],
-//               ['Baltic', 'Old Prussian', 6],
-//               ['Baltic', 'Lithuanian', 6],
-//               ['Baltic', 'Latvian', 6],
-//               ['West Slavic', 'Polish', 6],
-//               ['West Slavic', 'Slovak', 6],
-//               ['West Slavic', 'Czech', 6],
-//               ['West Slavic', 'Wendish', 6],
-//               ['East Slavic', 'Bulgarian', 6],
-//               ['East Slavic', 'Old Church Slavonic', 6],
-//               ['East Slavic', 'Macedonian', 6],
-//               ['East Slavic', 'Serbo-Croatian', 6],
-//               ['East Slavic', 'Slovene', 6],
-//               ['South Slavic', 'Russian', 6],
-//               ['South Slavic', 'Ukrainian', 6],
-//               ['South Slavic', 'Belarusian', 6],
-//               ['South Slavic', 'Rusyn', 6]
-//           ],
-//           marker: {
-//               symbol: 'circle',
-//               radius: 6,
-//               fillColor: '#ffffff',
-//               lineWidth: 3
-//           },
-//           dataLabels: {
-//               align: 'left',
-//               pointFormat: '{point.id}',
-//               style: {
-//                   color: '#000000',
-//                   textOutline: '3px #ffffff',
-//                   whiteSpace: 'nowrap'
-//               },
-//               x: 24,
-//               crop: false,
-//               overflow: 'none'
-//           },
-//           levels: [
-//               {
-//                   level: 1,
-//                   levelIsConstant: false
-//               },
-//               {
-//                   level: 2,
-//                   colorByPoint: true
-//               },
-//               {
-//                   level: 3,
-//                   colorVariation: {
-//                       key: 'brightness',
-//                       to: -0.5
-//                   }
-//               },
-//               {
-//                   level: 4,
-//                   colorVariation: {
-//                       key: 'brightness',
-//                       to: 0.5
-//                   }
-//               },
-//               {
-//                   level: 6,
-//                   dataLabels: {
-//                       x: 10
-//                   },
-//                   marker: {
-//                       radius: 4
-//                   }
-//               }
-//           ]
-//       }
-//   ]
-// });

@@ -3,6 +3,99 @@ import G6, { TreeGraph } from '@antv/g6'
 import { useStore, observer } from '@/hooks/storeHook'
 import storeContext from '../context'
 import { TreeNode } from '@/types'
+G6.registerNode(
+  'icon-node',
+  {
+    options: {
+      size: [60, 20], // 宽高
+      stroke: '#91d5ff', // 变颜色
+      fill: '#fff' // 填充色
+    },
+    update: undefined
+  },
+  'rect'
+)
+G6.registerEdge('flow-line', {
+  // 绘制后的附加操作
+  draw(cfg, group) {
+    // 边两端与起始节点和结束节点的交点；
+    const startPoint = cfg.startPoint
+    const endPoint = cfg.endPoint
+    // 边的配置
+    const { style } = cfg
+    const shape = group.addShape('path', {
+      attrs: {
+        stroke: style?.stroke, // 边框的样式
+        endArrow: style?.endArrow, // 结束箭头
+        // 路径
+        path: [
+          ['M', startPoint?.x, startPoint?.y],
+          ['L', startPoint?.x, (startPoint?.y! + endPoint?.y!) / 2],
+          ['L', endPoint?.x, (startPoint?.y! + endPoint?.y!) / 2],
+          ['L', endPoint?.x, endPoint?.y]
+        ]
+      }
+    })
+
+    return shape
+  }
+})
+// 默认的鼠标悬停会加粗,边框颜色改变
+const defaultStateStyles = {
+  hover: {
+    stroke: '#1890ff',
+    lineWidth: 2
+  }
+}
+
+// 默认节点的颜色 边 圆角的配置
+const defaultNodeStyle = {
+  fill: '#26266d',
+  stroke: '#ccc',
+  radius: 5
+}
+
+// 默认边的颜色 末尾箭头
+const defaultEdgeStyle = {
+  stroke: '#ccc'
+}
+
+// 默认布局
+// compactBox 紧凑树布局
+// 从根节点开始，同一深度的节点在同一层，并且布局时会将节点大小考虑进去。
+const defaultLayout = {
+  type: 'compactBox', // 布局类型树
+  direction: 'TB', // TB 根节点在上，往下布局
+  getId: function getId(d: any) {
+    // 节点 id 的回调函数
+    return d.id
+  },
+  getHeight: function getHeight() {
+    // 节点高度的回调函数
+    return 16
+  },
+  getWidth: function getWidth() {
+    // 节点宽度的回调函数
+    return 16
+  },
+  getVGap: function getVGap() {
+    // 节点纵向间距的回调函数
+    return 40
+  },
+  getHGap: function getHGap() {
+    // 节点横向间距的回调函数
+    return 70
+  }
+}
+
+// 文本配置项
+const defaultLabelCfg = {
+  style: {
+    fill: '#fff',
+    fontSize: 10
+  }
+}
+
 const ArchiveTree: React.FC = () => {
   const {
     commonStore: { achieveList }
@@ -35,66 +128,48 @@ const ArchiveTree: React.FC = () => {
   }
   useEffect(() => {
     const graph = new G6.TreeGraph({
-      container: 'mountRoot',
-      layout: {
-        // Object，对于 TreeGraph 为必须字段
-        type: 'compactBox',
-        direction: 'TB'
+      container: 'mountRoot', // 图的 DOM 容器
+      width: 1000,
+      height: 800,
+      linkCenter: true, // 指定边是否连入节点的中心
+      // plugins: [menu], // 插件  minimap
+      modes: {
+        // 交互模式
+        // default 模式中包含点击选中节点行为和拖拽画布行为;
+        default: [
+          // {
+          //   // 这个是可以展开可以收起
+          //   type: 'collapse-expand',
+          //   onChange: function onChange(item, collapsed) {
+          //     const data = item?.get('model')
+          //     data.collapsed = collapsed
+          //     return true
+          //   }
+          // },
+          'drag-canvas',
+          'scroll-canvas'
+        ]
       },
-      fitView: true,
+      // 默认状态下节点的配置
       defaultNode: {
-        // 节点类型，cicle:圆形，rect:矩形，ellipse:椭圆，diamond:菱形，triangle：三角形，star：五角星，image：图片，modelRect：卡片
-        type: 'rect',
-        // size 设置矩形的长和宽
-        size: [60, 34],
-        // 指定边连入节点的连接点的位置，可以为空，具体可以看一下官网是通过0、0.5、1来控制哪个点的。
-        anchorPoints: [
-          [0.5, 1],
-          [0.5, 0]
-        ],
-        // 节点样式
-        style: {
-          // 节点填充色
-          fill: '#DDE2E9',
-          // 节点的描边颜色。
-          stroke: '',
-          // 阴影颜色
-          shadowColor: '#f00',
-          // 阴影范围
-          shadowBlur: 5,
-          // 鼠标经过是的形状，跟css是一样的。
-          cursor: 'pointer',
-          // 圆角
-          radius: 4
-        },
-        // 配置节点中的文字。
-        labelCfg: {
-          // 节点文字位置
-          // position: 'top',
-          // 偏移量
-          // offset: 5,
-          // 标签的样式属性。
-          style: {
-            // 文本颜色
-            fill: '#535D79',
-            // 文本字体大小
-            fontSize: 8
-          }
-        }
+        type: 'icon-node',
+        size: [120, 60],
+        style: defaultNodeStyle,
+        labelCfg: defaultLabelCfg
       },
+      // 默认状态下边的配置，
       defaultEdge: {
-        type: 'polyline'
+        type: 'flow-line',
+        style: defaultEdgeStyle
       },
-      width: 1000, // Number，必须，图的宽度
-      height: 600 // Number，必须，图的高度
+      // 各个状态下节点的样式-，例如 hover、selected，3.1 版本新增。
+      nodeStateStyles: defaultStateStyles,
+
+      // 各个状态下边的样式-，例如 hover、selected，3.1 版本新增。
+      edgeStateStyles: defaultStateStyles,
+      // 布局配置项
+      layout: defaultLayout
     })
-    // graph.on('node:click', (evt) => {
-    //   const item = evt.item // 被操作的节点 item
-    //   const target = evt.target // 被操作的具体图形
-    //   console.log(item?._cfg?.model?.id, target)
-    //   actions.updateSelectedArchivesId(item?._cfg?.model?.id as string)
-    //   // ...
-    // })
     graphRef.current = graph
     return () => {
       graphRef.current?.destroy()
@@ -112,6 +187,10 @@ const ArchiveTree: React.FC = () => {
         )
       )
       graph?.render()
+      // 让画布内容适应视口。
+      graph?.fitCenter()
+      // 改变视口的缩放比例，在当前画布比例下缩放，是相对比例。
+      graph?.zoom(1)
     }
   }, [achieveList, selectedNode])
   return <div id='mountRoot'></div>

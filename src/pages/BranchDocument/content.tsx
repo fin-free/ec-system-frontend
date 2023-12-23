@@ -8,6 +8,7 @@ import storeContext from './context'
 import { observer } from '@/hooks/storeHook'
 import Styles from './index.module.scss'
 import { useStore } from '@/hooks/storeHook'
+import { DoubleRightOutlined } from '@ant-design/icons'
 
 const Content: React.FC = () => {
   const { store } = useContext(storeContext)
@@ -26,6 +27,9 @@ const Content: React.FC = () => {
       ) : (
         <>
           <EquipmentList />
+          {store.treeMode === 'manage' ? (
+            <DoubleRightOutlined style={{ marginLeft: 16, fontSize: 50 }} />
+          ) : null}
           <div className='content'>
             <div className={Styles.innerContent}>
               {store.treeMode === 'manage' ? <EnergyList /> : <ArchiveTree />}
