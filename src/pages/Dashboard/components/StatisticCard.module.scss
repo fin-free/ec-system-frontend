@@ -4,15 +4,30 @@
   padding: 24px 32px;
   border-radius: 8px;
 
-  > div:nth-child(1) {
-    border-left: 6px solid #fff;
+  >div:nth-child(1) {
     padding-left: 12px;
     font-size: 16px;
   }
 
-  > div:nth-child(2) {
+  >div:nth-child(2) {
     margin-top: 8px;
     font-size: 32px;
     font-weight: 600;
   }
+}
+
+.type-0 {
+  border-left: 6px solid forestgreen;
+}
+
+.type-1 {
+  border-left: 6px solid steelblue;
+}
+
+.type-2 {
+  border-left: 6px solid dimgrey;
+}
+
+.type-3 {
+  border-left: 6px solid darkslateblue;
 }

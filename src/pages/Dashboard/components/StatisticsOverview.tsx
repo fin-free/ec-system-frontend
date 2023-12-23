@@ -13,8 +13,8 @@ const StatisticsOverview: React.FC = () => {
 
   return (
     <div className={Styles.root}>
-      {statisticsList.map((s) => (
-        <StatisticCard key={s.key} title={s.title} value={s.value} />
+      {statisticsList.map((s, i) => (
+        <StatisticCard key={s.key} title={s.title} value={s.value} orderNum={i} />
       ))}
     </div>
   )

@@ -1,14 +1,14 @@
+import cx from 'classnames'
+
 import { StatisticsCard } from '../types'
 
 import Styles from './StatisticCard.module.scss'
 
-interface IProps extends StatisticsCard {}
-
-const StatisticCard: React.FC<IProps> = (props: IProps) => {
-  const { title, value } = props
+const StatisticCard: React.FC<StatisticsCard> = (props: StatisticsCard) => {
+  const { title, value, orderNum } = props
   return (
     <div className={Styles.root}>
-      <div>{title}</div>
+      <div className={cx(Styles[`type-${orderNum}`])}>{title}</div>
       <div>{value}</div>
     </div>
   )

@@ -43,7 +43,7 @@ const ConsumptionChart: React.FC = () => {
           linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
           stops: [
             [0, '#3e3e8e'],
-            [1, 'rgba(0,0,0,.1)']
+            [1, 'rgba(33,33,33,.1)']
           ]
         }
       },

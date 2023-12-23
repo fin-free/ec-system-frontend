@@ -24,7 +24,8 @@ const customTheme = {
     colorText: '#d0d0d0',
     colorBgTextHover: '#1b1b3d',
     bgElevated: 'transparent',
-    controlOutline: '#26266d'
+    controlOutline: '#26266d',
+    hoverBorderColor: '#5858db'
   },
   components: {
     Menu: {
@@ -49,6 +50,27 @@ const customTheme = {
     Button: {
       colorPrimary: '#26266d',
       colorPrimaryHover: '#5858db'
+    },
+    Typography: {
+      colorLink: '#5858db',
+      colorLinkHover: '#8d8df3',
+      colorLinkActive: '#5858db'
+    },
+    Input: {
+      colorPrimary: '#5858db',
+      colorPrimaryHover: '#8d8df3',
+      colorPrimaryActive: '#5858db'
+    },
+    DatePicker: {
+      colorPrimary: '#5858db',
+      colorPrimaryHover: '#8d8df3',
+      colorPrimaryActive: '#5858db',
+      cellHoverWithRangeBg: '#26266d'
+    },
+    Select: {
+      colorPrimary: '#5858db',
+      colorPrimaryHover: '#8d8df3',
+      colorPrimaryActive: '#5858db'
     }
   }
 }
