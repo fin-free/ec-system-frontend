@@ -4,6 +4,5 @@ export interface ChartData {
   list?: {
     clearingPeriod: string
     energyValue: number
-    proportion: number
   }[]
 }

@@ -26,7 +26,7 @@ export default class Actions {
     }
     if (payload.archivesIds.length === 0) {
       runInAction(() => {
-        this._store.lineComparisonChartData = [[]] as any
+        this._store.lineComparisonChartData = [] as any
       })
       return
     }

@@ -11,7 +11,7 @@ import Styles from './DataTable.module.scss'
 import { ChartData } from '../types'
 const DataTable: React.FC = () => {
   const {
-    store: { lineComparisonDataChartData }
+    store: { lineComparisonChartData }
   } = useContext(storeContext)
   const [tableData, setTableData] = useState<any>()
   const [columns, setColumns] = useState<any>()
@@ -48,9 +48,9 @@ const DataTable: React.FC = () => {
     return Array.from(source.values())
   }
   useEffect(() => {
-    setColumns(mapDataToTableColumn(lineComparisonDataChartData))
-    setTableData(mapDataToTableSource(lineComparisonDataChartData))
-  }, [lineComparisonDataChartData])
+    setColumns(mapDataToTableColumn(lineComparisonChartData))
+    setTableData(mapDataToTableSource(lineComparisonChartData))
+  }, [lineComparisonChartData])
 
   return (
     <Table className={Styles.root} columns={columns} dataSource={tableData} />
