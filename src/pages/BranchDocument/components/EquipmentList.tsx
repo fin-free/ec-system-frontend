@@ -26,7 +26,7 @@ const EquipmentList = () => {
   const [showPopoverNodeKey, setShowPopoverNodeKey] = useState<number | null>()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNode, setSelectedNode] = useState<NodeData>()
-  const [treeArchivesData, setTreeArchivesData] = useState<ArchiveList>()
+  const [treeArchivesData, setTreeArchivesData] = useState<TreeNode[]>()
   const [messageApi, contextHolder] = message.useMessage()
 
   const dataList: { key: React.Key; title: string }[] = []
@@ -137,8 +137,8 @@ const EquipmentList = () => {
     })
 
   const onSelect = (
-    selectedKeys: string[],
-    e: { selected: boolean; selectedNodes: NodeData[]; node: NodeData }
+    selectedKeys: React.Key[],
+    e: { selected: boolean; selectedNodes: any[]; node: any }
   ) => {
     if (e.selectedNodes[0]) {
       setSelectedNode(e.selectedNodes[0])
@@ -229,10 +229,7 @@ const EquipmentList = () => {
           />
         </Tooltip>
         <Tooltip title='删除档案'>
-          <Button
-            icon={<DeleteOutlined />}
-            onClick={() => onClickDelete(nodeData)}
-          />
+          <Button icon={<DeleteOutlined />} onClick={() => onClickDelete()} />
         </Tooltip>
         <Tooltip title='配表'>
           <Button
@@ -250,7 +247,7 @@ const EquipmentList = () => {
     actions.updateSelectedNode(nodeData)
   }
 
-  const treeTitleRender = (nodeData: NodeData) => {
+  const treeTitleRender = (nodeData: any) => {
     return (
       <Popover
         content={getContent(nodeData)}

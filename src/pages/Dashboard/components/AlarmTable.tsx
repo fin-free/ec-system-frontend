@@ -23,7 +23,15 @@ const AlarmTable: React.FC = () => {
     CANCELLED: 2
   }
 
-  const alarmType = ['全部', '过压告警', '过流告警', '超功率告警', '温度告警', '湿度告警', '集中器掉线']
+  const alarmType = [
+    '全部',
+    '过压告警',
+    '过流告警',
+    '超功率告警',
+    '温度告警',
+    '湿度告警',
+    '集中器掉线'
+  ]
 
   const eventStatusMap = {
     [EventStatus.WAIT_FOR_CONFIRM]: '待确认',
@@ -48,10 +56,16 @@ const AlarmTable: React.FC = () => {
         return (_: any, record: Item) =>
           record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
-              <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickConfirm(record)}
+              >
                 确认
               </Typography.Link>
-              <Typography.Link disabled={false} onClick={() => onClickCancel(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickCancel(record)}
+              >
                 取消
               </Typography.Link>
             </div>
@@ -79,8 +93,14 @@ const AlarmTable: React.FC = () => {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
       ellipsis: itemKey === 'alarmDetail',
-      align: ['status', 'operations'].includes(itemKey) ? 'center' : 'left',
-      width: ['type', 'status', 'operations'].includes(itemKey) ? 130 : itemKey === 'alarmDetail' ? 400 : undefined,
+      align: (['status', 'operations'].includes(itemKey)
+        ? 'center'
+        : 'left') as any,
+      width: ['type', 'status', 'operations'].includes(itemKey)
+        ? 130
+        : itemKey === 'alarmDetail'
+        ? 400
+        : undefined,
       render
     }
   })
@@ -103,7 +123,13 @@ const AlarmTable: React.FC = () => {
           <Radio.Button value={-1}>全部</Radio.Button>
         </Radio.Group>
       </div>
-      <Table size='small' bordered dataSource={store.filterAlarmData} columns={columns} className={Styles.mainTable} />
+      <Table
+        size='small'
+        bordered
+        dataSource={store.filterAlarmData}
+        columns={columns}
+        className={Styles.mainTable}
+      />
     </div>
   )
 }

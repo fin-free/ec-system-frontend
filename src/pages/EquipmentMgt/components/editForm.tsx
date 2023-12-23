@@ -32,7 +32,7 @@ const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
 }))
 
 interface IProps {
-  equipmentItem: EquipmentItem
+  equipmentItem?: EquipmentItem
   onClickBack: () => void
 }
 

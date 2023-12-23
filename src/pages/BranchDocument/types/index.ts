@@ -9,12 +9,12 @@ export type EnergyItem = {
 }
 
 export type NodeData = {
-  archivesId: number
-  archivesLevel: number
-  archivesName: string
-  children: NodeData[]
+  archivesId?: number
+  archivesLevel?: number
+  archivesName?: string
+  children: NodeData[] | undefined
   key: string
-  matchingStatus: number
-  parentId: number
-  parentName: string
+  matchingStatus?: number
+  parentId?: number
+  parentName?: string
 }

@@ -115,7 +115,8 @@ const ArchiveTree: React.FC = () => {
     })
     return newRoot
   }
-  const getNode = (list: TreeNode[], id: number): TreeNode[] | undefined => {
+  const getNode = (list: TreeNode[], id?: number): TreeNode[] | undefined => {
+    if (!id) return list
     if (!list || list.length === 0) return undefined
     for (const data of list) {
       if (data.key === String(id)) {

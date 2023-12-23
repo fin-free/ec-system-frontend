@@ -36,7 +36,7 @@ export type TreeNode = {
   title: string | ReactNode
   children?: Array<TreeNode>
   selectable?: boolean
-}
+} & Partial<RawTreeNode>
 
 export type RawTreeNode = {
   archivesId: number
@@ -47,6 +47,7 @@ export type RawTreeNode = {
   parentId: number
   parentName: string
 }
+
 export type BuildList = {
   buildingId: number
   buildingName: string
@@ -54,10 +55,4 @@ export type BuildList = {
   childrenList: BuildList
 }[]
 
-export type ArchiveList = {
-  archivesId: number
-  archivesName: string
-  parentId: number
-  matchingStatus: number
-  childrenList: ArchiveList
-}[]
+export type ArchiveList = RawTreeNode[]
