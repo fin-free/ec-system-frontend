@@ -112,7 +112,9 @@ const EquipmentList = () => {
   const treeData = loop(achieveList)
 
   const onCheck = (list: any) => {
-    actions.updateCheckedArchivesIds(list.checked.map((data) => Number(data)))
+    actions.updateCheckedArchivesIds(
+      list.checked.map((data: any) => Number(data))
+    )
     actions.getLineComparisonData(list.checked)
   }
 
