@@ -1,6 +1,15 @@
 import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
+type ChartData = {
+  archivesId: number
+  archivesName: string
+  list: {
+    clearingPeriod: string
+    energyValue: number
+  }[]
+}[]
+
 export default class Store {
   constructor() {
     makeAutoObservable(this)
@@ -13,12 +22,12 @@ export default class Store {
     projectId: '1',
     datetype: '0011',
     datatype: '0002',
-    startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    archivesIds: [] as string[]
+    startTime: dayjs().format('YYYY-MM-DD 00:00:00'),
+    endTime: dayjs().format('YYYY-MM-DD 24:00:00'),
+    archivesIds: [] as number[]
   }
 
-  public lineComparisonChartData: { clearingPeriod: string; energyValue: number; proportion: number }[] = []
+  public lineComparisonChartData: ChartData = []
 
   public lineComparisonTableData: any = undefined
 }

@@ -11,7 +11,11 @@ import Styles from './EquipmentList.module.scss'
 
 const EquipmentList = () => {
   const {
-    commonStore: { achieveList, defaultExpandAchieveKeys, defaultSelectedAchieveKeys }
+    commonStore: {
+      achieveList,
+      defaultExpandAchieveKeys,
+      defaultSelectedAchieveKeys
+    }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
@@ -60,12 +64,19 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
+        if (
+          item.title &&
+          typeof item.title === 'string' &&
+          item.title.indexOf(value) > -1
+        ) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+      .filter(
+        (item, i, self): item is React.Key =>
+          !!(item && self.indexOf(item) === i)
+      )
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -101,13 +112,17 @@ const EquipmentList = () => {
   const treeData = loop(achieveList)
 
   const onCheck = (list: any) => {
-    actions.updateCheckedArchivesIds(list.checked as string[])
-    actions.getLineComparisonData({ archivesIds: list.checked })
+    actions.updateCheckedArchivesIds(list.checked.map((data) => Number(data)))
+    actions.getLineComparisonData(list.checked)
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <SearchInput
+        rootClassName='search-input'
+        onChange={onSearch}
+        placeholder='输入名称搜索...'
+      />
       <Tree
         checkable
         checkStrictly

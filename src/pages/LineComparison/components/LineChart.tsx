@@ -8,7 +8,7 @@ import storeContext from '../context'
 
 const LineComparisonChart: React.FC = () => {
   const { store } = useContext(storeContext)
-  const { lineComparisonDataChartData, filters } = store
+  const { lineComparisonChartData, filters } = store
 
   const dataRangeLabelFormat: { [key: string]: string } = {
     '0011': 'HH',
@@ -51,7 +51,7 @@ const LineComparisonChart: React.FC = () => {
       }
     },
     xAxis: {
-      categories: lineComparisonDataChartData?.[0]?.list?.map(
+      categories: lineComparisonChartData?.[0]?.list?.map(
         (d) => d.clearingPeriod
       ),
       labels: {
@@ -78,7 +78,7 @@ const LineComparisonChart: React.FC = () => {
         }
       }
     },
-    series: lineComparisonDataChartData?.map((data) => {
+    series: lineComparisonChartData?.map((data) => {
       return {
         name: data.archivesName,
         data: data?.list?.map((d) => d.energyValue)

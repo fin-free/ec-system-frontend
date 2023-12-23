@@ -1,7 +1,10 @@
 import { useContext, useState } from 'react'
 
+import type { DatePickerProps } from 'antd'
+
 import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -9,25 +12,28 @@ import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
 
-const { RangePicker } = DatePicker
-type RangeValue = [Dayjs | null, Dayjs | null] | null
-
 const Toolbar: React.FC = () => {
-  const {
-    actions,
-    store: { filters }
-  } = useContext(storeContext)
-  const [dates, setDates] = useState<RangeValue>(null)
-  const [value, setValue] = useState<RangeValue>(null)
-  const [maxDateRange, setMaxDateRange] = useState<number>(1)
+  const { actions } = useContext(storeContext)
+  const [date, setDate] = useState<Dayjs | null>(dayjs())
+  const [pickerType, setPickerType] = useState<'date' | 'month' | 'year'>(
+    'date'
+  )
 
-  const onDateChange = (date: RangeValue) => {
-    setValue(date)
-    const startTime = date![0]!.format('YYYY-MM-DD HH:mm:ss')
-    const endTime = date![1]!.format('YYYY-MM-DD HH:mm:ss')
-    filters.startTime = startTime
-    filters.endTime = endTime
-    actions.getLineComparisonData({
+  const onDateChange: DatePickerProps['onChange'] = (date: Dayjs | null) => {
+    setDate(date)
+    const dateRange = pickerType === 'date' ? 'day' : pickerType
+    const startDateformat = 'YYYY-MM-DD 00:00:00'
+    const endDateformat = 'YYYY-MM-DD 24:00:00'
+    const startTime =
+      dateRange === 'day'
+        ? dayjs(date).format(startDateformat)
+        : dayjs(date).startOf(dateRange).format(startDateformat)
+    const endTime =
+      dateRange === 'day'
+        ? dayjs(date).format(endDateformat)
+        : dayjs(date).endOf(dateRange).format(endDateformat)
+
+    actions.onSearch({
       startTime,
       endTime
     })
@@ -35,27 +41,40 @@ const Toolbar: React.FC = () => {
 
   const onDateTypeChange = (e: RadioChangeEvent) => {
     const dateType = e.target.value
+
     switch (dateType) {
       case '0011':
-        setMaxDateRange(1)
+        setPickerType('date')
+        setDate(dayjs())
+        actions.onSearch({
+          datetype: dateType,
+          startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
+          endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+        })
         break
       case '0012':
-        setMaxDateRange(7)
+        setPickerType('month')
+        setDate(dayjs())
+        actions.onSearch({
+          datetype: dateType,
+          startTime: dayjs().startOf('month').format('YYYY-MM-DD 00:00:00'),
+          endTime: dayjs().format('YYYY-MM-DD 24:00:00')
+        })
         break
       case '0013':
-        setMaxDateRange(30)
+        setPickerType('year')
+        setDate(dayjs())
+        actions.onSearch({
+          datetype: dateType,
+          startTime: dayjs().startOf('year').format('YYYY-MM-DD 00:00:00'),
+          endTime: dayjs().endOf('year').format('YYYY-MM-DD 24:00:00')
+        })
         break
     }
-
-    filters.datetype = dateType
-    actions.getLineComparisonData({
-      datetype: dateType
-    })
   }
 
   const onDataTypeChange = (type: string) => {
-    filters.datatype = type
-    actions.getLineComparisonData({
+    actions.onSearch({
       datatype: type
     })
   }
@@ -65,12 +84,7 @@ const Toolbar: React.FC = () => {
   }
 
   const disabledDate = (current: Dayjs) => {
-    if (!dates) {
-      return false
-    }
-    const tooLate = dates[0] && current.diff(dates[0], 'days') >= maxDateRange
-    const tooEarly = dates[1] && dates[1].diff(current, 'days') >= maxDateRange
-    return !!tooEarly || !!tooLate
+    return current && current > dayjs().endOf('day')
   }
 
   return (
@@ -83,12 +97,12 @@ const Toolbar: React.FC = () => {
         onChange={onDataTypeChange}
         defaultValue='0002'
       />
-      <RangePicker
-        value={dates || value}
-        format={'YYYY-MM-DD'}
-        onChange={onDateChange}
+      <DatePicker
+        allowClear={false}
+        value={date}
+        picker={pickerType}
         disabledDate={disabledDate}
-        onCalendarChange={(val) => setDates(val)}
+        onChange={onDateChange}
       />
       <Radio.Group onChange={onDateTypeChange} defaultValue='0011'>
         <Radio.Button value='0011'>按小时</Radio.Button>
