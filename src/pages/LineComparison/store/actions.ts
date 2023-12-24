@@ -22,7 +22,7 @@ export default class Actions {
     this.setLoadingState(true)
     const payload = {
       ...this._store.filters,
-      archivesIds: archivesIds || this._store.filters.archivesIds
+      archivesIds: archivesIds || this._store.selectedArchiveIds
     }
     if (payload.archivesIds.length === 0) {
       runInAction(() => {
@@ -53,9 +53,9 @@ export default class Actions {
     })
   }
 
-  setSelectedArchiveId(id: string) {
+  setSelectedArchiveIds(ids: number[]) {
     runInAction(() => {
-      this._store.selectedArchiveId = id
+      this._store.selectedArchiveIds = ids
     })
   }
 
@@ -68,11 +68,6 @@ export default class Actions {
   updateDateType(type: string) {
     runInAction(() => {
       this._store.filters.datetype = type
-    })
-  }
-  updateCheckedArchivesIds(ids: number[]) {
-    runInAction(() => {
-      this._store.filters.archivesIds = ids
     })
   }
 

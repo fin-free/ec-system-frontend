@@ -11,20 +11,18 @@ import Styles from './EquipmentList.module.scss'
 
 const EquipmentList = () => {
   const {
-    commonStore: {
-      achieveList,
-      defaultExpandAchieveKeys,
-      defaultSelectedAchieveKeys
-    }
+    commonStore: { achieveList, defaultExpandAchieveKeys, defaultSelectedAchieveKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
+  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [autoExpandParent, setAutoExpandParent] = useState(true)
 
   useEffect(() => {
     setExpandedKeys(defaultExpandAchieveKeys)
-    actions.setSelectedArchiveId(defaultSelectedAchieveKeys[0])
+    setCheckedKeys(defaultSelectedAchieveKeys)
+    actions.setSelectedArchiveIds(defaultSelectedAchieveKeys.map((key) => Number(key)))
   }, [defaultExpandAchieveKeys, defaultSelectedAchieveKeys])
 
   const dataList: { key: React.Key; title: string }[] = []
@@ -64,19 +62,12 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -112,27 +103,24 @@ const EquipmentList = () => {
   const treeData = loop(achieveList)
 
   const onCheck = (list: any) => {
-    actions.updateCheckedArchivesIds(
-      list.checked.map((data: any) => Number(data))
-    )
+    setCheckedKeys(list)
+    actions.setSelectedArchiveIds(list.checked.map((data: any) => Number(data)))
     actions.getLineComparisonData(list.checked)
   }
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
         checkable
         checkStrictly
         selectable={false}
-        onExpand={onExpand}
+        checkedKeys={checkedKeys}
         autoExpandParent={autoExpandParent}
+        defaultCheckedKeys={defaultSelectedAchieveKeys}
         expandedKeys={expandedKeys}
         treeData={treeData}
+        onExpand={onExpand}
         onCheck={onCheck}
       />
     </aside>

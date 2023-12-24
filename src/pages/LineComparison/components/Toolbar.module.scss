@@ -2,21 +2,22 @@
   display: flex;
   column-gap: 24px;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding-bottom: 16px;
 
   :global {
-    .ant-select {
-      width: 80px;
-    }
+    .filters {
+      display: flex;
+      column-gap: 24px;
+      align-items: center;
 
-    .ant-picker {
-      width: 240px;
-    }
+      .ant-select {
+        width: 80px;
+      }
 
-    .radio-group {
-      position: absolute;
-      right: 16px;
+      .ant-picker {
+        width: 180px;
+      }
     }
   }
 }

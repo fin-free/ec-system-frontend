@@ -1,13 +1,13 @@
 import { useContext, useEffect } from 'react'
 
+import { observer, useStore } from '@/hooks/storeHook'
+
 import DataTable from './components/DataTable'
 import EquipmentList from './components/EquipmentList'
+import LineChart from './components/LineChart'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
-import LineChart from './components/LineChart'
-
-import { observer, useStore } from '@/hooks/storeHook'
 
 const Content: React.FC = () => {
   const {
@@ -17,6 +17,12 @@ const Content: React.FC = () => {
   const {
     commonStore: { defaultSelectedAchieveKeys }
   } = useStore()
+
+  useEffect(() => {
+    if (defaultSelectedAchieveKeys && defaultSelectedAchieveKeys.length > 0) {
+      actions.getLineComparisonData(defaultSelectedAchieveKeys.map((key) => Number(key)))
+    }
+  }, [defaultSelectedAchieveKeys])
 
   return (
     <div className={Styles.root}>

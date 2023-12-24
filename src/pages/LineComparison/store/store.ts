@@ -17,7 +17,7 @@ export default class Store {
 
   public loading = false
   public mode = 'chart'
-  public selectedArchiveId: string = ''
+  public selectedArchiveIds: number[] = []
   public filters = {
     projectId: '1',
     datetype: '0011',
@@ -28,6 +28,4 @@ export default class Store {
   }
 
   public lineComparisonChartData: ChartData = []
-
-  public lineComparisonTableData: any = undefined
 }
