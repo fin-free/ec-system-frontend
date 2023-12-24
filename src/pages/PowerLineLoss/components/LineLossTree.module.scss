@@ -8,8 +8,12 @@
       top: 16px;
       left: auto;
       background: transparent;
-
       border: 1px solid rgba(143, 143, 143, 0.2);
+
+      >li:nth-child(1),
+      >li:nth-child(2) {
+        display: none;
+      }
 
       svg {
         fill: #5858db

@@ -102,6 +102,7 @@ const ArchiveTree: React.FC = () => {
         })
       : []
   }
+
   useEffect(() => {
     const toolbar = new ToolBar()
     const graph = new G6.TreeGraph({
