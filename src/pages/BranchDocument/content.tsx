@@ -1,14 +1,15 @@
 import { useContext, useEffect } from 'react'
 
-import EquipmentList from './components/EquipmentList'
-import ArchiveTree from './components/ArchiveTree'
-import EnergyList from './components/EnergyList'
-import EditArchivesForm from './components/EditArchievesForm'
-import storeContext from './context'
-import { observer } from '@/hooks/storeHook'
-import Styles from './index.module.scss'
-import { useStore } from '@/hooks/storeHook'
 import { DoubleRightOutlined } from '@ant-design/icons'
+
+import { observer, useStore } from '@/hooks/storeHook'
+
+import ArchiveTree from './components/ArchiveTree'
+import EditArchivesForm from './components/EditArchievesForm'
+import EnergyList from './components/EnergyList'
+import EquipmentList from './components/EquipmentList'
+import storeContext from './context'
+import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
   const { store } = useContext(storeContext)
@@ -27,13 +28,9 @@ const Content: React.FC = () => {
       ) : (
         <>
           <EquipmentList />
-          {store.treeMode === 'manage' ? (
-            <DoubleRightOutlined style={{ marginLeft: 16, fontSize: 50 }} />
-          ) : null}
+          {store.treeMode === 'manage' ? <DoubleRightOutlined style={{ marginLeft: 16, fontSize: 50 }} /> : null}
           <div className='content'>
-            <div className={Styles.innerContent}>
-              {store.treeMode === 'manage' ? <EnergyList /> : <ArchiveTree />}
-            </div>
+            <div className={Styles.innerContent}>{store.treeMode === 'manage' ? <EnergyList /> : <ArchiveTree />}</div>
           </div>
         </>
       )}

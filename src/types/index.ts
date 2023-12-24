@@ -32,6 +32,7 @@ export type DictItem = {
 }
 
 export type TreeNode = {
+  level?: number
   key: string
   title: string | ReactNode
   children?: Array<TreeNode>

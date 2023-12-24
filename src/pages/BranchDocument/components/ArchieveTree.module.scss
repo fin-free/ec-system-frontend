@@ -1,11 +1,10 @@
-.treeWrapper {
-  height: calc(100vh - 122px);
+.root {
   width: 100%;
+  height: calc(100vh - 122px);
 
   :global {
     .g6-component-toolbar {
-      right: 16px;
-      top: 16px;
+      right: 0;
       left: auto;
       background: transparent;
 

@@ -1,13 +1,14 @@
 import { useContext } from 'react'
 
-import { Button, Radio, DatePicker, RadioChangeEvent, Select } from 'antd'
+import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
-import { observer, useStore } from '@/hooks/storeHook'
+import dayjs from 'dayjs'
+
+import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
 
 import Styles from './Toolbar.module.scss'
-import dayjs from 'dayjs'
 
 const Toolbar: React.FC = () => {
   const {
@@ -42,11 +43,7 @@ const Toolbar: React.FC = () => {
         ]}
         defaultValue={'0002'}
       />
-      <Radio.Group
-        className={Styles.radioGroup}
-        onChange={onDateTypeChange}
-        defaultValue='0012'
-      >
+      <Radio.Group className={Styles.radioGroup} onChange={onDateTypeChange} defaultValue='0012'>
         <Radio.Button value='0012'>按日</Radio.Button>
         <Radio.Button value='0013'>按月</Radio.Button>
       </Radio.Group>
