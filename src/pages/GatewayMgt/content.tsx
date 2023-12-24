@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { Button, Input, message, Modal, Table, Typography } from 'antd'
+import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -78,6 +79,8 @@ const Content: React.FC = () => {
         return (_: any, record: GatewayItem) => {
           return gatewayStatusList[record.status]
         }
+      case 'createTime':
+        return (value: any) => (value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--')
       default:
         return null
     }
@@ -88,6 +91,8 @@ const Content: React.FC = () => {
     return {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
+      width: itemKey === 'operations' ? 130 : undefined,
+      align: itemKey === 'operations' ? 'center' : ('left' as any),
       ...(render ? { render } : null)
     }
   })
@@ -150,12 +155,10 @@ const Content: React.FC = () => {
               onChange={handleProductModelChange}
               placeholder='请输入产品型号'
             />
-            <div className={Styles.buttonWrapper}>
-              <Button type='primary' className={Styles.primaryButton} onClick={handleSearchClick}>
-                查询
-              </Button>
-              <Button onClick={handleResetClick}>重置</Button>
-            </div>
+            <Button type='primary' className={Styles.primaryButton} onClick={handleSearchClick}>
+              查询
+            </Button>
+            <Button onClick={handleResetClick}>重置</Button>
           </div>
           <div className={Styles.secondToolBarWrapper}>
             <Button type='primary' className={Styles.primaryButton} onClick={handleAddClick}>

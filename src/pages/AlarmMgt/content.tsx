@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 
 import { Button, DatePicker, Form, Modal, Select, Table, Typography } from 'antd'
+import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -152,6 +153,8 @@ const Content: React.FC = () => {
         return (_: any, record: Item) => {
           return eventStatusMap[record.status]
         }
+      case 'startTime':
+        return (value: any) => (value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--')
       default:
         return null
     }
@@ -162,6 +165,8 @@ const Content: React.FC = () => {
     return {
       title: columnNameMap[itemKey],
       dataIndex: itemKey,
+      align: itemKey === 'operations' ? 'center' : ('left' as any),
+      width: itemKey === 'operations' ? 130 : undefined,
       ...(itemKey === 'alarmDetail' ? { ellipsis: true } : null),
       ...(render ? { render } : null)
     }
@@ -180,40 +185,49 @@ const Content: React.FC = () => {
     <div className={Styles.root}>
       <Form form={form} component={false}>
         <div className={Styles.toolbarWrapper}>
-          <RangePicker
-            value={store.timeRange}
-            onChange={handleDateChange}
-            format={dateFormat}
-            changeOnBlur
-            showTime={{ format: 'HH:mm:ss' }}
-          />
-          <Select
-            value={store.alarmType}
-            placeholder='告警类型'
-            style={{ width: 120 }}
-            onChange={handleAlarmTypeChange}
-            options={alarmTypeOptions}
-          />
-          <Select
-            value={store.eventStatus}
-            placeholder='事件状态'
-            style={{ width: 120 }}
-            onChange={handleEventStatusChange}
-            options={eventStatusOptions}
-          />
-        </div>
-        {selectedRows.length > 0 ? (
-          <div className={Styles.toolbarWrapper}>
-            <Button type='primary' className={Styles.primaryButton} onClick={handleBatchConfirm}>
+          <div className='filters'>
+            <RangePicker
+              value={store.timeRange}
+              onChange={handleDateChange}
+              format={dateFormat}
+              changeOnBlur
+              showTime={{ format: 'HH:mm:ss' }}
+            />
+            <Select
+              value={store.alarmType}
+              placeholder='告警类型'
+              style={{ width: 120 }}
+              onChange={handleAlarmTypeChange}
+              options={alarmTypeOptions}
+            />
+            <Select
+              value={store.eventStatus}
+              placeholder='事件状态'
+              style={{ width: 120 }}
+              onChange={handleEventStatusChange}
+              options={eventStatusOptions}
+            />
+          </div>
+          <div className='actions'>
+            <Button
+              disabled={selectedRows.length === 0}
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleBatchConfirm}
+            >
               一键确认
             </Button>
-            <Button type='primary' className={Styles.primaryButton} onClick={handleBatchCancel}>
+            <Button
+              disabled={selectedRows.length === 0}
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleBatchCancel}
+            >
               一键取消
             </Button>
           </div>
-        ) : (
-          <div className={Styles.batchHolder} />
-        )}
+        </div>
+
         <div className={Styles.tableWrapper}>
           <Table
             size='small'

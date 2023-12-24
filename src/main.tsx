@@ -49,7 +49,8 @@ const customTheme = {
     },
     Button: {
       colorPrimary: '#26266d',
-      colorPrimaryHover: '#5858db'
+      colorPrimaryHover: '#5858db',
+      colorPrimaryActive: '#26266d'
     },
     Typography: {
       colorLink: '#5858db',

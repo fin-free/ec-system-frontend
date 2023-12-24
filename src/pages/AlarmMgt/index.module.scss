@@ -2,29 +2,35 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 8px;
+  padding: 16px;
   overflow-y: auto;
 }
 
 .toolbarWrapper {
   display: flex;
-  justify-content: flex-start;
-  column-gap: 24px;
-  padding-bottom: 16px;
+  justify-content: space-between;
+
+
+  :global {
+    .filters {
+      display: flex;
+      justify-content: flex-start;
+      column-gap: 24px;
+      padding-bottom: 16px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-start;
+      column-gap: 24px;
+    }
+  }
 }
 
 .operationWrapper {
   display: flex;
   justify-content: space-around;
   align-items: center;
-}
-
-.batchWrapper {
-  margin-top: 10px;
-}
-
-.batchHolder {
-  height: 48px;
 }
 
 .selectWrapper {
