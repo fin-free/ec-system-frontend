@@ -31,14 +31,28 @@
       width: 320px;
 
       .ant-input {
-        background: transparent;
+        &:hover {
+          border-color: rgba(127, 127, 211, 0.6);
+        }
+
+        &:focus {
+          border-color: rgba(127, 127, 211, 0.5);
+          box-shadow: 0 0 0 2px rgba(38, 38, 109, 0.8);
+        }
       }
 
       .ant-input-password {
-        background: transparent;
+        &:hover {
+          border-color: rgba(127, 127, 211, 0.6);
+        }
+
+        &:focus-within {
+          border-color: rgba(127, 127, 211, 0.5);
+          box-shadow: 0 0 0 2px rgba(38, 38, 109, 0.8);
+        }
       }
 
-      > button {
+      >button {
         width: 100%;
         box-shadow: none;
         background: transparent;

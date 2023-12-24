@@ -71,6 +71,11 @@ const customTheme = {
       colorPrimary: '#5858db',
       colorPrimaryHover: '#8d8df3',
       colorPrimaryActive: '#5858db'
+    },
+    Pagination: {
+      colorPrimary: '#5858db',
+      colorPrimaryHover: '#8d8df3',
+      colorPrimaryActive: '#5858db'
     }
   }
 }
