@@ -3,8 +3,9 @@ import { runInAction } from 'mobx'
 
 import * as API from '@/api/gatewayMgt'
 
-import Store from './store'
 import { GatewayItem } from '../typings'
+
+import Store from './store'
 
 export default class Actions {
   private _store: Store

@@ -25,7 +25,7 @@ const ConsumptionChart: React.FC = () => {
       backgroundColor: 'transparent'
     },
     title: {
-      text: filters.datatype === '0002' ? '总用电能趋势' : '总用水量趋势',
+      text: filters.datatype === '0002' ? '用电线路对比（kWh）' : '用水线路对比（t）',
       align: 'left',
       style: {
         fontSize: 14,
@@ -33,19 +33,12 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     plotOptions: {
-      areaspline: {
+      spline: {
         marker: {
           enable: true,
-          fillColor: 'rgba(255,255,255,.2)',
           radius: 3
         },
-        color: {
-          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-          stops: [
-            [0, '#3e3e8e'],
-            [1, 'rgba(33,33,33,.1)']
-          ]
-        }
+        lineWidth: 1
       },
       series: {
         dataLabels: {

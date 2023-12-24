@@ -43,10 +43,7 @@ const ConsumptionChart: React.FC = () => {
       },
       series: {
         dataLabels: {
-          enabled: true,
-          style: {
-            color: '#d8d8d8'
-          }
+          enabled: false
         }
       }
     },

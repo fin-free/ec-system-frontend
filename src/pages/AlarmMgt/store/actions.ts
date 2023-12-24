@@ -3,8 +3,9 @@ import { runInAction } from 'mobx'
 
 import * as API from '@/api/alarmMgt'
 
-import Store from './store'
 import { Item } from '../typings'
+
+import Store from './store'
 
 export default class Actions {
   private _store: Store
@@ -33,9 +34,7 @@ export default class Actions {
     })
 
     if (res) {
-      res.list = res.list.map((listItem) =>
-        Object.assign(listItem, { key: listItem.alarmId })
-      )
+      res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))
       runInAction(() => {
         this._store.pagination = {
           ...this._store.pagination,

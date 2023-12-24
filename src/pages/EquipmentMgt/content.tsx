@@ -1,20 +1,13 @@
-import {
-  Table,
-  Typography,
-  Flex,
-  Button,
-  Input,
-  Select,
-  Modal,
-  message
-} from 'antd'
-import { ArrowLeftOutlined } from '@ant-design/icons'
 import React, { useContext, useState } from 'react'
+
+import { Button, Input, message, Modal, Select, Table, Typography } from 'antd'
+
 import { observer } from '@/hooks/storeHook'
-import Styles from './index.module.scss'
-import storeContext from './context'
-import { EquipmentItem } from './typings'
+
 import EditForm from './components/editForm'
+import storeContext from './context'
+import Styles from './index.module.scss'
+import { EquipmentItem } from './typings'
 
 const columnNameMap: Record<string, string> = {
   order: '序号',
@@ -52,7 +45,6 @@ const Content: React.FC = () => {
   const { store, actions } = useContext(storeContext)
   const [showEditForm, setShowEditForm] = useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
-  const [curEquipmentId, setCurEquipmentId] = useState<number>()
   const [curEquipmentItem, setCurEquipmentItem] = useState<EquipmentItem>()
   const [messageApi, contextHolder] = message.useMessage()
 
@@ -77,16 +69,10 @@ const Content: React.FC = () => {
         return (_: any, record: EquipmentItem) => {
           return (
             <div className={Styles.operationWrapper}>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickEdit(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickEdit(record)}>
                 编辑
               </Typography.Link>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickDelete(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickDelete(record)}>
                 删除
               </Typography.Link>
             </div>
@@ -174,28 +160,20 @@ const Content: React.FC = () => {
               options={equipmentStatusOptions}
             />
             <div className={Styles.buttonWrapper}>
-              <Button
-                type='primary'
-                className={Styles.primaryButton}
-                onClick={handleSearchClick}
-              >
+              <Button type='primary' className={Styles.primaryButton} onClick={handleSearchClick}>
                 查询
               </Button>
               <Button onClick={handleResetClick}>重置</Button>
             </div>
           </div>
           <div className={Styles.secondToolBarWrapper}>
-            <Button
-              type='primary'
-              className={Styles.primaryButton}
-              onClick={handleAddClick}
-            >
+            <Button type='primary' className={Styles.primaryButton} onClick={handleAddClick}>
               新增
             </Button>
           </div>
           <div className={Styles.tableWrapper}>
             <Table
-              bordered
+              size='small'
               dataSource={store.equipmentData}
               columns={columns}
               className={Styles.mainTable}
@@ -208,12 +186,7 @@ const Content: React.FC = () => {
               }}
             />
           </div>
-          <Modal
-            title='确认删除设备'
-            open={showDeleteModal}
-            onOk={handleModalOk}
-            onCancel={handleModalCancel}
-          >
+          <Modal title='确认删除设备' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
             是否删除 {curEquipmentItem?.equipmentName} 设备?
           </Modal>
         </>

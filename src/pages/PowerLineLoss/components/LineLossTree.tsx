@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react'
+
 import G6, { TreeGraph } from '@antv/g6'
+
 import { observer } from '@/hooks/storeHook'
+
 import storeContext from '../context'
+
 import Styles from './LineLossTree.module.scss'
+
 G6.registerNode(
   'icon-node',
   {
@@ -180,8 +185,6 @@ const ArchiveTree: React.FC = () => {
     // Graph 是 G6 图表的载体-实例化
     const graph = new G6.TreeGraph({
       container: 'mountRoot', // 图的 DOM 容器
-      width: 1000,
-      height: 800,
       linkCenter: true, // 指定边是否连入节点的中心
       // plugins: [menu], // 插件  minimap
       modes: {

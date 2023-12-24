@@ -1,14 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import {
-  Button,
-  DatePicker,
-  Form,
-  Select,
-  Table,
-  Typography,
-  Modal
-} from 'antd'
+import { Button, DatePicker, Form, Modal, Select, Table, Typography } from 'antd'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -42,15 +34,7 @@ const columnNameMap: Record<string, string> = {
   operations: '操作'
 }
 
-const alarmType = [
-  '全部',
-  '过压告警',
-  '过流告警',
-  '超功率告警',
-  '温度告警',
-  '湿度告警',
-  '集中器掉线'
-]
+const alarmType = ['全部', '过压告警', '过流告警', '超功率告警', '温度告警', '湿度告警', '集中器掉线']
 const alarmTypeOptions = alarmType.map((item, index) => ({
   label: item,
   value: index
@@ -83,19 +67,13 @@ const Content: React.FC = () => {
   }
 
   const onOkConfirmModal = async () => {
-    await actions.operateAlarm(
-      [curRecord?.alarmId as number],
-      EventStatus.CONFIRMED
-    )
+    await actions.operateAlarm([curRecord?.alarmId as number], EventStatus.CONFIRMED)
     setCurRecord(undefined)
     setShowConfirmModal(false)
   }
 
   const onOkCancelModal = async () => {
-    await actions.operateAlarm(
-      [curRecord?.alarmId as number],
-      EventStatus.CANCELLED
-    )
+    await actions.operateAlarm([curRecord?.alarmId as number], EventStatus.CANCELLED)
     setCurRecord(undefined)
     setShowConfirmModal(false)
   }
@@ -157,16 +135,10 @@ const Content: React.FC = () => {
         return (_: any, record: Item) => {
           return record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickConfirm(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
                 确认
               </Typography.Link>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickCancel(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickCancel(record)}>
                 取消
               </Typography.Link>
             </div>
@@ -232,18 +204,10 @@ const Content: React.FC = () => {
         </div>
         {selectedRows.length > 0 ? (
           <div className={Styles.toolbarWrapper}>
-            <Button
-              type='primary'
-              className={Styles.primaryButton}
-              onClick={handleBatchConfirm}
-            >
+            <Button type='primary' className={Styles.primaryButton} onClick={handleBatchConfirm}>
               一键确认
             </Button>
-            <Button
-              type='primary'
-              className={Styles.primaryButton}
-              onClick={handleBatchCancel}
-            >
+            <Button type='primary' className={Styles.primaryButton} onClick={handleBatchCancel}>
               一键取消
             </Button>
           </div>
@@ -252,7 +216,7 @@ const Content: React.FC = () => {
         )}
         <div className={Styles.tableWrapper}>
           <Table
-            bordered
+            size='small'
             dataSource={store.alarmData}
             columns={columns}
             rowSelection={rowSelection}
@@ -266,20 +230,10 @@ const Content: React.FC = () => {
           />
         </div>
       </Form>
-      <Modal
-        title='确认告警？'
-        open={showConfirmModal}
-        onOk={onOkConfirmModal}
-        onCancel={onCancelConfirmModal}
-      >
+      <Modal title='确认告警？' open={showConfirmModal} onOk={onOkConfirmModal} onCancel={onCancelConfirmModal}>
         设备编号：{curRecord?.equipmentNum}
       </Modal>
-      <Modal
-        title='取消告警？'
-        open={showCancelModal}
-        onOk={onOkCancelModal}
-        onCancel={onCancelCancelModal}
-      >
+      <Modal title='取消告警？' open={showCancelModal} onOk={onOkCancelModal} onCancel={onCancelCancelModal}>
         设备编号：{curRecord?.equipmentNum}
       </Modal>
       <Modal

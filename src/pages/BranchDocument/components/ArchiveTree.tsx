@@ -1,8 +1,12 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+
 import G6, { TreeGraph } from '@antv/g6'
-import { useStore, observer } from '@/hooks/storeHook'
-import storeContext from '../context'
+
+import { observer, useStore } from '@/hooks/storeHook'
 import { TreeNode } from '@/types'
+
+import storeContext from '../context'
+
 G6.registerNode(
   'icon-node',
   {
@@ -130,8 +134,8 @@ const ArchiveTree: React.FC = () => {
   useEffect(() => {
     const graph = new G6.TreeGraph({
       container: 'mountRoot', // 图的 DOM 容器
-      width: 1000,
-      height: 800,
+      // width: 1000,
+      // height: 800,
       linkCenter: true, // 指定边是否连入节点的中心
       // plugins: [menu], // 插件  minimap
       modes: {
@@ -180,13 +184,7 @@ const ArchiveTree: React.FC = () => {
     const graph = graphRef.current
     graph?.clear()
     if (achieveList.length > 0) {
-      graph?.data(
-        mapTreeData(
-          selectedNode
-            ? getNode(achieveList, selectedNode?.archivesId)?.[0]
-            : achieveList[0]
-        )
-      )
+      graph?.data(mapTreeData(selectedNode ? getNode(achieveList, selectedNode?.archivesId)?.[0] : achieveList[0]))
       graph?.render()
       // 让画布内容适应视口。
       graph?.fitCenter()
@@ -194,7 +192,7 @@ const ArchiveTree: React.FC = () => {
       graph?.zoom(1)
     }
   }, [achieveList, selectedNode])
-  return <div id='mountRoot'></div>
+  return <div id='mountRoot' style={{ width: '100%', height: 'calc(100vh - 122px)' }}></div>
 }
 
 export default observer(ArchiveTree)
