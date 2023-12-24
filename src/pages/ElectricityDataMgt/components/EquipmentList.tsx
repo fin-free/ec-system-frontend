@@ -11,11 +11,7 @@ import Styles from './EquipmentList.module.scss'
 
 const EquipmentList = () => {
   const {
-    commonStore: {
-      buildingList,
-      defaultSelectedBuildingKeys,
-      defaultExpandBuildingKeys
-    }
+    commonStore: { buildingList, defaultSelectedBuildingKeys, defaultExpandBuildingKeys }
   } = useStore()
   const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
@@ -66,19 +62,12 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, buildingList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -119,7 +108,12 @@ const EquipmentList = () => {
 
   const treeData = loop(buildingList)
 
-  const onSelect = (keys: React.Key[]) => {
+  const onSelect = (keys: React.Key[], e: any) => {
+    if (!e.selected) {
+      setSelectedKeys([e.node.key])
+      return
+    }
+
     setSelectedKeys(keys)
     const selectedBuildId = keys[0].toString()
     actions.setSelectedBuildingId(selectedBuildId)
@@ -128,11 +122,7 @@ const EquipmentList = () => {
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <Tree
         onExpand={onExpand}
         autoExpandParent={autoExpandParent}

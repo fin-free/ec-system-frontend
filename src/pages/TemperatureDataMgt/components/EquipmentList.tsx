@@ -102,7 +102,12 @@ const EquipmentList = () => {
 
   const treeData = loop(buildingList)
 
-  const onSelect = (keys: React.Key[]) => {
+  const onSelect = (keys: React.Key[], e: any) => {
+    if (!e.selected) {
+      setSelectedKeys([e.node.key])
+      return
+    }
+
     setSelectedKeys(keys)
     const selectedBuildId = keys[0].toString()
     actions.setSelectedBuildingId(selectedBuildId)

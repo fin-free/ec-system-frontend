@@ -1,13 +1,13 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
+import { TreeNode } from '@/types'
 
 import storeContext from '../context'
 
 import Styles from './EquipmentList.module.scss'
-import { TreeNode } from '@/types'
 
 const EquipmentList = () => {
   const {
@@ -102,9 +102,14 @@ const EquipmentList = () => {
 
   const treeData = loop(achieveList)
 
-  const onSelect = (keys: React.Key[]) => {
+  const onSelect = (keys: React.Key[], e: any) => {
+    if (!e.selected) {
+      setSelectedKeys([e.node.key])
+      return
+    }
+
     setSelectedKeys(keys)
-    const selectedArchiveId = selectedKeys[0].toString()
+    const selectedArchiveId = keys[0].toString()
     actions.setSelectedArchiveId(selectedArchiveId)
     actions.getConsumptionData(selectedArchiveId)
   }
