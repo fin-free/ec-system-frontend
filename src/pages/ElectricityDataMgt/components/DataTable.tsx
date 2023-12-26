@@ -43,11 +43,11 @@ const DataTable: React.FC = () => {
         dataIndex: 'dataItemValueTime',
         render: (val: string) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
       },
-      { title: '总', dataIndex: 'dataItemValue' },
-      { title: '尖', dataIndex: 'dataItemValueOne' },
-      { title: '峰', dataIndex: 'dataItemValueTwo' },
-      { title: '平', dataIndex: 'dataItemValueThree' },
-      { title: '谷', dataIndex: 'dataItemValueFour' },
+      { title: '总(kWh)', dataIndex: 'dataItemValue' },
+      { title: '尖(kWh)', dataIndex: 'dataItemValueOne' },
+      { title: '峰(kWh)', dataIndex: 'dataItemValueTwo' },
+      { title: '平(kWh)', dataIndex: 'dataItemValueThree' },
+      { title: '谷(kWh)', dataIndex: 'dataItemValueFour' },
       // { title: '倍率', dataIndex: 'voltage' },
       { title: '状态', dataIndex: 'collectStatus', render: renderCollectStatus }
     ],

@@ -27,14 +27,14 @@ const DataTable: React.FC = () => {
       dataIndex: 'time',
       render: (value: string) => `${dayjs(value).format(dataRangeLabelFormat[filters.datetype])}`
     },
-    { title: '本期用能', dataIndex: 'energyValue', render: (value: number) => value || '--' },
+    { title: '本期用能(kWh)', dataIndex: 'energyValue', render: (value: number) => value || '--' },
     {
       title: filters.yoyOrQoq === 'yoy' ? '同比时间' : '环比时间',
       dataIndex: 'yoqTime',
       render: (value: string) => `${dayjs(value).format(dataRangeLabelFormat[filters.datetype])}`
     },
     {
-      title: filters.yoyOrQoq === 'yoy' ? '同比用能' : '环比用能',
+      title: filters.yoyOrQoq === 'yoy' ? '同比用能(kWh)' : '环比用能(kWh)',
       dataIndex: 'yoqEnergyValue',
       render: (value: number) => value || '--'
     }
