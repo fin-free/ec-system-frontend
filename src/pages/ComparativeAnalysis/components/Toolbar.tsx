@@ -65,6 +65,7 @@ const Toolbar: React.FC = () => {
   }
 
   const onDateChange: DatePickerProps['onChange'] = (date: Dayjs | null) => {
+    setDate(date)
     const dateRange = pickerType === 'date' ? 'day' : pickerType
     const startDateformat = pickerType === 'date' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD 00:00:00'
     const endDateformat = pickerType === 'date' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD 24:00:00'

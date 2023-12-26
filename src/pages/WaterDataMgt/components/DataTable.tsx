@@ -36,7 +36,7 @@ const DataTable: React.FC = () => {
       render: (val: string) => dayjs(val).format('YYYY-MM-DD HH:mm:ss')
     },
     { title: '用水总量', dataIndex: 'dataItemValue' },
-    { title: '倍率', dataIndex: 'dataItemValueOne' },
+    { title: '倍率', dataIndex: 'currentMagnification' },
     { title: '采集状态', dataIndex: 'collectStatus', render: renderCollectStatus }
   ]
 
