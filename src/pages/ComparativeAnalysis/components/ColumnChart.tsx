@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import dayjs from 'dayjs'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import { get } from 'lodash'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -48,6 +49,7 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     tooltip: {
+      shared: true,
       formatter: function (this: any) {
         return `
         <p style="font-weight:bold;">时间:</p>
@@ -55,11 +57,11 @@ const ConsumptionChart: React.FC = () => {
           ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}
         </p>
         <p style="font-weight:bold;"><br><br>${filters.datatype === '0002' ? '本期能耗:' : '本期用水:'}</p>
-        <p>${this.y} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
+        <p>${get(this.points, [0, 'y'], '--')} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
         <p style="font-weight:bold;"><br><br>${`${filters.yoyOrQoq === 'yoy' ? '同比' : '环比'}${
           filters.datatype === '0002' ? '能耗:' : '用水:'
         }`}</p>
-        <p>${this.y} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
+        <p>${get(this.points, [1, 'y'], '--')} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
         `
       }
     },
