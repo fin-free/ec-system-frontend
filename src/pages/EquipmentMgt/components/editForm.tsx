@@ -1,6 +1,6 @@
 import { Form, Button, Input, Select, message } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
-import { observer } from '@/hooks/storeHook'
+import { observer, useStore } from '@/hooks/storeHook'
 import Styles from '../index.module.scss'
 import storeContext from '../context'
 import { EquipmentItem } from '../typings'
@@ -16,20 +16,15 @@ const EnergyTypes = {
   COLD_WATER: '01001',
   HOT_WATER: '01002',
   ELECTRIC: '01003',
-  TEMPERATURE_HUMIDITY: '01004'
+  TEMPERATURE_HUMIDITY: '01004',
+  SMOKE: '01005',
+  FLOOD: '01006'
 }
 
-const energyTypeMap = {
-  [EnergyTypes.COLD_WATER]: '冷水表',
-  [EnergyTypes.HOT_WATER]: '热水表',
-  [EnergyTypes.ELECTRIC]: '电表',
-  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器'
-}
-
-const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
-  label: energyTypeMap[type],
-  value: type
-}))
+// const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
+//   label: energyTypeMap[type],
+//   value: type
+// }))
 
 interface IProps {
   equipmentItem?: EquipmentItem
@@ -39,9 +34,14 @@ interface IProps {
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { equipmentItem, onClickBack } = props
   const { actions } = useContext(storeContext)
+  const {
+    commonStore: { energyTypeOptions }
+  } = useStore()
   const [localEnergyType, setLocalEnergyType] = useState<string>()
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
+
+  console.log(energyTypeOptions)
 
   useEffect(() => {
     if (equipmentItem) {
@@ -73,6 +73,52 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
 
   const onEnergyTypeChange = (value: string) => {
     setLocalEnergyType(value)
+  }
+
+  const getFormItems = (energyType: string | undefined) => {
+    switch (energyType) {
+      case EnergyTypes.ELECTRIC:
+        return (
+          <>
+            <Form.Item label='倍率' name='currentMagnification'>
+              <Input />
+            </Form.Item>
+            <Form.Item label='电压上限' name='voltageThresholdMax'>
+              <Input />
+            </Form.Item>
+
+            <Form.Item label='电流上限' name='currentThresholdMax'>
+              <Input />
+            </Form.Item>
+            <Form.Item label='最大功率' name='powerMax'>
+              <Input />
+            </Form.Item>
+            <Form.Item label='最小功率' name='powerMin'>
+              <Input />
+            </Form.Item>
+          </>
+        )
+      case EnergyTypes.TEMPERATURE_HUMIDITY:
+        return (
+          <>
+            <Form.Item label='最大温度' name='temperatureMax'>
+              <Input />
+            </Form.Item>
+            <Form.Item label='最大湿度' name='humidityMax'>
+              <Input />
+            </Form.Item>
+          </>
+        )
+      case EnergyTypes.COLD_WATER:
+      case EnergyTypes.HOT_WATER:
+        return (
+          <Form.Item label='倍率' name='currentMagnification'>
+            <Input />
+          </Form.Item>
+        )
+      default:
+        return <></>
+    }
   }
 
   return (
@@ -126,38 +172,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label='倍率' name='currentMagnification'>
-          <Input />
-        </Form.Item>
-        {(equipmentItem?.energyType || localEnergyType) ===
-        EnergyTypes.ELECTRIC ? (
-          <>
-            <Form.Item label='电压上限' name='voltageThresholdMax'>
-              <Input />
-            </Form.Item>
-
-            <Form.Item label='电流上限' name='currentThresholdMax'>
-              <Input />
-            </Form.Item>
-            <Form.Item label='最大功率' name='powerMax'>
-              <Input />
-            </Form.Item>
-            <Form.Item label='最小功率' name='powerMin'>
-              <Input />
-            </Form.Item>
-          </>
-        ) : null}
-        {(equipmentItem?.energyType || localEnergyType) ===
-        EnergyTypes.TEMPERATURE_HUMIDITY ? (
-          <>
-            <Form.Item label='最大温度' name='temperatureMax'>
-              <Input />
-            </Form.Item>
-            <Form.Item label='最大湿度' name='humidityMax'>
-              <Input />
-            </Form.Item>{' '}
-          </>
-        ) : null}
+        {getFormItems(equipmentItem?.energyType || localEnergyType)}
 
         <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
           <Button
