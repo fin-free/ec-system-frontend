@@ -212,66 +212,62 @@ const Content: React.FC = () => {
 
   return (
     <div className={Styles.root}>
-      <Form form={form} component={false}>
-        <div className={Styles.toolbarWrapper}>
-          <div className='filters'>
-            <RangePicker
-              value={store.timeRange}
-              onChange={handleDateChange}
-              format={dateFormat}
-              changeOnBlur
-            />
-            <Select
-              value={store.alarmType}
-              placeholder='告警类型'
-              style={{ width: 120 }}
-              onChange={handleAlarmTypeChange}
-              options={alarmTypeOptions}
-            />
-            <Select
-              value={store.eventStatus}
-              placeholder='事件状态'
-              style={{ width: 120 }}
-              onChange={handleEventStatusChange}
-              options={eventStatusOptions}
-            />
-          </div>
-          <div className='actions'>
-            <Button
-              disabled={selectedRows.length === 0}
-              type='primary'
-              className={Styles.primaryButton}
-              onClick={handleBatchConfirm}
-            >
-              一键确认
-            </Button>
-            <Button
-              disabled={selectedRows.length === 0}
-              type='primary'
-              className={Styles.primaryButton}
-              onClick={handleBatchCancel}
-            >
-              一键取消
-            </Button>
-          </div>
-        </div>
-
-        <div className={Styles.tableWrapper}>
-          <Table
-            size='small'
-            dataSource={store.alarmData}
-            columns={columns}
-            rowSelection={rowSelection}
-            pagination={store.pagination}
-            onChange={({ current, pageSize }) => {
-              actions.updatePagination({
-                current: current as number,
-                pageSize: pageSize as number
-              })
-            }}
+      <div className={Styles.toolbarWrapper}>
+        <div className='filters'>
+          <RangePicker
+            value={store.timeRange}
+            onChange={handleDateChange}
+            format={dateFormat}
+            changeOnBlur
+          />
+          <Select
+            value={store.alarmType}
+            placeholder='告警类型'
+            style={{ width: 120 }}
+            onChange={handleAlarmTypeChange}
+            options={alarmTypeOptions}
+          />
+          <Select
+            value={store.eventStatus}
+            placeholder='事件状态'
+            style={{ width: 120 }}
+            onChange={handleEventStatusChange}
+            options={eventStatusOptions}
           />
         </div>
-      </Form>
+        <div className='actions'>
+          <Button
+            disabled={selectedRows.length === 0}
+            type='primary'
+            className={Styles.primaryButton}
+            onClick={handleBatchConfirm}
+          >
+            一键确认
+          </Button>
+          <Button
+            disabled={selectedRows.length === 0}
+            type='primary'
+            className={Styles.primaryButton}
+            onClick={handleBatchCancel}
+          >
+            一键取消
+          </Button>
+        </div>
+      </div>
+
+      <Table
+        size='small'
+        dataSource={store.alarmData}
+        columns={columns}
+        rowSelection={rowSelection}
+        pagination={store.pagination}
+        onChange={({ current, pageSize }) => {
+          actions.updatePagination({
+            current: current as number,
+            pageSize: pageSize as number
+          })
+        }}
+      />
       <Modal
         title='确认告警？'
         open={showConfirmModal}
