@@ -32,14 +32,18 @@ const EnergyTypes = {
   COLD_WATER: '01001',
   HOT_WATER: '01002',
   ELECTRIC: '01003',
-  TEMPERATURE_HUMIDITY: '01004'
+  TEMPERATURE_HUMIDITY: '01004',
+  SMOKE: '01005',
+  FLOOD: '01006'
 }
 
 const energyTypeMap = {
   [EnergyTypes.COLD_WATER]: '冷水表',
   [EnergyTypes.HOT_WATER]: '热水表',
   [EnergyTypes.ELECTRIC]: '电表',
-  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器'
+  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器',
+  [EnergyTypes.SMOKE]: '烟雾感应器',
+  [EnergyTypes.FLOOD]: '水浸传感器'
 }
 
 const Content: React.FC = () => {
@@ -70,10 +74,16 @@ const Content: React.FC = () => {
         return (_: any, record: EquipmentItem) => {
           return (
             <div className={Styles.operationWrapper}>
-              <Typography.Link disabled={false} onClick={() => onClickEdit(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickEdit(record)}
+              >
                 编辑
               </Typography.Link>
-              <Typography.Link disabled={false} onClick={() => onClickDelete(record)}>
+              <Typography.Link
+                disabled={false}
+                onClick={() => onClickDelete(record)}
+              >
                 删除
               </Typography.Link>
             </div>
@@ -88,7 +98,8 @@ const Content: React.FC = () => {
           return equipmentStatusList[record.status]
         }
       case 'createTime':
-        return (value: any) => (value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--')
+        return (value: any) =>
+          value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--'
       default:
         return null
     }
@@ -164,32 +175,43 @@ const Content: React.FC = () => {
               onChange={handleEquipmentStatusChange}
               options={equipmentStatusOptions}
             />
-            <Button type='primary' className={Styles.primaryButton} onClick={handleSearchClick}>
+            <Button
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleSearchClick}
+            >
               查询
             </Button>
             <Button onClick={handleResetClick}>重置</Button>
           </div>
           <div className={Styles.secondToolBarWrapper}>
-            <Button type='primary' className={Styles.primaryButton} onClick={handleAddClick}>
+            <Button
+              type='primary'
+              className={Styles.primaryButton}
+              onClick={handleAddClick}
+            >
               新增
             </Button>
           </div>
-          <div className={Styles.tableWrapper}>
-            <Table
-              size='small'
-              dataSource={store.equipmentData}
-              columns={columns}
-              className={Styles.mainTable}
-              pagination={store.pagination}
-              onChange={({ current, pageSize }) => {
-                actions.updatePagination({
-                  current: current as number,
-                  pageSize: pageSize as number
-                })
-              }}
-            />
-          </div>
-          <Modal title='确认删除设备' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
+          <Table
+            size='small'
+            dataSource={store.equipmentData}
+            columns={columns}
+            className={Styles.mainTable}
+            pagination={store.pagination}
+            onChange={({ current, pageSize }) => {
+              actions.updatePagination({
+                current: current as number,
+                pageSize: pageSize as number
+              })
+            }}
+          />
+          <Modal
+            title='确认删除设备'
+            open={showDeleteModal}
+            onOk={handleModalOk}
+            onCancel={handleModalCancel}
+          >
             是否删除 {curEquipmentItem?.equipmentName} 设备?
           </Modal>
         </>

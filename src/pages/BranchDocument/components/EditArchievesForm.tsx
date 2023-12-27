@@ -42,7 +42,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
       : await actions.addArchives({ ...data, parentId: archievesItem.parentId })
     if (res) {
       if (res?.code === 200) {
-        message.info(res?.message)
+        message.success(res?.message)
       } else {
         message.error(res?.message)
       }
@@ -55,10 +55,11 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     if (archievesItem && archievesItem.archivesLevel) {
       const toShowLevels = levelMapping[archievesItem.archivesLevel]
+      debugger
       setArchivesLevelOptions(
-        defaultArchivesLevelOptions.filter((option, index) =>
-          toShowLevels.includes(index)
-        )
+        defaultArchivesLevelOptions.map((option, index) => {
+          return { ...option, disabled: !toShowLevels.includes(index) }
+        })
       )
     }
   }, [archievesItem])

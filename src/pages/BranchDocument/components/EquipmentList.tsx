@@ -199,14 +199,14 @@ const EquipmentList = () => {
       archivesName: selectedNode?.archivesName
     })
     if (res?.code === 200) {
-      message.info(res?.message)
+      message.success(res?.message)
+      commonActions.getAchieveList('1')
+      setSelectedNode(undefined)
+      actions.updateSelectedNode(undefined)
     } else {
       message.error(res?.message)
     }
     setShowDeleteModal(false)
-    setSelectedNode(undefined)
-    actions.updateSelectedNode(undefined)
-    commonActions.getAchieveList('1')
   }
 
   const handleModalCancel = () => {
