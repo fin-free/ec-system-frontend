@@ -4,12 +4,16 @@ import { observer } from '@/hooks/storeHook'
 
 import EquipmentList from './components/EquipmentList'
 import LineLossTree from './components/LineLossTree'
+import LineLossTable from './components/LineLossTable'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'
 
 const Content: React.FC = () => {
-  const { actions } = useContext(storeContext)
+  const {
+    store: { mode },
+    actions
+  } = useContext(storeContext)
   useEffect(() => {
     actions.getLossCompareData()
   }, [])
@@ -18,7 +22,7 @@ const Content: React.FC = () => {
       <EquipmentList />
       <div className='content'>
         <Toolbar />
-        <LineLossTree />
+        {mode === 'chart' ? <LineLossTree /> : <LineLossTable />}
       </div>
     </div>
   )

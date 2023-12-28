@@ -109,7 +109,19 @@ const ArchiveTree: React.FC = () => {
       container: 'mountRoot',
       linkCenter: true,
       modes: {
-        default: ['drag-canvas', 'scroll-canvas']
+        default: [
+          {
+            // 这个是可以展开可以收起
+            type: 'collapse-expand',
+            onChange: function onChange(item, collapsed) {
+              const data = item?.get('model')
+              data.collapsed = collapsed
+              return true
+            }
+          },
+          'drag-canvas',
+          'scroll-canvas'
+        ]
       },
       plugins: [toolbar],
       defaultNode: {

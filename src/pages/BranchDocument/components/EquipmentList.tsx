@@ -27,7 +27,6 @@ const EquipmentList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNode, setSelectedNode] = useState<NodeData>()
   const [treeArchivesData, setTreeArchivesData] = useState<TreeNode[]>()
-  const [messageApi, contextHolder] = message.useMessage()
 
   const dataList: { key: React.Key; title: string }[] = []
 
@@ -255,7 +254,7 @@ const EquipmentList = () => {
         trigger={'hover'}
         placement='right'
       >
-        <div>{nodeData.archivesName}</div>
+        <div className={Styles.treeNode}>{nodeData.archivesName}</div>
       </Popover>
     )
   }

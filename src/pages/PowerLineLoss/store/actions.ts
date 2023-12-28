@@ -15,6 +15,7 @@ export default class Actions {
       if (res) {
         runInAction(() => {
           this._store.lossCompareData = res
+          this._store.loading = false
         })
       }
     })
@@ -50,6 +51,12 @@ export default class Actions {
   updateDataTypeChange(type: string) {
     runInAction(() => {
       this._store.filters.datatype = type
+    })
+  }
+
+  updateMode(mode: string) {
+    runInAction(() => {
+      this._store.mode = mode
     })
   }
 }

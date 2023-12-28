@@ -31,6 +31,11 @@ const Toolbar: React.FC = () => {
     actions.getLossCompareData()
   }
 
+  const onModeChange = (e: RadioChangeEvent) => {
+    const mode = e.target.value
+    actions.updateMode(mode)
+  }
+
   return (
     <div className={Styles.root}>
       <Select
@@ -43,7 +48,11 @@ const Toolbar: React.FC = () => {
         ]}
         defaultValue={'0002'}
       />
-      <Radio.Group className={Styles.radioGroup} onChange={onDateTypeChange} defaultValue='0012'>
+      <Radio.Group
+        className={Styles.radioGroup}
+        onChange={onDateTypeChange}
+        defaultValue='0012'
+      >
         <Radio.Button value='0012'>按日</Radio.Button>
         <Radio.Button value='0013'>按月</Radio.Button>
       </Radio.Group>
@@ -53,6 +62,14 @@ const Toolbar: React.FC = () => {
         format={filters.datetype === '0012' ? 'YYYY-MM-DD' : 'YYYY-MM'}
         onChange={onDateChange}
       />
+      <Radio.Group
+        className={Styles.modeGroup}
+        onChange={onModeChange}
+        defaultValue='chart'
+      >
+        <Radio.Button value='chart'>图表</Radio.Button>
+        <Radio.Button value='table'>数据</Radio.Button>
+      </Radio.Group>
     </div>
   )
 }
