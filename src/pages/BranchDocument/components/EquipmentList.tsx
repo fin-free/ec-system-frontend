@@ -15,6 +15,7 @@ import Styles from './EquipmentList.module.scss'
 import { TreeNode, ArchiveList, RawTreeNode } from '@/types'
 import { NodeData } from '../types'
 
+const maxLevel = 6
 const EquipmentList = () => {
   const {
     commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys },
@@ -218,6 +219,7 @@ const EquipmentList = () => {
         <Tooltip title='新增子档案'>
           <Button
             icon={<FileAddOutlined />}
+            disabled={nodeData.archivesLevel === maxLevel}
             onClick={() => onClickAdd(nodeData)}
           />
         </Tooltip>

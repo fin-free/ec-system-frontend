@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
+import { DatePicker, Radio, RadioChangeEvent, Select, Button } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -13,7 +13,7 @@ import Styles from './Toolbar.module.scss'
 const Toolbar: React.FC = () => {
   const {
     actions,
-    store: { filters }
+    store: { filters, mode }
   } = useContext(storeContext)
 
   const onDateChange = (date: Dayjs | null) => {
@@ -35,6 +35,10 @@ const Toolbar: React.FC = () => {
     const mode = e.target.value
     actions.updateMode(mode)
   }
+
+  const onClickExpandAll = () => {}
+
+  const onClickCollapseAll = () => {}
 
   return (
     <div className={Styles.root}>
@@ -70,6 +74,16 @@ const Toolbar: React.FC = () => {
         <Radio.Button value='chart'>图表</Radio.Button>
         <Radio.Button value='table'>数据</Radio.Button>
       </Radio.Group>
+      {/* {mode === 'chart' ? (
+        <>
+          <Button type='primary' onClick={onClickExpandAll}>
+            一键展开
+          </Button>
+          <Button type='primary' onClick={onClickCollapseAll}>
+            一键收起
+          </Button>
+        </>
+      ) : null} */}
     </div>
   )
 }

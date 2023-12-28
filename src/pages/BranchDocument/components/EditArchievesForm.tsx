@@ -55,7 +55,6 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
     if (archievesItem && archievesItem.archivesLevel) {
       const toShowLevels = levelMapping[archievesItem.archivesLevel]
-      debugger
       setArchivesLevelOptions(
         defaultArchivesLevelOptions.map((option, index) => {
           return { ...option, disabled: !toShowLevels.includes(index) }

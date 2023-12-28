@@ -120,7 +120,6 @@ const AlarmTable: React.FC = () => {
       <div className='toolbar'>
         <Radio.Group onChange={onChangeHandler} defaultValue={0}>
           <Radio.Button value={0}>待处理警告</Radio.Button>
-          <Radio.Button value={-1}>全部</Radio.Button>
         </Radio.Group>
       </div>
       <Table

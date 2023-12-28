@@ -7,7 +7,7 @@ type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 export default class Store {
   public alarmType = 0
-  public eventStatus = -1
+  public eventStatus = 0
   public timeRange: RangeValue = null
   public alarmData: Array<Item> = []
   constructor() {

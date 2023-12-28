@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import G6, { ToolBar, TreeGraph } from '@antv/g6'
 
@@ -8,6 +8,7 @@ import storeContext from '../context'
 
 import Styles from './LineLossTree.module.scss'
 
+const defaultExpandLevel = 2
 G6.registerNode(
   'icon-node',
   {
@@ -91,13 +92,14 @@ const ArchiveTree: React.FC = () => {
     store: { treeLossCompareData }
   } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
-  const mapLossToTreeData = (lossData: Array<any>) => {
+  const mapLossToTreeData = (lossData: Array<any>, level = 1) => {
     return lossData?.length > 0
       ? lossData.map((root) => {
           const newRoot = {} as any
           newRoot.id = String(root.archivesId)
+          newRoot.collapsed = level > defaultExpandLevel
           newRoot.label = `${root.archivesName} \n用电量: ${root.energyValue}\n线损：${root.loseValue} 线损率：${root.loseRateValue}%`
-          newRoot.children = mapLossToTreeData(root.childrenList)
+          newRoot.children = mapLossToTreeData(root.childrenList, level + 1)
           return newRoot
         })
       : []
@@ -147,7 +149,7 @@ const ArchiveTree: React.FC = () => {
 
   useEffect(() => {
     const graph = graphRef.current
-    if (treeLossCompareData.length > 0 && graph) {
+    if (treeLossCompareData.length && graph) {
       graph.clear()
       graph.data(mapLossToTreeData(treeLossCompareData)[0])
       graph.render()
