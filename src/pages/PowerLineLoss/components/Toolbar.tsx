@@ -36,9 +36,13 @@ const Toolbar: React.FC = () => {
     actions.updateMode(mode)
   }
 
-  const onClickExpandAll = () => {}
+  const onClickExpandAll = () => {
+    actions.changeNodesCollapsed(false)
+  }
 
-  const onClickCollapseAll = () => {}
+  const onClickCollapseAll = () => {
+    actions.changeNodesCollapsed(true)
+  }
 
   return (
     <div className={Styles.root}>
@@ -74,7 +78,7 @@ const Toolbar: React.FC = () => {
         <Radio.Button value='chart'>图表</Radio.Button>
         <Radio.Button value='table'>数据</Radio.Button>
       </Radio.Group>
-      {/* {mode === 'chart' ? (
+      {mode === 'chart' ? (
         <>
           <Button type='primary' onClick={onClickExpandAll}>
             一键展开
@@ -83,7 +87,7 @@ const Toolbar: React.FC = () => {
             一键收起
           </Button>
         </>
-      ) : null} */}
+      ) : null}
     </div>
   )
 }

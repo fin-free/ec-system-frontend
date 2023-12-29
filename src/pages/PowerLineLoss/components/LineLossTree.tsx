@@ -87,9 +87,14 @@ const defaultLabelCfg = {
   }
 }
 
+const dataTypeMap: Record<string, string> = {
+  '0002': '电',
+  '0001': '水'
+}
+
 const ArchiveTree: React.FC = () => {
   const {
-    store: { treeLossCompareData }
+    store: { treeLossCompareData, filters }
   } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
   const mapLossToTreeData = (lossData: Array<any>, level = 1) => {
@@ -97,8 +102,15 @@ const ArchiveTree: React.FC = () => {
       ? lossData.map((root) => {
           const newRoot = {} as any
           newRoot.id = String(root.archivesId)
-          newRoot.collapsed = level > defaultExpandLevel
-          newRoot.label = `${root.archivesName} \n用电量: ${root.energyValue}\n线损：${root.loseValue} 线损率：${root.loseRateValue}%`
+          newRoot.collapsed =
+            typeof root.collapsed === 'boolean'
+              ? root.collapsed
+              : level > defaultExpandLevel
+          newRoot.label = `${root.archivesName} \n用${
+            dataTypeMap[filters.datatype]
+          }量: ${root.energyValue}\n线损：${root.loseValue} 线损率：${
+            root.loseRateValue
+          }%`
           newRoot.children = mapLossToTreeData(root.childrenList, level + 1)
           return newRoot
         })
