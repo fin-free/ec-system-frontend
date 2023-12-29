@@ -56,7 +56,7 @@ const addGateway = async (params: any) => {
 
 const updateGateway = async (params: any) => {
   const {
-    energyType,
+    type,
     gatewayName,
     gatewayNum,
     productModel,
@@ -69,7 +69,7 @@ const updateGateway = async (params: any) => {
       url: `/sys-gateway/update`,
       method: 'POST',
       data: {
-        energyType,
+        type,
         gatewayName, //设备名称
         gatewayNum, //设备地址
         productModel, //表型
@@ -100,7 +100,7 @@ const deleteGateway = async (params: any) => {
     if (code === 200) {
       return data
     } else {
-      throw new Error(message)
+      return null
     }
   } catch (error) {
     console.error('deleteGateway error: ', error)

@@ -16,14 +16,18 @@ const EnergyTypes = {
   COLD_WATER: '01001',
   HOT_WATER: '01002',
   ELECTRIC: '01003',
-  TEMPERATURE_HUMIDITY: '01004'
+  TEMPERATURE_HUMIDITY: '01004',
+  SMOKE: '01005',
+  FLOOD: '01006'
 }
 
 const energyTypeMap = {
   [EnergyTypes.COLD_WATER]: '冷水表',
   [EnergyTypes.HOT_WATER]: '热水表',
   [EnergyTypes.ELECTRIC]: '电表',
-  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器'
+  [EnergyTypes.TEMPERATURE_HUMIDITY]: '温湿度传感器',
+  [EnergyTypes.SMOKE]: '烟雾感应器',
+  [EnergyTypes.FLOOD]: '水浸传感器'
 }
 
 const energyTypeOptions = Object.values(EnergyTypes).map((type) => ({
@@ -66,8 +70,9 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         })
       : await actions.addEquipment(data)
     if (res) {
-      messageApi.info(res)
+      message.success(res)
       onClickBack()
+      actions.fetchEquipmentData()
     }
   }
 

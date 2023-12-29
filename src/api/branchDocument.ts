@@ -126,7 +126,7 @@ const saveArchivesEquipmentRelation = async (params: any) => {
     if (code === 200 && data) {
       return message
     } else {
-      throw new Error(message)
+      return null
     }
   } catch (error) {
     console.error('saveArchivesEquipmentRelation error: ', error)

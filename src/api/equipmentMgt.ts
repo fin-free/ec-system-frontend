@@ -114,7 +114,7 @@ const updateEquipment = async (params: any) => {
     if (code === 200) {
       return message
     } else {
-      throw new Error(message)
+      return null
     }
   } catch (error) {
     console.error('updateEquipment error: ', error)

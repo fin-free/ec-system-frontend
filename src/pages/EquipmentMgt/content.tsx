@@ -137,8 +137,10 @@ const Content: React.FC = () => {
       equipmentId: curEquipmentItem?.equipmentId
     })
     if (res) {
-      messageApi.info('删除成功')
+      message.success('删除成功')
       actions.fetchEquipmentData()
+    } else {
+      message.error('删除失败')
     }
     setShowDeleteModal(false)
   }
