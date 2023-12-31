@@ -1,35 +1,37 @@
 import { useRoutes } from 'react-router-dom'
 
 import Layout from '@/components/Layout'
+import AIMonitoring from '@/pages/AIMonitoring'
 import AlarmMgt from '@/pages/AlarmMgt'
+import BranchDocument from '@/pages/BranchDocument'
 import ComparativeAnalysis from '@/pages/ComparativeAnalysis'
 import ConsumptionAnalysis from '@/pages/ConsumptionAnalysis'
 import Dashboard from '@/pages/Dashboard'
 import ElectricityDataMgt from '@/pages/ElectricityDataMgt'
-import TemperatureDataMgt from '@/pages/TemperatureDataMgt'
-import WaterDataMgt from '@/pages/WaterDataMgt'
 import EquipmentMgt from '@/pages/EquipmentMgt'
 import GatewayMgt from '@/pages/GatewayMgt'
 import LineComparison from '@/pages/LineComparison'
-import PowerLineLoss from '@/pages/PowerLineLoss'
-import BranchDocument from '@/pages/BranchDocument'
 import Login from '@/pages/Login'
+import PowerLineLoss from '@/pages/PowerLineLoss'
+import TemperatureDataMgt from '@/pages/TemperatureDataMgt'
+import WaterDataMgt from '@/pages/WaterDataMgt'
 
 import {
+  ROUTE_PATH_AI_MONITORING,
+  ROUTE_PATH_ALARM_LIST,
+  ROUTE_PATH_BRANCH_DOCUMENT,
   ROUTE_PATH_COMPARATIVE_ANALYSIS,
   ROUTE_PATH_CONSUMPTION_ANALYSIS,
   ROUTE_PATH_DASHBOARD,
   ROUTE_PATH_ELECTRICITY_DATA_MANAGEMENT,
-  ROUTE_PATH_WATER_MANAGEMENT,
-  ROUTE_PATH_TEMPERATURE_MANAGEMENT,
-  ROUTE_PATH_LOGIN,
-  ROUTE_PATH_ROOT,
-  ROUTE_PATH_ALARM_LIST,
   ROUTE_PATH_EQUIPMENT_LIST,
   ROUTE_PATH_GATEWAY_LIST,
   ROUTE_PATH_LINE_COMPARISON,
-  ROUTE_PATH_BRANCH_DOCUMENT,
-  ROUTE_PATH_POWER_LINE_LOSS
+  ROUTE_PATH_LOGIN,
+  ROUTE_PATH_POWER_LINE_LOSS,
+  ROUTE_PATH_ROOT,
+  ROUTE_PATH_TEMPERATURE_MANAGEMENT,
+  ROUTE_PATH_WATER_MANAGEMENT
 } from './routePath'
 
 const Router = () => {
@@ -93,6 +95,10 @@ const Router = () => {
         {
           path: ROUTE_PATH_GATEWAY_LIST,
           element: <GatewayMgt />
+        },
+        {
+          path: ROUTE_PATH_AI_MONITORING,
+          element: <AIMonitoring />
         }
       ]
     }

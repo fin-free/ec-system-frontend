@@ -1,4 +1,5 @@
 import {
+  AimOutlined,
   ControlOutlined,
   DashboardOutlined,
   FundViewOutlined,
@@ -7,6 +8,7 @@ import {
 } from '@ant-design/icons'
 
 import {
+  ROUTE_PATH_AI_MONITORING,
   ROUTE_PATH_ALARM_LIST,
   ROUTE_PATH_ALARM_MANAGEMENT,
   ROUTE_PATH_BRANCH_DOCUMENT,
@@ -33,6 +35,7 @@ export enum NavKeys {
   consumptionAnalysis = 'consumptionAnalysis',
   comparativeAnalysis = 'comparativeAnalysis',
   alarmManagement = 'alarmManagement',
+  aiMonitoring = 'aiMonitoring',
   equipmentManagement = 'equipmentManagement',
   alarmList = 'alarmList',
   equipmentList = 'equipmentList',
@@ -58,7 +61,8 @@ export const NavLabels = {
   [NavKeys.gatewayList]: '网关列表',
   [NavKeys.branchDocument]: '支路档案',
   [NavKeys.lineComparison]: '线路对比',
-  [NavKeys.powerLineLoss]: '线路损耗'
+  [NavKeys.powerLineLoss]: '线路损耗',
+  [NavKeys.aiMonitoring]: 'AI电力监测'
 }
 
 export interface INavMenus {
@@ -158,6 +162,12 @@ export const SideNavItems: INavMenus[] = [
         path: ROUTE_PATH_GATEWAY_LIST
       }
     ]
+  },
+  {
+    key: NavKeys.aiMonitoring,
+    label: NavLabels[NavKeys.aiMonitoring],
+    IconCom: AimOutlined,
+    path: ROUTE_PATH_AI_MONITORING
   }
 ]
 
@@ -175,7 +185,8 @@ export const LinkNavs = {
   [NavKeys.branchDocument]: ROUTE_PATH_BRANCH_DOCUMENT,
   [NavKeys.alarmList]: ROUTE_PATH_ALARM_LIST,
   [NavKeys.equipmentList]: ROUTE_PATH_EQUIPMENT_LIST,
-  [NavKeys.gatewayList]: ROUTE_PATH_GATEWAY_LIST
+  [NavKeys.gatewayList]: ROUTE_PATH_GATEWAY_LIST,
+  [NavKeys.aiMonitoring]: ROUTE_PATH_AI_MONITORING
 }
 
 export const defaultOpenKeys = [NavKeys.dashboard]
