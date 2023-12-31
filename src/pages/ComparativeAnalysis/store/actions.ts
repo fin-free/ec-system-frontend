@@ -37,7 +37,6 @@ export default class Actions {
                 energyValue: d.energyValue === '-' ? 0 : d.energyValue,
                 tooltipValue: d.energyValue === '-' ? '--' : null
               })) || []
-
           this._store.energyComparativeTableData = this._store.energyComparativeChartNowData.map(
             (d: any, index: number) => {
               const { clearingPeriod, energyValue } = d
