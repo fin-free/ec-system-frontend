@@ -57,11 +57,15 @@ const ConsumptionChart: React.FC = () => {
           ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}
         </p>
         <p style="font-weight:bold;"><br><br>${filters.datatype === '0002' ? '本期能耗:' : '本期用水:'}</p>
-        <p>${get(this.points, [0, 'y'], '--')} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
+        <p>${this.point.tooltipValue ? this.point.tooltipValue : get(this.points, [0, 'y'], '--')} ${
+          filters.datatype === '0002' ? 'kWh' : 't'
+        }</p>
         <p style="font-weight:bold;"><br><br>${`${filters.yoyOrQoq === 'yoy' ? '同比' : '环比'}${
           filters.datatype === '0002' ? '能耗:' : '用水:'
         }`}</p>
-        <p>${get(this.points, [1, 'y'], '--')} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>
+        <p>${this.point.tooltipValue ? this.point.tooltipValue : get(this.points, [1, 'y'], '--')} ${
+          filters.datatype === '0002' ? 'kWh' : 't'
+        }</p>
         `
       }
     },
@@ -99,7 +103,7 @@ const ConsumptionChart: React.FC = () => {
     series: [
       {
         name: '本期',
-        data: energyComparativeChartNowData.map((d) => d.energyValue),
+        data: energyComparativeChartNowData.map((d) => ({ y: d.energyValue, tooltipValue: d.tooltipValue })),
         color: {
           linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
           stops: [
@@ -110,7 +114,7 @@ const ConsumptionChart: React.FC = () => {
       },
       {
         name: filters.yoyOrQoq === 'yoy' ? '同比' : '环比',
-        data: energyComparativeChartYoyQoqData.map((d) => d.energyValue),
+        data: energyComparativeChartYoyQoqData.map((d) => ({ y: d.energyValue, tooltipValue: d.tooltipValue })),
         color: {
           linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
           stops: [

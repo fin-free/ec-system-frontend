@@ -48,6 +48,9 @@ const ConsumptionChart: React.FC = () => {
       series: {
         dataLabels: {
           enabled: true,
+          formatter: function (this: any) {
+            return this.point.tooltipValue ? '' : this.y
+          },
           style: {
             color: '#d8d8d8'
           }
@@ -55,14 +58,17 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     tooltip: {
+      shared: true,
       formatter: function (this: any) {
         return `
         <p style="font-weight:bold;">时间:</p>
         <p>
-          ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}
+          ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}${dataRangeLabelUnit[filters.datetype]}
         </p>
         <p style="font-weight:bold;"><br><br>${filters.datatype === '0002' ? '用能' : '用水'}</p>
-        <p>${this.y} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>`
+        <p>${this.point.tooltipValue ? this.point.tooltipValue : this.y} ${
+          filters.datatype === '0002' ? 'kWh' : 't'
+        }</p>`
       }
     },
     legend: {
@@ -84,6 +90,8 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     yAxis: {
+      min: 0,
+      minRange: 1,
       gridLineColor: '#3e3e3e',
       title: {
         text: ''
@@ -94,7 +102,12 @@ const ConsumptionChart: React.FC = () => {
         }
       }
     },
-    series: [{ name: '能耗', data: energyConsumptionChartData.map((d) => d.energyValue) }],
+    series: [
+      {
+        name: '能耗',
+        data: energyConsumptionChartData.map((d) => ({ y: d.energyValue, tooltipValue: d.tooltipValue }))
+      }
+    ],
     credits: { enabled: false }
   }
 

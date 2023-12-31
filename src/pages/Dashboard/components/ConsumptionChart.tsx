@@ -63,14 +63,17 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     tooltip: {
+      shared: true,
       formatter: function (this: any) {
         return `
         <p style="font-weight:bold;">时间:</p>
         <p>
-          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}
+          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}${
+          dataRangeLabelUnit[energyConsumptionPayload.datetype]
+        }
         </p>
         <p style="font-weight:bold;"><br><br>用能:</p>
-        <p>${this.y} kWh</p>`
+        <p>${this.point.tooltipValue ? this.point.tooltipValue : this.y} kWh</p>`
       }
     },
     legend: {
@@ -109,7 +112,9 @@ const ConsumptionChart: React.FC = () => {
         }
       }
     },
-    series: [{ name: '用能', data: energyConsumptionData.map((d) => d.energyValue) }],
+    series: [
+      { name: '用能', data: energyConsumptionData.map((d) => ({ y: d.energyValue, tooltipValue: d.tooltipValue })) }
+    ],
     credits: { enabled: false }
   }
 
@@ -152,10 +157,12 @@ const ConsumptionChart: React.FC = () => {
         return `
         <span style="font-weight:bold;">时间:</span>
         <span>
-          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}
+          ${dayjs(this.x).format(dataRangeLabelFormat[energyConsumptionPayload.datetype])}${
+          dataRangeLabelUnit[energyConsumptionPayload.datetype]
+        }
         </span>
         <p style="font-weight:bold;"><br><br>用水:</p>
-        <span>${this.y} t</span>`
+        <span>${this.point.tooltipValue ? this.point.tooltipValue : this.y} t</span>`
       }
     },
     legend: {
@@ -196,7 +203,9 @@ const ConsumptionChart: React.FC = () => {
         }
       }
     },
-    series: [{ name: '用水', data: waterConsumptionData.map((d) => d.energyValue) }],
+    series: [
+      { name: '用水', data: waterConsumptionData.map((d) => ({ y: d.energyValue, tooltipValue: d.tooltipValue })) }
+    ],
     credits: { enabled: false }
   }
 

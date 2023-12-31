@@ -31,11 +31,13 @@ export default class Store {
     clearingPeriod: string
     energyValue: number
     proportion: number
+    tooltipValue: string
   }[] = []
   public waterConsumptionData: {
     clearingPeriod: string
     energyValue: number
     proportion: number
+    tooltipValue: string
   }[] = []
   get filterAlarmData() {
     if (this.eventStatus < 0) {

@@ -20,7 +20,11 @@ export default class Actions {
     await API.getEnergyConsumptionData(payload).then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.energyConsumptionChartData = get(res, 'data', [])
+          this._store.energyConsumptionChartData = get(res, 'data', []).map((d: any) => ({
+            ...d,
+            energyValue: d.energyValue === '-' ? 0 : d.energyValue,
+            tooltipValue: d.energyValue === '-' ? '--' : null
+          }))
           this._store.energyConsumptionTableData = get(res, 'data', []).map((d: object, index: number) => {
             const rowData = { ...d, orderNum: index + 1 }
             return rowData

@@ -37,7 +37,11 @@ export default class Actions {
     await ConsumptionApi.getEnergyConsumptionData(this._store.energyConsumptionPayload).then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.energyConsumptionData = get(res, 'data', [])
+          this._store.energyConsumptionData = get(res, 'data', []).map((d: any) => ({
+            ...d,
+            energyValue: d.energyValue === '-' ? 0 : d.energyValue,
+            tooltipValue: d.energyValue === '-' ? '--' : null
+          }))
         })
       }
     })
@@ -47,7 +51,11 @@ export default class Actions {
     await ConsumptionApi.getEnergyConsumptionData(this._store.waterConsumptionPayload).then((res) => {
       if (res) {
         runInAction(() => {
-          this._store.waterConsumptionData = get(res, 'data', [])
+          this._store.waterConsumptionData = get(res, 'data', []).map((d: any) => ({
+            ...d,
+            energyValue: d.energyValue === '-' ? 0 : d.energyValue,
+            tooltipValue: d.energyValue === '-' ? '--' : null
+          }))
         })
       }
     })

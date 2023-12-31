@@ -22,9 +22,21 @@ export default class Actions {
         runInAction(() => {
           const { yoyOrQoq } = this._store.filters
           this._store.energyComparativeChartNowData =
-            get(res, 'data', []).filter((d: any) => d.type === 'now')[0]?.list || []
+            get(res, 'data', [])
+              .filter((d: any) => d.type === 'now')[0]
+              ?.list.map((d: any) => ({
+                ...d,
+                energyValue: d.energyValue === '-' ? 0 : d.energyValue,
+                tooltipValue: d.energyValue === '-' ? '--' : null
+              })) || []
           this._store.energyComparativeChartYoyQoqData =
-            get(res, 'data', []).filter((d: any) => d.type === yoyOrQoq)[0]?.list || []
+            get(res, 'data', [])
+              .filter((d: any) => d.type === yoyOrQoq)[0]
+              ?.list.map((d: any) => ({
+                ...d,
+                energyValue: d.energyValue === '-' ? 0 : d.energyValue,
+                tooltipValue: d.energyValue === '-' ? '--' : null
+              })) || []
 
           this._store.energyComparativeTableData = this._store.energyComparativeChartNowData.map(
             (d: any, index: number) => {
