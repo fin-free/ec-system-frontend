@@ -14,7 +14,7 @@ export default class Store {
     datetype: '0011',
     datatype: '0002',
     yoyOrQoq: 'yoy',
-    startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD 00:00:00'),
+    startTime: dayjs().format('YYYY-MM-DD 00:00:00'),
     endTime: dayjs().format('YYYY-MM-DD 24:00:00')
   }
 

@@ -25,8 +25,8 @@ const Toolbar: React.FC = () => {
         setDate(dayjs())
         actions.onSearch({
           datetype: dateType,
-          startTime: dayjs().add(-2, 'day').format('YYYY-MM-DD HH:mm:ss'),
-          endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+          startTime: dayjs().format('YYYY-MM-DD 00:00:00'),
+          endTime: dayjs().format('YYYY-MM-DD 24:00:00')
         })
         break
       case '0012':
