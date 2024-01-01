@@ -24,6 +24,7 @@ export default class Actions {
       ...this._store.filters,
       archivesIds: archivesIds || this._store.selectedArchiveIds
     }
+
     if (payload.archivesIds.length === 0) {
       runInAction(() => {
         this._store.lineComparisonChartData = [] as any

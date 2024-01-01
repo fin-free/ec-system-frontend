@@ -35,10 +35,9 @@ const ConsumptionChart: React.FC = () => {
     plotOptions: {
       spline: {
         marker: {
-          enable: true,
-          radius: 3
+          enabled: false
         },
-        lineWidth: 1
+        lineWidth: 0.5
       },
       series: {
         dataLabels: {
@@ -47,14 +46,20 @@ const ConsumptionChart: React.FC = () => {
       }
     },
     tooltip: {
+      shared: true,
       formatter: function (this: any) {
-        return `
-        <p style="font-weight:bold;">时间:</p>
+        return this.points.reduce(
+          (pre: string, cur: any) => {
+            return `${pre}<p style="font-weight:bold;"><br><br>${cur.point.tooltipName}</p>
+          <p>${cur.point.tooltipValue ? cur.point.tooltipValue : cur.y} ${
+              filters.datatype === '0002' ? 'kWh' : 't'
+            }</p>`
+          },
+          `<p style="font-weight:bold;">时间:</p>
         <p>
           ${dayjs(this.x).format(dataRangeLabelFormat[filters.datetype])}
-        </p>
-        <p style="font-weight:bold;"><br><br>${filters.datatype === '0002' ? '用能' : '用水'}</p>
-        <p>${this.y} ${filters.datatype === '0002' ? 'kWh' : 't'}</p>`
+        </p><b><br><br>${filters.datatype === '0002' ? '用能' : '用水'}:</b>`
+        )
       }
     },
     legend: {
@@ -91,7 +96,11 @@ const ConsumptionChart: React.FC = () => {
     series: lineComparisonChartData?.map((data) => {
       return {
         name: data.archivesName,
-        data: data?.list?.map((d) => d.energyValue)
+        data: data?.list?.map((d) => ({
+          y: d.energyValue === '-' ? 0 : d.energyValue,
+          tooltipName: data.archivesName,
+          tooltipValue: d.energyValue === '-' ? '--' : null
+        }))
       }
     }),
     credits: { enabled: false }
