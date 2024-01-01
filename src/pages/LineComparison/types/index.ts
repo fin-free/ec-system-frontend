@@ -3,6 +3,6 @@ export interface ChartData {
   archivesName?: string
   list?: {
     clearingPeriod: string
-    energyValue: number
+    energyValue: number | string
   }[]
 }
