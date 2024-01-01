@@ -22,14 +22,28 @@
       }
     }
 
-    .ant-menu {
-      height: 100%;
-      border: none !important;
-      padding: 0 8px;
+    .menu-wrapper {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      height: calc(100vh - 62px);
 
-      .ant-menu-inline {
-        background: transparent !important;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .ant-menu {
+        height: 100%;
+        border: none !important;
+        padding: 0 8px;
+
+        .ant-menu-inline {
+          background: transparent !important;
+        }
       }
     }
+
+
   }
 }

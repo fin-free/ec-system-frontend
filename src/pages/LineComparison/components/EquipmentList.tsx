@@ -111,18 +111,20 @@ const EquipmentList = () => {
   return (
     <aside className={Styles.root}>
       <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
-      <Tree
-        checkable
-        checkStrictly
-        selectable={false}
-        checkedKeys={checkedKeys}
-        autoExpandParent={autoExpandParent}
-        defaultCheckedKeys={defaultSelectedAchieveKeys}
-        expandedKeys={expandedKeys}
-        treeData={treeData}
-        onExpand={onExpand}
-        onCheck={onCheck}
-      />
+      <div className='tree-wrapper'>
+        <Tree
+          checkable
+          checkStrictly
+          selectable={false}
+          checkedKeys={checkedKeys}
+          autoExpandParent={autoExpandParent}
+          defaultCheckedKeys={defaultSelectedAchieveKeys}
+          expandedKeys={expandedKeys}
+          treeData={treeData}
+          onExpand={onExpand}
+          onCheck={onCheck}
+        />
+      </div>
     </aside>
   )
 }

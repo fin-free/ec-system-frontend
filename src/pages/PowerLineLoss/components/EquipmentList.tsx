@@ -59,19 +59,12 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     setAutoExpandParent(true)
@@ -113,18 +106,16 @@ const EquipmentList = () => {
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
-      <Tree
-        onExpand={onExpand}
-        autoExpandParent={autoExpandParent}
-        treeData={treeData}
-        onSelect={onSelect}
-        expandedKeys={expandedKeys}
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <div className='tree-wrapper'>
+        <Tree
+          onExpand={onExpand}
+          autoExpandParent={autoExpandParent}
+          treeData={treeData}
+          onSelect={onSelect}
+          expandedKeys={expandedKeys}
+        />
+      </div>
     </aside>
   )
 }

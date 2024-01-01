@@ -8,5 +8,17 @@
     .search-input {
       margin-bottom: 20px;
     }
+
+    .tree-wrapper {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+      height: calc(100vh - 130px);
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }
