@@ -15,7 +15,7 @@ const defaultArchivesLevelOptions = archivesLevelMap.map((item, index) => ({
   value: index + 1
 }))
 
-const levelMapping = [[], [1, 2], [2, 3], [3, 4], [4], [5]]
+const levelMapping = [[], [1, 2], [2, 3], [3, 4], [4], [5], []]
 
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { archievesItem } = props
@@ -57,7 +57,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
       const toShowLevels = levelMapping[archievesItem.archivesLevel]
       setArchivesLevelOptions(
         defaultArchivesLevelOptions.map((option, index) => {
-          return { ...option, disabled: !toShowLevels.includes(index) }
+          return { ...option, disabled: !toShowLevels?.includes(index) }
         })
       )
     }

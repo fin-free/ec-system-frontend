@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 
-import { DashboardOutlined, DeleteOutlined, EditOutlined, FileAddOutlined } from '@ant-design/icons'
+import {
+  DashboardOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  FileAddOutlined
+} from '@ant-design/icons'
 import { Button, message, Modal, Popover, Tooltip } from 'antd'
 
 import SearchInput from '@/components/SearchInput'
@@ -82,12 +87,19 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
+        if (
+          item.title &&
+          typeof item.title === 'string' &&
+          item.title.indexOf(value) > -1
+        ) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+      .filter(
+        (item, i, self): item is React.Key =>
+          !!(item && self.indexOf(item) === i)
+      )
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     // setAutoExpandParent(true)
@@ -127,7 +139,10 @@ const EquipmentList = () => {
       }
     })
 
-  const onSelect = (selectedKeys: React.Key[], e: { selected: boolean; selectedNodes: any[]; node: any }) => {
+  const onSelect = (
+    selectedKeys: React.Key[],
+    e: { selected: boolean; selectedNodes: any[]; node: any }
+  ) => {
     if (e.selectedNodes[0]) {
       setSelectedNode(e.selectedNodes[0])
       actions.updateSelectedNode(e.selectedNodes[0])
@@ -164,6 +179,7 @@ const EquipmentList = () => {
   }
 
   const onClickEdit = (nodeData: NodeData) => {
+    debugger
     setSelectedNode(nodeData)
     actions.updateTreeMode('edit')
     actions.updateCurArchivesItem({
@@ -212,13 +228,19 @@ const EquipmentList = () => {
           />
         </Tooltip>
         <Tooltip title='修改档案'>
-          <Button icon={<EditOutlined />} onClick={() => onClickEdit(nodeData)} />
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => onClickEdit(nodeData)}
+          />
         </Tooltip>
         <Tooltip title='删除档案'>
           <Button icon={<DeleteOutlined />} onClick={() => onClickDelete()} />
         </Tooltip>
         <Tooltip title='配表'>
-          <Button icon={<DashboardOutlined />} onClick={() => onClickManage(nodeData)} />
+          <Button
+            icon={<DashboardOutlined />}
+            onClick={() => onClickManage(nodeData)}
+          />
         </Tooltip>
       </div>
     )
@@ -245,7 +267,11 @@ const EquipmentList = () => {
 
   return (
     <aside className={Styles.root}>
-      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
+      <SearchInput
+        rootClassName='search-input'
+        onChange={onSearch}
+        placeholder='输入名称搜索...'
+      />
       <div className='tree-wrapper'>
         <Tree
           treeData={treeArchivesData}
@@ -256,7 +282,12 @@ const EquipmentList = () => {
           selectedKeys={[String(selectedNode?.archivesId)]}
         />
       </div>
-      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
+      <Modal
+        title='确认删除档案'
+        open={showDeleteModal}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      >
         是否删除档案？
       </Modal>
     </aside>
