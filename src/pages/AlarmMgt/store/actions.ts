@@ -34,7 +34,9 @@ export default class Actions {
     })
 
     if (res) {
-      res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))
+      res.list = res.list.map((listItem) =>
+        Object.assign(listItem, { key: listItem.alarmId })
+      )
       runInAction(() => {
         this._store.pagination = {
           ...this._store.pagination,
@@ -62,15 +64,10 @@ export default class Actions {
       operation
     })
     if (res) {
-      runInAction(() => {
-        this._store.alarmData = this._store.alarmData.map((item) => {
-          if (alarmIds.includes(item.alarmId)) {
-            item.status = operation
-          }
-          return item
-        })
-      })
+      this.fetchData()
+      return res
     }
+    return null
   }
   changeAlarmType(type: any) {
     runInAction(() => {

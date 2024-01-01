@@ -7,7 +7,8 @@ import {
   Modal,
   Select,
   Table,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import dayjs from 'dayjs'
 
@@ -84,21 +85,32 @@ const Content: React.FC = () => {
   }
 
   const onOkConfirmModal = async () => {
-    await actions.operateAlarm(
+    const res = await actions.operateAlarm(
       [curRecord?.alarmId as number],
       EventStatus.CONFIRMED
     )
     setCurRecord(undefined)
     setShowConfirmModal(false)
+    if (res) {
+      message.success('确认成功')
+    } else {
+      message.error('确认失败')
+    }
   }
 
   const onOkCancelModal = async () => {
-    await actions.operateAlarm(
+    const res = await actions.operateAlarm(
       [curRecord?.alarmId as number],
       EventStatus.CANCELLED
     )
+
     setCurRecord(undefined)
-    setShowConfirmModal(false)
+    setShowCancelModal(false)
+    if (res) {
+      message.success('取消成功')
+    } else {
+      message.error('取消失败')
+    }
   }
 
   const onCancelConfirmModal = () => {
@@ -220,7 +232,6 @@ const Content: React.FC = () => {
               onChange={handleDateChange}
               format={dateFormat}
               changeOnBlur
-              showTime={{ format: 'HH:mm:ss' }}
             />
             <Select
               value={store.alarmType}
