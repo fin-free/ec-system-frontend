@@ -192,9 +192,7 @@ const ArchiveTree: React.FC = () => {
       },
       plugins: [toolbar],
       defaultNode: {
-        type: 'icon-node',
-        size: [120, 60],
-        style: defaultNodeStyle
+        type: 'icon-node'
       },
       defaultEdge: {
         type: 'flow-line',
@@ -208,7 +206,7 @@ const ArchiveTree: React.FC = () => {
     graphRef.current = graph
     graph.on('node:click', (e: IG6GraphEvent) => {
       const { item } = e
-      if (e.target.get('name') === 'collapse-icon' && item) {
+      if (item) {
         item.getModel().collapsed = !item.getModel().collapsed
         graph.setItemState(
           item,
