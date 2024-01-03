@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import G6, { ToolBar, TreeGraph } from '@antv/g6'
+import G6, {
+  ToolBar,
+  TreeGraph,
+  ModelConfig,
+  Item,
+  IG6GraphEvent,
+  TreeGraphData
+} from '@antv/g6'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -12,7 +19,7 @@ const defaultExpandLevel = 2
 G6.registerNode(
   'icon-node',
   {
-    draw(cfg, group) {
+    draw(cfg: ModelConfig, group) {
       const { collapsed, label } = cfg
       const rectConfig = {
         stroke: '#ccc',
@@ -48,7 +55,7 @@ G6.registerNode(
       })
 
       // 展开收起 rect
-      if (cfg.children && cfg.children.length) {
+      if (cfg.children instanceof Array && cfg.children?.length) {
         group.addShape('marker', {
           attrs: {
             x: rectConfig.width / 2,
@@ -70,14 +77,14 @@ G6.registerNode(
       const width = 120
       const marker = item
         .get('group')
-        .find((ele) => ele.get('name') === 'collapse-icon')
+        .find((ele: any) => ele.get('name') === 'collapse-icon')
       marker.attr('x', width / 2)
     },
-    setState(name, value, item) {
-      if (name === 'collapsed') {
+    setState(name, value, item?: Item) {
+      if (name === 'collapsed' && item) {
         const marker = item
           .get('group')
-          .find((ele) => ele.get('name') === 'collapse-icon')
+          .find((ele: any) => ele.get('name') === 'collapse-icon')
         const icon = value ? G6.Marker.expand : G6.Marker.collapse
         marker.attr('symbol', icon)
       }
@@ -199,13 +206,16 @@ const ArchiveTree: React.FC = () => {
     })
 
     graphRef.current = graph
-    graph.on('node:click', (e) => {
+    graph.on('node:click', (e: IG6GraphEvent) => {
       const { item } = e
-      const node = item?.get('model')
-      if (e.target.get('name') === 'collapse-icon') {
-        e.item.getModel().collapsed = !e.item.getModel().collapsed
-        graph.setItemState(e.item, 'collapsed', e.item.getModel().collapsed)
-        graph.refreshItem(e.item)
+      if (e.target.get('name') === 'collapse-icon' && item) {
+        item.getModel().collapsed = !item.getModel().collapsed
+        graph.setItemState(
+          item,
+          'collapsed',
+          (item.getModel() as TreeGraphData).collapsed!
+        )
+        graph.refreshItem(item)
         graph.layout()
       }
     })
