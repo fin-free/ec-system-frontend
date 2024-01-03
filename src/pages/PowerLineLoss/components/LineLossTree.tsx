@@ -12,13 +12,78 @@ const defaultExpandLevel = 2
 G6.registerNode(
   'icon-node',
   {
-    options: {
-      size: [60, 20],
-      stroke: '#91d5ff',
-      fill: '#fff'
+    draw(cfg, group) {
+      const { collapsed, label } = cfg
+      const rectConfig = {
+        stroke: '#ccc',
+        fill: '#26266d',
+        width: 120,
+        height: 60,
+        radius: 5
+      }
+
+      const nodeOrigin = {
+        x: 0,
+        y: 0
+      }
+
+      const rect = group.addShape('rect', {
+        attrs: {
+          x: nodeOrigin.x,
+          y: nodeOrigin.y,
+          ...rectConfig
+        }
+      })
+
+      group.addShape('text', {
+        attrs: {
+          text: label,
+          fontSize: 10,
+          fill: '#fff',
+          x: 60,
+          y: 45,
+          textAlign: 'center'
+        },
+        name: 'title-shape'
+      })
+
+      // 展开收起 rect
+      if (cfg.children && cfg.children.length) {
+        group.addShape('marker', {
+          attrs: {
+            x: rectConfig.width / 2,
+            y: rectConfig.height,
+            r: 8,
+            cursor: 'pointer',
+            symbol: collapsed ? G6.Marker.expand : G6.Marker.collapse,
+            stroke: '#26266d',
+            lineWidth: 1,
+            fill: '#fff'
+          },
+          name: 'collapse-icon'
+        })
+      }
+      return rect
     },
-    update: undefined
+    update(cfg, item) {
+      const { collapsed } = cfg
+      const width = 120
+      const marker = item
+        .get('group')
+        .find((ele) => ele.get('name') === 'collapse-icon')
+      marker.attr('x', width / 2)
+    },
+    setState(name, value, item) {
+      if (name === 'collapsed') {
+        const marker = item
+          .get('group')
+          .find((ele) => ele.get('name') === 'collapse-icon')
+        const icon = value ? G6.Marker.expand : G6.Marker.collapse
+        marker.attr('symbol', icon)
+      }
+    }
   },
+  // 继承内置节点类型的名字
   'rect'
 )
 G6.registerEdge('flow-line', {
@@ -80,13 +145,6 @@ const defaultLayout = {
   }
 }
 
-const defaultLabelCfg = {
-  style: {
-    fill: '#fff',
-    fontSize: 10
-  }
-}
-
 const dataTypeMap: Record<string, string> = {
   '0002': '电',
   '0001': '水'
@@ -123,26 +181,13 @@ const ArchiveTree: React.FC = () => {
       container: 'mountRoot',
       linkCenter: true,
       modes: {
-        default: [
-          {
-            // 这个是可以展开可以收起
-            type: 'collapse-expand',
-            onChange: function onChange(item, collapsed) {
-              const data = item?.get('model')
-              data.collapsed = collapsed
-              return true
-            }
-          },
-          'drag-canvas',
-          'scroll-canvas'
-        ]
+        default: ['drag-canvas', 'scroll-canvas']
       },
       plugins: [toolbar],
       defaultNode: {
         type: 'icon-node',
         size: [120, 60],
-        style: defaultNodeStyle,
-        labelCfg: defaultLabelCfg
+        style: defaultNodeStyle
       },
       defaultEdge: {
         type: 'flow-line',
@@ -154,6 +199,16 @@ const ArchiveTree: React.FC = () => {
     })
 
     graphRef.current = graph
+    graph.on('node:click', (e) => {
+      const { item } = e
+      const node = item?.get('model')
+      if (e.target.get('name') === 'collapse-icon') {
+        e.item.getModel().collapsed = !e.item.getModel().collapsed
+        graph.setItemState(e.item, 'collapsed', e.item.getModel().collapsed)
+        graph.refreshItem(e.item)
+        graph.layout()
+      }
+    })
     return () => {
       graphRef.current?.destroy()
     }
