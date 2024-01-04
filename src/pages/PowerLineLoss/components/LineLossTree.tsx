@@ -1,13 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 
-import G6, {
-  ToolBar,
-  TreeGraph,
-  ModelConfig,
-  Item,
-  IG6GraphEvent,
-  TreeGraphData
-} from '@antv/g6'
+import G6, { IG6GraphEvent, Item, ModelConfig, ToolBar, TreeGraph, TreeGraphData } from '@antv/g6'
 
 import { observer } from '@/hooks/storeHook'
 
@@ -75,16 +68,12 @@ G6.registerNode(
     update(cfg, item) {
       const { collapsed } = cfg
       const width = 120
-      const marker = item
-        .get('group')
-        .find((ele: any) => ele.get('name') === 'collapse-icon')
+      const marker = item.get('group').find((ele: any) => ele.get('name') === 'collapse-icon')
       marker.attr('x', width / 2)
     },
     setState(name, value, item?: Item) {
       if (name === 'collapsed' && item) {
-        const marker = item
-          .get('group')
-          .find((ele: any) => ele.get('name') === 'collapse-icon')
+        const marker = item.get('group').find((ele: any) => ele.get('name') === 'collapse-icon')
         const icon = value ? G6.Marker.expand : G6.Marker.collapse
         marker.attr('symbol', icon)
       }
@@ -167,15 +156,10 @@ const ArchiveTree: React.FC = () => {
       ? lossData.map((root) => {
           const newRoot = {} as any
           newRoot.id = String(root.archivesId)
-          newRoot.collapsed =
-            typeof root.collapsed === 'boolean'
-              ? root.collapsed
-              : level > defaultExpandLevel
-          newRoot.label = `${root.archivesName} \n用${
-            dataTypeMap[filters.datatype]
-          }量: ${root.energyValue}\n线损：${root.loseValue} 线损率：${
-            root.loseRateValue
-          }%`
+          newRoot.collapsed = typeof root.collapsed === 'boolean' ? root.collapsed : level > defaultExpandLevel
+          newRoot.label = `${root.archivesName} \n用${dataTypeMap[filters.datatype]}量: ${root.energyValue}\n线损：${
+            root.loseValue
+          } 线损率：${root.loseRateValue}%`
           newRoot.children = mapLossToTreeData(root.childrenList, level + 1)
           return newRoot
         })
@@ -208,11 +192,7 @@ const ArchiveTree: React.FC = () => {
       const { item } = e
       if (item) {
         item.getModel().collapsed = !item.getModel().collapsed
-        graph.setItemState(
-          item,
-          'collapsed',
-          (item.getModel() as TreeGraphData).collapsed!
-        )
+        graph.setItemState(item, 'collapsed', (item.getModel() as TreeGraphData).collapsed!)
         graph.refreshItem(item)
         graph.layout()
       }

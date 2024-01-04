@@ -2,8 +2,10 @@ import { runInAction } from 'mobx'
 
 import * as API from '@/api/branchDocument'
 
-import Store from './store'
 import { NodeData } from '../types'
+
+import Store from './store'
+
 export default class Actions {
   private _store: Store
   constructor(store: Store) {

@@ -1,4 +1,5 @@
 import { flattenDeep, get } from 'lodash'
+import { runInAction } from 'mobx'
 
 import API from '@/api/commonApis'
 import { optionTypes } from '@/common/constants/index'
@@ -27,11 +28,13 @@ export default class CommonActions {
       API.getDictList({ dictType: optionTypes.DataType })
     ]).then((res) => {
       if (res) {
-        this._store.dateTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
-        this._store.energyTypeOptions = this.transformDictToOption(get(res, [1, 'data'], []))
-        this._store.alarmTypeOptions = this.transformDictToOption(get(res, [2, 'data'], []))
-        this._store.functionTypeOptions = this.transformDictToOption(get(res, [3, 'data'], []))
-        this._store.dataTypeOptions = this.transformDictToOption(get(res, [4, 'data'], []))
+        runInAction(() => {
+          this._store.dateTypeOptions = this.transformDictToOption(get(res, [0, 'data'], []))
+          this._store.energyTypeOptions = this.transformDictToOption(get(res, [1, 'data'], []))
+          this._store.alarmTypeOptions = this.transformDictToOption(get(res, [2, 'data'], []))
+          this._store.functionTypeOptions = this.transformDictToOption(get(res, [3, 'data'], []))
+          this._store.dataTypeOptions = this.transformDictToOption(get(res, [4, 'data'], []))
+        })
       }
     })
   }
@@ -41,10 +44,12 @@ export default class CommonActions {
       if (res) {
         const treeData: Array<TreeNode> = []
         this.transformAchieveListToTree(get(res, 'data', []), treeData)
-        this._store.rawAchieveList = get(res, 'data', [])
-        this._store.achieveList = treeData
-        this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
-        this._store.defaultSelectedAchieveKeys = [get(treeData, [0, 'key'], '')]
+        runInAction(() => {
+          this._store.rawAchieveList = get(res, 'data', [])
+          this._store.achieveList = treeData
+          this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
+          this._store.defaultSelectedAchieveKeys = [get(treeData, [0, 'key'], '')]
+        })
       }
     })
   }
@@ -54,9 +59,11 @@ export default class CommonActions {
       if (res) {
         const treeData: Array<TreeNode> = []
         this.transformAchieveListToTree(get(res, 'data', []), treeData)
-        this._store.achieveList = treeData
-        this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
-        this._store.defaultSelectedAchieveKeys = [get(treeData, [0, 'key'], '')]
+        runInAction(() => {
+          this._store.achieveList = treeData
+          this._store.defaultExpandAchieveKeys = this.getAllKeys(treeData)
+          this._store.defaultSelectedAchieveKeys = [get(treeData, [0, 'key'], '')]
+        })
       }
     })
   }
@@ -66,9 +73,11 @@ export default class CommonActions {
       if (res) {
         const treeData: Array<TreeNode> = []
         this.transformBuildingListToTree(get(res, 'data', []), treeData)
-        this._store.buildingList = treeData
-        this._store.defaultExpandBuildingKeys = this.getAllKeys(treeData)
-        this._store.defaultSelectedBuildingKeys = [get(treeData, [0, 'key'], '')]
+        runInAction(() => {
+          this._store.buildingList = treeData
+          this._store.defaultExpandBuildingKeys = this.getAllKeys(treeData)
+          this._store.defaultSelectedBuildingKeys = [get(treeData, [0, 'key'], '')]
+        })
       }
     })
   }

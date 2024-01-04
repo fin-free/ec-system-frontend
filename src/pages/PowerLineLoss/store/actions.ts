@@ -2,8 +2,9 @@ import { runInAction } from 'mobx'
 
 import * as API from '@/api/powerLineLoss'
 
-import Store from './store'
 import { LossCompareItem } from '../types'
+
+import Store from './store'
 
 export default class Actions {
   private _store: Store
@@ -22,11 +23,7 @@ export default class Actions {
     })
   }
 
-  async onSearch(searchParams: {
-    datetime?: string
-    datetype?: string
-    archivesId: string
-  }) {
+  async onSearch(searchParams: { datetime?: string; datetype?: string; archivesId: string }) {
     runInAction(() => {
       this._store.filters = { ...this._store.filters, ...searchParams }
     })

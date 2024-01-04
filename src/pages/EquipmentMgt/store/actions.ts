@@ -3,8 +3,9 @@ import { runInAction } from 'mobx'
 
 import * as API from '@/api/equipmentMgt'
 
-import Store from './store'
 import { EquipmentItem } from '../typings'
+
+import Store from './store'
 
 export default class Actions {
   private _store: Store

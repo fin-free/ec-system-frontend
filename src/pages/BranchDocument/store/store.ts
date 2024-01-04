@@ -1,5 +1,7 @@
 import { computed, makeAutoObservable } from 'mobx'
+
 import { EnergyItem, NodeData } from '../types'
+
 export default class Store {
   constructor() {
     makeAutoObservable(this, {
@@ -21,9 +23,7 @@ export default class Store {
 
   get filterEquipmentData() {
     return this.energyEquipmentData.filter(
-      (data) =>
-        data.equipmentName.includes(this.equipmentInput) ||
-        data.equipmentNum.includes(this.equipmentInput)
+      (data) => data.equipmentName.includes(this.equipmentInput) || data.equipmentNum.includes(this.equipmentInput)
     )
   }
 }

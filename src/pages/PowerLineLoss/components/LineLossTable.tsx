@@ -5,18 +5,16 @@ import { Table } from 'antd'
 import { observer } from '@/hooks/storeHook'
 
 import storeContext from '../context'
+import { LossCompareItem } from '../types'
 
 import Styles from './LineLossTable.module.scss'
 
-import { LossCompareItem } from '../types'
 const defaultExpandLevel = 2
 const LineLossTable: React.FC = () => {
   const {
     store: { loading, treeLossCompareData }
   } = useContext(storeContext)
-  const [defaultExpandedRowKeys, setDefaultExpandedRowKeys] = useState<
-    number[]
-  >([])
+  const [defaultExpandedRowKeys, setDefaultExpandedRowKeys] = useState<number[]>([])
 
   const mapTableData = (root: LossCompareItem, level = 1) => {
     if (!root) return {}

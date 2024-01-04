@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import { computed, makeAutoObservable } from 'mobx'
+
 import { LossCompareItem } from '../types'
 
 export default class Store {
@@ -22,10 +23,7 @@ export default class Store {
   public selectedArchivesId = ''
 
   get treeLossCompareData() {
-    function getData(
-      lossData: LossCompareItem[],
-      archivesId: string
-    ): LossCompareItem[] | null {
+    function getData(lossData: LossCompareItem[], archivesId: string): LossCompareItem[] | null {
       for (const data of lossData) {
         if (data.archivesId === Number(archivesId)) {
           return [data]
@@ -38,10 +36,7 @@ export default class Store {
       return null
     }
     if (this.selectedArchivesId) {
-      return (
-        getData(this.lossCompareData, this.selectedArchivesId) ||
-        this.lossCompareData
-      )
+      return getData(this.lossCompareData, this.selectedArchivesId) || this.lossCompareData
     }
     return this.lossCompareData
   }

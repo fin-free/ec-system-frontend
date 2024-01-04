@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { DatePicker, Radio, RadioChangeEvent, Select, Button } from 'antd'
+import { Button, DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -56,11 +56,7 @@ const Toolbar: React.FC = () => {
         ]}
         defaultValue={'0002'}
       />
-      <Radio.Group
-        className={Styles.radioGroup}
-        onChange={onDateTypeChange}
-        defaultValue='0012'
-      >
+      <Radio.Group className={Styles.radioGroup} onChange={onDateTypeChange} defaultValue='0012'>
         <Radio.Button value='0012'>按日</Radio.Button>
         <Radio.Button value='0013'>按月</Radio.Button>
       </Radio.Group>
@@ -70,11 +66,7 @@ const Toolbar: React.FC = () => {
         format={filters.datetype === '0012' ? 'YYYY-MM-DD' : 'YYYY-MM'}
         onChange={onDateChange}
       />
-      <Radio.Group
-        className={Styles.modeGroup}
-        onChange={onModeChange}
-        defaultValue='chart'
-      >
+      <Radio.Group className={Styles.modeGroup} onChange={onModeChange} defaultValue='chart'>
         <Radio.Button value='chart'>图表</Radio.Button>
         <Radio.Button value='table'>数据</Radio.Button>
       </Radio.Group>

@@ -1,10 +1,10 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { observer } from '@/hooks/storeHook'
 
 import EquipmentList from './components/EquipmentList'
-import LineLossTree from './components/LineLossTree'
 import LineLossTable from './components/LineLossTable'
+import LineLossTree from './components/LineLossTree'
 import Toolbar from './components/Toolbar'
 import storeContext from './context'
 import Styles from './index.module.scss'

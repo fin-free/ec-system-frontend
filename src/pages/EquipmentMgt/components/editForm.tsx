@@ -1,8 +1,11 @@
-import { Form, Button, Input, Select, message } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
+
+import { Button, Form, Input, message, Select } from 'antd'
+
 import { observer } from '@/hooks/storeHook'
-import Styles from '../index.module.scss'
+
 import storeContext from '../context'
+import Styles from '../index.module.scss'
 import { EquipmentItem } from '../typings'
 
 const equipmentStatusList = ['未使用', '已注册', '正常使用']
@@ -98,44 +101,23 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         autoComplete='off'
         form={form}
       >
-        <Form.Item
-          label='设备名称'
-          name='equipmentName'
-          rules={[{ required: true, message: '请输入设备名称！' }]}
-        >
+        <Form.Item label='设备名称' name='equipmentName' rules={[{ required: true, message: '请输入设备名称！' }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label='设备类型'
-          name='energyType'
-          rules={[{ required: true, message: '请输入设备类型！' }]}
-        >
-          <Select
-            placeholder='请选择设备类型'
-            options={energyTypeOptions}
-            onChange={onEnergyTypeChange}
-          />
+        <Form.Item label='设备类型' name='energyType' rules={[{ required: true, message: '请输入设备类型！' }]}>
+          <Select placeholder='请选择设备类型' options={energyTypeOptions} onChange={onEnergyTypeChange} />
         </Form.Item>
 
-        <Form.Item
-          label='设备编号'
-          name='equipmentNum'
-          rules={[{ required: true, message: '请输入设备编号！' }]}
-        >
+        <Form.Item label='设备编号' name='equipmentNum' rules={[{ required: true, message: '请输入设备编号！' }]}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label='产品型号'
-          name='productModel'
-          rules={[{ required: true, message: '请输入产品型号！' }]}
-        >
+        <Form.Item label='产品型号' name='productModel' rules={[{ required: true, message: '请输入产品型号！' }]}>
           <Input />
         </Form.Item>
         <Form.Item label='倍率' name='currentMagnification'>
           <Input />
         </Form.Item>
-        {(equipmentItem?.energyType || localEnergyType) ===
-        EnergyTypes.ELECTRIC ? (
+        {(equipmentItem?.energyType || localEnergyType) === EnergyTypes.ELECTRIC ? (
           <>
             <Form.Item label='电压上限' name='voltageThresholdMax'>
               <Input />
@@ -152,8 +134,7 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
             </Form.Item>
           </>
         ) : null}
-        {(equipmentItem?.energyType || localEnergyType) ===
-        EnergyTypes.TEMPERATURE_HUMIDITY ? (
+        {(equipmentItem?.energyType || localEnergyType) === EnergyTypes.TEMPERATURE_HUMIDITY ? (
           <>
             <Form.Item label='最大温度' name='temperatureMax'>
               <Input />
@@ -165,21 +146,10 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         ) : null}
 
         <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
-          <Button
-            size='large'
-            className={Styles.primaryButton}
-            style={{ width: 100 }}
-            type='primary'
-            htmlType='submit'
-          >
+          <Button size='large' className={Styles.primaryButton} style={{ width: 100 }} type='primary' htmlType='submit'>
             保存
           </Button>
-          <Button
-            size='large'
-            htmlType='reset'
-            style={{ marginLeft: 20, width: 100 }}
-            onClick={onClickBack}
-          >
+          <Button size='large' htmlType='reset' style={{ marginLeft: 20, width: 100 }} onClick={onClickBack}>
             取消
           </Button>
         </Form.Item>
