@@ -112,14 +112,15 @@ const getEnergyList = async (params: {
 }
 
 const saveArchivesEquipmentRelation = async (params: any) => {
-  const { meterIdList, archivesId } = params
+  const { meterIdList, archivesId, energyType } = params
   try {
     const res = await request({
       url: `sys-archives-equipment-relation/add`,
       method: 'POST',
       data: {
         archivesId,
-        meterIdList
+        meterIdList,
+        energyType
       }
     })
     const { code, data, message } = res ?? {}

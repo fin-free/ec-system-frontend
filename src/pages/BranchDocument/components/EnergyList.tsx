@@ -32,7 +32,6 @@ const EnergyList: React.FC<IProps> = () => {
     store: { filter, filterEquipmentData, selectedNode, treeMode },
     actions
   } = useContext(storeContext)
-  const [messageApi, contextHolder] = message.useMessage()
 
   useEffect(() => {
     if (selectedNode?.archivesId && treeMode === 'manage') {
@@ -65,10 +64,11 @@ const EnergyList: React.FC<IProps> = () => {
   const onClickSave = async () => {
     const res = await actions.saveArchivesEquipmentRelation({
       archivesId: selectedNode?.archivesId!,
-      meterIdList: Array.from(meterIdList)
+      meterIdList: Array.from(meterIdList),
+      energyType: filter.datatype
     })
     if (res) {
-      onClickBack()
+      actions.getEnergyList({ archivesId: selectedNode?.archivesId })
       message.success(res)
     } else {
       message.error('保存失败')
@@ -91,7 +91,6 @@ const EnergyList: React.FC<IProps> = () => {
 
   return (
     <div className={Style.listContainer}>
-      {contextHolder}
       <div className={Style.listBlock}>
         <div className={Style.listWrapper}>
           <Select

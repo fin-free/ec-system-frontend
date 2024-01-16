@@ -27,6 +27,7 @@ export default class Actions {
   async saveArchivesEquipmentRelation(params: {
     archivesId: number
     meterIdList: number[]
+    energyType: string
   }) {
     const res = await API.saveArchivesEquipmentRelation(params)
     return res

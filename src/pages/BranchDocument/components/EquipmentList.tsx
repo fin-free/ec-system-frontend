@@ -217,33 +217,29 @@ const EquipmentList = () => {
     setShowDeleteModal(false)
   }
 
-  const getContent = (nodeData: NodeData) =>
-    store.treeMode === 'manage' ? null : (
-      <div className={Styles.optionList}>
-        <Tooltip title='新增子档案'>
-          <Button
-            icon={<FileAddOutlined />}
-            disabled={nodeData.archivesLevel === maxLevel}
-            onClick={() => onClickAdd(nodeData)}
-          />
-        </Tooltip>
-        <Tooltip title='修改档案'>
-          <Button
-            icon={<EditOutlined />}
-            onClick={() => onClickEdit(nodeData)}
-          />
-        </Tooltip>
-        <Tooltip title='删除档案'>
-          <Button icon={<DeleteOutlined />} onClick={() => onClickDelete()} />
-        </Tooltip>
-        <Tooltip title='配表'>
-          <Button
-            icon={<DashboardOutlined />}
-            onClick={() => onClickManage(nodeData)}
-          />
-        </Tooltip>
-      </div>
-    )
+  const getContent = (nodeData: NodeData) => (
+    <div className={Styles.optionList}>
+      <Tooltip title='新增子档案'>
+        <Button
+          icon={<FileAddOutlined />}
+          disabled={nodeData.archivesLevel === maxLevel}
+          onClick={() => onClickAdd(nodeData)}
+        />
+      </Tooltip>
+      <Tooltip title='修改档案'>
+        <Button icon={<EditOutlined />} onClick={() => onClickEdit(nodeData)} />
+      </Tooltip>
+      <Tooltip title='删除档案'>
+        <Button icon={<DeleteOutlined />} onClick={() => onClickDelete()} />
+      </Tooltip>
+      <Tooltip title='配表'>
+        <Button
+          icon={<DashboardOutlined />}
+          onClick={() => onClickManage(nodeData)}
+        />
+      </Tooltip>
+    </div>
+  )
 
   const onRightClickNode = (e: any, nodeData: NodeData) => {
     e.preventDefault()

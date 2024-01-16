@@ -153,7 +153,13 @@ const ArchiveTree: React.FC = () => {
     const graph = graphRef.current
     if (achieveList.length > 0 && graph) {
       graph.clear()
-      graph.data(mapTreeData(selectedNode ? getNode(achieveList, selectedNode?.archivesId)?.[0] : achieveList[0]))
+      graph.data(
+        mapTreeData(
+          selectedNode
+            ? getNode(achieveList, selectedNode?.archivesId)?.[0]
+            : achieveList[0]
+        )
+      )
       graph.render()
       graph.fitCenter()
       graph.zoom(1)
