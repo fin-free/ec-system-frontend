@@ -60,11 +60,7 @@ export default class Actions {
       ...params,
       projectId: this._store.projectId ?? '1'
     })
-    if (res) {
-      return res
-    } else {
-      return null
-    }
+    return res
   }
 
   async updateEquipment(params: any) {
@@ -72,11 +68,7 @@ export default class Actions {
       ...params,
       projectId: this._store.projectId ?? '1'
     })
-    if (res) {
-      return res
-    } else {
-      return null
-    }
+    return res
   }
 
   async deleteEquipment(params: any) {
@@ -84,11 +76,7 @@ export default class Actions {
       ...params,
       projectId: this._store.projectId ?? '1'
     })
-    if (res) {
-      return res
-    } else {
-      return null
-    }
+    return res
   }
 
   async getEquipmentInfo(params: any) {

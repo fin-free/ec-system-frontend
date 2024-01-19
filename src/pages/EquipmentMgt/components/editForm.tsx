@@ -46,7 +46,9 @@ interface IProps {
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { equipmentItem, onClickBack } = props
   const { actions } = useContext(storeContext)
-  const [localEnergyType, setLocalEnergyType] = useState<string>()
+  const [localEnergyType, setLocalEnergyType] = useState<string | undefined>(
+    equipmentItem?.energyType
+  )
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
 
@@ -72,10 +74,12 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
           equipmentId: equipmentItem.equipmentId
         })
       : await actions.addEquipment(data)
-    if (res) {
-      message.success(res)
+    if (res?.code === 200) {
+      message.success(res.message)
       onClickBack()
       actions.fetchEquipmentData()
+    } else {
+      message.error(res?.message)
     }
   }
 
@@ -134,34 +138,102 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label='倍率' name='currentMagnification'>
+        <Form.Item
+          label='倍率'
+          name='currentMagnification'
+          rules={[
+            {
+              type: 'number',
+              message: '请输入数字',
+              transform: (value) => Number(value)
+            }
+          ]}
+        >
           <Input />
         </Form.Item>
-        {equipmentItem?.energyType === EnergyTypes.ELECTRIC ||
-        localEnergyType === EnergyTypes.ELECTRIC ? (
+        {localEnergyType === EnergyTypes.ELECTRIC ? (
           <>
-            <Form.Item label='电压上限' name='voltageThresholdMax'>
+            <Form.Item
+              label='电压上限'
+              name='voltageThresholdMax'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>
 
-            <Form.Item label='电流上限' name='currentThresholdMax'>
+            <Form.Item
+              label='电流上限'
+              name='currentThresholdMax'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label='最大功率' name='powerMax'>
+            <Form.Item
+              label='最大功率'
+              name='powerMax'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label='最小功率' name='powerMin'>
+            <Form.Item
+              label='最小功率'
+              name='powerMin'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>
           </>
         ) : null}
-        {equipmentItem?.energyType === EnergyTypes.TEMPERATURE_HUMIDITY ||
-        localEnergyType === EnergyTypes.TEMPERATURE_HUMIDITY ? (
+        {localEnergyType === EnergyTypes.TEMPERATURE_HUMIDITY ? (
           <>
-            <Form.Item label='最大温度' name='temperatureMax'>
+            <Form.Item
+              label='最大温度'
+              name='temperatureMax'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label='最大湿度' name='humidityMax'>
+            <Form.Item
+              label='最大湿度'
+              name='humidityMax'
+              rules={[
+                {
+                  type: 'number',
+                  message: '请输入数字',
+                  transform: (value) => Number(value)
+                }
+              ]}
+            >
               <Input />
             </Form.Item>{' '}
           </>

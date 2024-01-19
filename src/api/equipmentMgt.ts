@@ -62,10 +62,9 @@ const addEquipment = async (params: any) => {
       }
     })
     const { code, message } = res ?? {}
-    if (code === 200) {
-      return message
-    } else {
-      throw new Error(message)
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('addEquipment error: ', error)
@@ -111,10 +110,9 @@ const updateEquipment = async (params: any) => {
       }
     })
     const { code, message } = res ?? {}
-    if (code === 200) {
-      return message
-    } else {
-      return null
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('updateEquipment error: ', error)
@@ -129,10 +127,9 @@ const deleteEquipment = async (params: any) => {
       method: 'DELETE'
     })
     const { code, data, message } = res ?? {}
-    if (code === 200) {
-      return data
-    } else {
-      throw new Error(message)
+    return {
+      code,
+      message
     }
   } catch (error) {
     console.error('deleteEquipment error: ', error)
