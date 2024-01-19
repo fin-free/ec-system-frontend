@@ -30,7 +30,9 @@ const AlarmTable: React.FC = () => {
     '超功率告警',
     '温度告警',
     '湿度告警',
-    '集中器掉线'
+    '集中器掉线',
+    '烟雾告警',
+    '漏水告警'
   ]
 
   const eventStatusMap = {
