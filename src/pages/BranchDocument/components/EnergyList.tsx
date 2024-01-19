@@ -122,7 +122,7 @@ const EnergyList: React.FC<IProps> = () => {
                     onChange={(e) => onClickCheckbox(e, item)}
                     className={Style.checkbox}
                   />
-                  {`${energyLabelMap[item.energyType]}-${item.equipmentName}`}
+                  {`${item.equipmentName}`}
                 </List.Item>
               )
             }}

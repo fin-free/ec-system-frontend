@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react'
 
-import G6, { ToolBar, TreeGraph } from '@antv/g6'
+import G6, {
+  ToolBar,
+  TreeGraph,
+  ModelConfig,
+  Item,
+  IG6GraphEvent,
+  TreeGraphData
+} from '@antv/g6'
 
 import { observer, useStore } from '@/hooks/storeHook'
 import { TreeNode } from '@/types'
@@ -8,17 +15,83 @@ import { TreeNode } from '@/types'
 import storeContext from '../context'
 
 import Styles from './ArchieveTree.module.scss'
+const defaultExpandLevel = 2
 
 G6.registerNode(
-  'icon-node',
+  'icon-node-branch',
   {
-    options: {
-      size: [60, 20],
-      stroke: '#91d5ff',
-      fill: '#fff'
+    draw(cfg: ModelConfig, group) {
+      const { collapsed, label } = cfg
+      const rectConfig = {
+        stroke: '#ccc',
+        fill: '#26266d',
+        width: 120,
+        height: 60,
+        radius: 5
+      }
+
+      const nodeOrigin = {
+        x: 0,
+        y: 0
+      }
+
+      const rect = group.addShape('rect', {
+        attrs: {
+          x: nodeOrigin.x,
+          y: nodeOrigin.y,
+          ...rectConfig
+        }
+      })
+
+      group.addShape('text', {
+        attrs: {
+          text: label,
+          fontSize: 10,
+          fill: '#fff',
+          x: 60,
+          y: 35,
+          textAlign: 'center'
+        },
+        name: 'title-shape'
+      })
+
+      // 展开收起 rect
+      if (cfg.children instanceof Array && cfg.children?.length) {
+        group.addShape('marker', {
+          attrs: {
+            x: rectConfig.width / 2,
+            y: rectConfig.height,
+            r: 8,
+            cursor: 'pointer',
+            symbol: collapsed ? G6.Marker.expand : G6.Marker.collapse,
+            stroke: '#26266d',
+            lineWidth: 1,
+            fill: '#fff'
+          },
+          name: 'collapse-icon'
+        })
+      }
+      return rect
     },
-    update: undefined
+    update(cfg, item) {
+      const { collapsed } = cfg
+      const width = 120
+      const marker = item
+        .get('group')
+        .find((ele: any) => ele.get('name') === 'collapse-icon')
+      marker.attr('x', width / 2)
+    },
+    setState(name, value, item?: Item) {
+      if (name === 'collapsed' && item) {
+        const marker = item
+          .get('group')
+          .find((ele: any) => ele.get('name') === 'collapse-icon')
+        const icon = value ? G6.Marker.expand : G6.Marker.collapse
+        marker.attr('symbol', icon)
+      }
+    }
   },
+  // 继承内置节点类型的名字
   'rect'
 )
 
@@ -51,12 +124,6 @@ const defaultStateStyles = {
   }
 }
 
-const defaultNodeStyle = {
-  fill: '#26266d',
-  stroke: '#ccc',
-  radius: 5
-}
-
 const defaultEdgeStyle = {
   stroke: '#ccc'
 }
@@ -81,13 +148,6 @@ const defaultLayout = {
   }
 }
 
-const defaultLabelCfg = {
-  style: {
-    fill: '#fff',
-    fontSize: 10
-  }
-}
-
 const ArchiveTree: React.FC = () => {
   const {
     commonStore: { achieveList }
@@ -96,13 +156,17 @@ const ArchiveTree: React.FC = () => {
     store: { selectedNode }
   } = useContext(storeContext)
   const graphRef = useRef<TreeGraph>()
-  const mapTreeData = (root: any) => {
+  const mapTreeData = (root: any, level = 1) => {
     if (!root) return {}
     const newRoot = {} as any
     newRoot.id = String(root.key)
     newRoot.label = root.title
+    newRoot.collapsed =
+      typeof root.collapsed === 'boolean'
+        ? root.collapsed
+        : level > defaultExpandLevel
     newRoot.children = root.children.map((child: any) => {
-      return mapTreeData(child)
+      return mapTreeData(child, level + 1)
     })
     return newRoot
   }
@@ -130,20 +194,28 @@ const ArchiveTree: React.FC = () => {
       },
       plugins: [toolbar],
       defaultNode: {
-        type: 'icon-node',
-        size: [120, 60],
-        style: defaultNodeStyle,
-        labelCfg: defaultLabelCfg
+        type: 'icon-node-branch'
       },
       defaultEdge: {
         type: 'flow-line',
         style: defaultEdgeStyle
       },
-      nodeStateStyles: defaultStateStyles,
-      edgeStateStyles: defaultStateStyles,
       layout: defaultLayout
     })
     graphRef.current = graph
+    graph.on('node:click', (e: IG6GraphEvent) => {
+      const { item } = e
+      if (item) {
+        item.getModel().collapsed = !item.getModel().collapsed
+        graph.setItemState(
+          item,
+          'collapsed',
+          (item.getModel() as TreeGraphData).collapsed!
+        )
+        graph.refreshItem(item)
+        graph.layout()
+      }
+    })
     return () => {
       graphRef.current?.destroy()
     }
