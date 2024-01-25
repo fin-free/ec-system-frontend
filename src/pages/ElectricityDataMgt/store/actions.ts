@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
@@ -35,6 +36,23 @@ export default class Actions {
         })
       }
       this.setLoadingState(false)
+    })
+  }
+
+  async exportElectricityData() {
+    const payload = {
+      ...this._store.filters,
+      buildingId: this._store.selectedBuildingId,
+      pageNum: this._store.pagination.current.toString(),
+      pageSize: this._store.pagination.pageSize.toString()
+    }
+    await API.exportElectricityDataByType(payload).then((res: any) => {
+      if (res) {
+        const blob = new Blob([res], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        saveAs(blob, 'data.xlsx')
+      }
     })
   }
 

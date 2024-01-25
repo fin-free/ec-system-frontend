@@ -55,6 +55,18 @@ export default class Actions {
     })
   }
 
+  async exportTimeCompareData(selectedArchiveId?: string) {
+    const payload = {
+      ...this._store.filters,
+      archivesId: selectedArchiveId || this._store.selectedArchiveId
+    }
+    await API.getTimeCompareData(payload).then((res) => {
+      if (res) {
+        console.log(res)
+      }
+    })
+  }
+
   async onSearch(searchParams: {
     startTime?: string
     endTime?: string

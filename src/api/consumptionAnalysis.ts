@@ -11,4 +11,7 @@ type EnergyConsumptionPayload = {
 const getEnergyConsumptionData = (data: EnergyConsumptionPayload) =>
   request({ url: '/energy/get/energyvalue', method: 'post', data })
 
-export { getEnergyConsumptionData }
+const exportEnergyConsumptionData = (data: EnergyConsumptionPayload) =>
+  request({ url: '/iot/energy/energy-value/export', method: 'post', data, responseType: 'arraybuffer' })
+
+export { exportEnergyConsumptionData, getEnergyConsumptionData }

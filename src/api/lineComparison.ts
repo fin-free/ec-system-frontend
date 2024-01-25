@@ -27,4 +27,7 @@ const getLineComparisonData = async (params: LineComparisonPayload) => {
   }
 }
 
-export { getLineComparisonData }
+const exportLineComparisonData = async (data: LineComparisonPayload) =>
+  request({ url: '/energy/build-compare/export', method: 'post', data, responseType: 'arraybuffer' })
+
+export { exportLineComparisonData, getLineComparisonData }

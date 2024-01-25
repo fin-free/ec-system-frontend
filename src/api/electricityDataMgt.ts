@@ -21,5 +21,9 @@ type ElectricityDataPayload = {
 const getElectricityDataByType = (data: ElectricityDataPayload) =>
   request({ url: '/eceraw/datalist', method: 'post', data })
 
-export { getElectricityDataByType, getEquipmentList }
+// 导出电力数据详情
+const exportElectricityDataByType = (data: ElectricityDataPayload) =>
+  request({ url: '/eceraw/export', method: 'post', data, responseType: 'arraybuffer' })
+
+export { exportElectricityDataByType, getElectricityDataByType, getEquipmentList }
 export type { ElectricityDataPayload }

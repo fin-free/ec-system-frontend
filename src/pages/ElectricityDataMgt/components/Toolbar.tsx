@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 
-import { DatePicker, Input, Select } from 'antd'
+import { Button, DatePicker, Input, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -38,39 +38,48 @@ const Toolbar: React.FC = () => {
     })
   }
 
+  const handleExport = () => {
+    actions.exportElectricityData()
+  }
+
   return (
     <div className={Styles.root}>
-      <RangePicker
-        format={'YYYY-MM-DD'}
-        onChange={onDateChange}
-        defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
-      />
-      <Search
-        placeholder='请输入设备地址'
-        onSearch={onSearch}
-        value={keyWord}
-        onChange={(e) => setKeyWord(e.target.value)}
-      />
-      <Select
-        options={functionTypeOptions}
-        onChange={(value: string) =>
-          actions.onSearch({
-            functiontype: value
-          })
-        }
-        defaultValue={filters.functiontype}
-      />
-      {filters.functiontype === '0021' && (
+      <div className='filters'>
+        <RangePicker
+          format={'YYYY-MM-DD'}
+          onChange={onDateChange}
+          defaultValue={[dayjs(filters?.startTime), dayjs(filters?.endTime)]}
+        />
+        <Search
+          placeholder='请输入设备地址'
+          onSearch={onSearch}
+          value={keyWord}
+          onChange={(e) => setKeyWord(e.target.value)}
+        />
         <Select
-          options={dateTypeOptions}
+          options={functionTypeOptions}
           onChange={(value: string) =>
             actions.onSearch({
-              datetype: value
+              functiontype: value
             })
           }
-          defaultValue={filters.datetype}
+          defaultValue={filters.functiontype}
         />
-      )}
+        {filters.functiontype === '0021' && (
+          <Select
+            options={dateTypeOptions}
+            onChange={(value: string) =>
+              actions.onSearch({
+                datetype: value
+              })
+            }
+            defaultValue={filters.datetype}
+          />
+        )}
+      </div>
+      <Button type='primary' className={Styles.primaryButton} onClick={handleExport}>
+        导出
+      </Button>
     </div>
   )
 }

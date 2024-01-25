@@ -9,7 +9,11 @@ type TimeComparePayload = {
   startTime: string
   endTime: string
 }
+
 const getTimeCompareData = (data: TimeComparePayload) => request({ url: '/energy/timecompare', method: 'post', data })
 
-export { getTimeCompareData }
+const exportTimeCompareData = (data: TimeComparePayload) =>
+  request({ url: '/energy/time-compare/export', method: 'post', data, responseType: 'arraybuffer' })
+
+export { exportTimeCompareData, getTimeCompareData }
 export type { TimeComparePayload }

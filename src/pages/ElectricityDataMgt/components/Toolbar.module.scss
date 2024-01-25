@@ -1,21 +1,27 @@
 .root {
   display: flex;
-  column-gap: 24px;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start;
-  padding-bottom: 16px;
 
   :global {
-    .ant-select {
-      width: 180px;
-    }
+    .filters {
+      display: flex;
+      column-gap: 24px;
+      align-items: center;
+      justify-content: flex-start;
+      padding-bottom: 16px;
 
-    .ant-picker {
-      width: 240px;
-    }
+      .ant-select {
+        width: 180px;
+      }
 
-    .ant-input-search {
-      width: 180px;
+      .ant-picker {
+        width: 240px;
+      }
+
+      .ant-input-search {
+        width: 180px;
+      }
     }
   }
 }
