@@ -1,17 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 
-import {
-  DashboardOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  FileAddOutlined
-} from '@ant-design/icons'
+import { DashboardOutlined, DeleteOutlined, EditOutlined, FileAddOutlined } from '@ant-design/icons'
 import { Button, message, Modal, Popover, Tooltip } from 'antd'
 
 import SearchInput from '@/components/SearchInput'
 import Tree from '@/components/Tree'
 import { observer, useStore } from '@/hooks/storeHook'
-import { ArchiveList, RawTreeNode, TreeNode } from '@/types'
+import { RawTreeNode, TreeNode } from '@/types'
 
 import storeContext from '../context'
 import { NodeData } from '../types'
@@ -24,7 +19,7 @@ const EquipmentList = () => {
     commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys },
     commonActions
   } = useStore()
-  const { store, actions } = useContext(storeContext)
+  const { actions } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [showPopoverNodeKey, setShowPopoverNodeKey] = useState<number | null>()
@@ -87,19 +82,12 @@ const EquipmentList = () => {
     const { value } = e.target
     const newExpandedKeys = dataList
       .map((item) => {
-        if (
-          item.title &&
-          typeof item.title === 'string' &&
-          item.title.indexOf(value) > -1
-        ) {
+        if (item.title && typeof item.title === 'string' && item.title.indexOf(value) > -1) {
           return getParentKey(item.key, achieveList)
         }
         return null
       })
-      .filter(
-        (item, i, self): item is React.Key =>
-          !!(item && self.indexOf(item) === i)
-      )
+      .filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
     setExpandedKeys(newExpandedKeys)
     setSearchValue(value)
     // setAutoExpandParent(true)
@@ -139,30 +127,27 @@ const EquipmentList = () => {
       }
     })
 
-  const onSelect = (
-    selectedKeys: React.Key[],
-    e: { selected: boolean; selectedNodes: any[]; node: any }
-  ) => {
+  const onSelect = (selectedKeys: React.Key[], e: { selected: boolean; selectedNodes: any[]; node: any }) => {
     if (e.selectedNodes[0]) {
       setSelectedNode(e.selectedNodes[0])
       actions.updateSelectedNode(e.selectedNodes[0])
     }
   }
 
-  const getAchieveItem = (list: ArchiveList, key: string): any => {
-    for (const item of list) {
-      if (String(item.archivesId) === String(key)) {
-        return item
-      }
-      if (item.childrenList) {
-        const res = getAchieveItem(item.childrenList, key)
-        if (res) {
-          return res
-        }
-      }
-    }
-    return null
-  }
+  // const getAchieveItem = (list: ArchiveList, key: string): any => {
+  //   for (const item of list) {
+  //     if (String(item.archivesId) === String(key)) {
+  //       return item
+  //     }
+  //     if (item.childrenList) {
+  //       const res = getAchieveItem(item.childrenList, key)
+  //       if (res) {
+  //         return res
+  //       }
+  //     }
+  //   }
+  //   return null
+  // }
 
   const onClickAdd = (nodeData: NodeData) => {
     setSelectedNode(nodeData)
@@ -233,20 +218,17 @@ const EquipmentList = () => {
         <Button icon={<DeleteOutlined />} onClick={() => onClickDelete()} />
       </Tooltip>
       <Tooltip title='配表'>
-        <Button
-          icon={<DashboardOutlined />}
-          onClick={() => onClickManage(nodeData)}
-        />
+        <Button icon={<DashboardOutlined />} onClick={() => onClickManage(nodeData)} />
       </Tooltip>
     </div>
   )
 
-  const onRightClickNode = (e: any, nodeData: NodeData) => {
-    e.preventDefault()
-    setShowPopoverNodeKey(nodeData.archivesId)
-    setSelectedNode(nodeData)
-    actions.updateSelectedNode(nodeData)
-  }
+  // const onRightClickNode = (e: any, nodeData: NodeData) => {
+  //   e.preventDefault()
+  //   setShowPopoverNodeKey(nodeData.archivesId)
+  //   setSelectedNode(nodeData)
+  //   actions.updateSelectedNode(nodeData)
+  // }
 
   const treeTitleRender = (nodeData: any) => {
     return (
@@ -263,11 +245,7 @@ const EquipmentList = () => {
 
   return (
     <aside className={Styles.root}>
-      <SearchInput
-        rootClassName='search-input'
-        onChange={onSearch}
-        placeholder='输入名称搜索...'
-      />
+      <SearchInput rootClassName='search-input' onChange={onSearch} placeholder='输入名称搜索...' />
       <div className='tree-wrapper'>
         <Tree
           treeData={treeArchivesData}
@@ -278,12 +256,7 @@ const EquipmentList = () => {
           selectedKeys={[String(selectedNode?.archivesId)]}
         />
       </div>
-      <Modal
-        title='确认删除档案'
-        open={showDeleteModal}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-      >
+      <Modal title='确认删除档案' open={showDeleteModal} onOk={handleModalOk} onCancel={handleModalCancel}>
         是否删除档案？
       </Modal>
     </aside>

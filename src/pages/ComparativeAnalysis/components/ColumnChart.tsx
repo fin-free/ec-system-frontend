@@ -51,7 +51,6 @@ const ConsumptionChart: React.FC = () => {
     tooltip: {
       shared: true,
       formatter: function (this: any) {
-        debugger
         return `
         <p style="font-weight:bold;">时间:</p>
         <p>
