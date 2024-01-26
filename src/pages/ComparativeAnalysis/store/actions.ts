@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
@@ -55,14 +56,17 @@ export default class Actions {
     })
   }
 
-  async exportTimeCompareData(selectedArchiveId?: string) {
+  async exportComparativeData() {
     const payload = {
       ...this._store.filters,
-      archivesId: selectedArchiveId || this._store.selectedArchiveId
+      archivesId: this._store.selectedArchiveId
     }
-    await API.getTimeCompareData(payload).then((res) => {
+    await API.exportTimeCompareData(payload).then((res: any) => {
       if (res) {
-        console.log(res)
+        const blob = new Blob([res], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        saveAs(blob, 'data.xlsx')
       }
     })
   }

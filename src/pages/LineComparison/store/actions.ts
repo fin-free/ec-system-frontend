@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { runInAction } from 'mobx'
 
 import * as API from '@/api/lineComparison'
@@ -37,6 +38,21 @@ export default class Actions {
           this._store.lineComparisonChartData = res
         })
         this.setLoadingState(false)
+      }
+    })
+  }
+
+  async exportComparisonData() {
+    const payload = {
+      ...this._store.filters,
+      archivesIds: this._store.selectedArchiveIds
+    }
+    await API.exportLineComparisonData(payload).then((res: any) => {
+      if (res) {
+        const blob = new Blob([res], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        saveAs(blob, 'data.xlsx')
       }
     })
   }

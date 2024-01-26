@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { get } from 'lodash'
 import { runInAction } from 'mobx'
 
@@ -32,6 +33,21 @@ export default class Actions {
         })
       }
       this.setLoadingState(false)
+    })
+  }
+
+  async exportConsumptionData() {
+    const payload = {
+      ...this._store.filters,
+      archivesId: this._store.selectedArchiveId
+    }
+    await API.exportEnergyConsumptionData(payload).then((res: any) => {
+      if (res) {
+        const blob = new Blob([res], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        saveAs(blob, 'data.xlsx')
+      }
     })
   }
 

@@ -19,5 +19,15 @@
         width: 180px;
       }
     }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      column-gap: 24px;
+
+      button {
+        height: 28px;
+      }
+    }
   }
 }

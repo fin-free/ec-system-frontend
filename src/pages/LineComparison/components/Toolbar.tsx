@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 
 import type { DatePickerProps } from 'antd'
-import { DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
+import { Button, DatePicker, Radio, RadioChangeEvent, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -74,6 +74,10 @@ const Toolbar: React.FC = () => {
     return current && current > dayjs().endOf('day')
   }
 
+  const handleExport = () => {
+    actions.exportComparisonData()
+  }
+
   return (
     <div className={Styles.root}>
       <div className='filters'>
@@ -102,10 +106,15 @@ const Toolbar: React.FC = () => {
           <Radio.Button value='0013'>按月</Radio.Button>
         </Radio.Group>
       </div>
-      <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='chart'>
-        <Radio.Button value='chart'>图表</Radio.Button>
-        <Radio.Button value='table'>数据</Radio.Button>
-      </Radio.Group>
+      <div className='actions'>
+        <Radio.Group className='radio-group' onChange={onModeChange} defaultValue='chart'>
+          <Radio.Button value='chart'>图表</Radio.Button>
+          <Radio.Button value='table'>数据</Radio.Button>
+        </Radio.Group>
+        <Button type='primary' className={Styles.primaryButton} onClick={handleExport}>
+          导出
+        </Button>
+      </div>
     </div>
   )
 }
