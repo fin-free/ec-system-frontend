@@ -16,5 +16,9 @@ type EnvironmentDataPayload = {
 const getEnvironmentDataByType = (data: EnvironmentDataPayload) =>
   request({ url: '/eceraw/datalist', method: 'post', data })
 
-export { getEnvironmentDataByType }
+// 导出环境数据详情
+const exportEnvironmentDataByType = (data: EnvironmentDataPayload) =>
+  request({ url: '/eceraw/export', method: 'post', data, responseType: 'arraybuffer' })
+
+export { exportEnvironmentDataByType, getEnvironmentDataByType }
 export type { EnvironmentDataPayload }
