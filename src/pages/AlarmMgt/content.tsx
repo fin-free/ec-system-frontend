@@ -1,15 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import {
-  Button,
-  DatePicker,
-  Form,
-  message,
-  Modal,
-  Select,
-  Table,
-  Typography
-} from 'antd'
+import { Button, DatePicker, Form, message, Modal, Select, Table, Typography } from 'antd'
 import dayjs from 'dayjs'
 
 import { observer } from '@/hooks/storeHook'
@@ -87,10 +78,7 @@ const Content: React.FC = () => {
   }
 
   const onOkConfirmModal = async () => {
-    const res = await actions.operateAlarm(
-      [curRecord?.alarmId as number],
-      EventStatus.CONFIRMED
-    )
+    const res = await actions.operateAlarm([curRecord?.alarmId as number], EventStatus.CONFIRMED)
     setCurRecord(undefined)
     setShowConfirmModal(false)
     if (res) {
@@ -101,10 +89,7 @@ const Content: React.FC = () => {
   }
 
   const onOkCancelModal = async () => {
-    const res = await actions.operateAlarm(
-      [curRecord?.alarmId as number],
-      EventStatus.CANCELLED
-    )
+    const res = await actions.operateAlarm([curRecord?.alarmId as number], EventStatus.CANCELLED)
 
     setCurRecord(undefined)
     setShowCancelModal(false)
@@ -172,16 +157,10 @@ const Content: React.FC = () => {
         return (_: any, record: Item) => {
           return record.status === EventStatus.WAIT_FOR_CONFIRM ? (
             <div className={Styles.operationWrapper}>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickConfirm(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickConfirm(record)}>
                 确认
               </Typography.Link>
-              <Typography.Link
-                disabled={false}
-                onClick={() => onClickCancel(record)}
-              >
+              <Typography.Link disabled={false} onClick={() => onClickCancel(record)}>
                 取消
               </Typography.Link>
             </div>
@@ -196,8 +175,7 @@ const Content: React.FC = () => {
           return eventStatusMap[record.status]
         }
       case 'startTime':
-        return (value: any) =>
-          value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--'
+        return (value: any) => (value ? dayjs(value).format('YYYY-MM-DD HH:mm:ss') : '--')
       default:
         return null
     }
@@ -229,12 +207,7 @@ const Content: React.FC = () => {
       <Form form={form} component={false}>
         <div className={Styles.toolbarWrapper}>
           <div className='filters'>
-            <RangePicker
-              value={store.timeRange}
-              onChange={handleDateChange}
-              format={dateFormat}
-              changeOnBlur
-            />
+            <RangePicker value={store.timeRange} onChange={handleDateChange} format={dateFormat} changeOnBlur />
             <Select
               value={store.alarmType}
               placeholder='告警类型'
@@ -286,20 +259,10 @@ const Content: React.FC = () => {
           />
         </div>
       </Form>
-      <Modal
-        title='确认告警？'
-        open={showConfirmModal}
-        onOk={onOkConfirmModal}
-        onCancel={onCancelConfirmModal}
-      >
+      <Modal title='确认告警？' open={showConfirmModal} onOk={onOkConfirmModal} onCancel={onCancelConfirmModal}>
         设备编号：{curRecord?.equipmentNum}
       </Modal>
-      <Modal
-        title='取消告警？'
-        open={showCancelModal}
-        onOk={onOkCancelModal}
-        onCancel={onCancelCancelModal}
-      >
+      <Modal title='取消告警？' open={showCancelModal} onOk={onOkCancelModal} onCancel={onCancelCancelModal}>
         设备编号：{curRecord?.equipmentNum}
       </Modal>
       <Modal

@@ -1,10 +1,11 @@
 import request from './request'
 
 const getAlarmList = async (params: any): Promise<any> => {
-  const { status, type, startTime, pageNum, pageSize, endTime } = params
+  const { status, type, startTime, pageNum, pageSize, endTime, projectId } = params
+
   try {
     const res = await request({
-      url: `/energy/alarm/list?projectId=1&status=${status}&type=${type}&startTime=${startTime}&pageNum=${pageNum}&pageSize=${pageSize}&endTime=${endTime}`
+      url: `/energy/alarm/list?projectId=${projectId}&status=${status}&type=${type}&startTime=${startTime}&pageNum=${pageNum}&pageSize=${pageSize}&endTime=${endTime}`
     })
     const { code, data, message } = res ?? {}
     if (code === 200 && data) {
@@ -21,7 +22,7 @@ const operateAlarm = async (params: any) => {
   const { alarmIds, operation } = params
   try {
     const res = await request({
-      url: `/energy/alarm/operate`,
+      url: '/energy/alarm/operate',
       method: 'POST',
       data: {
         alarmIds,

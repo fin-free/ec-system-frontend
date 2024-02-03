@@ -17,10 +17,17 @@ export default class AuthActions {
 
   async init() {
     if (localStorage.getItem(AUTH_TOKEN_KEY)) {
-      API.getUserInfo().then((res) => {
+      return API.getUserInfo().then((res) => {
+        const userInfo = get(res, 'data', {})
+
         runInAction(() => {
-          this._authStore.setUserInfo(get(res, 'data', {}))
+          if (userInfo.projectId) {
+            userInfo['projectId'] = userInfo['projectId'].toString()
+          }
+          this._authStore.setUserInfo(userInfo)
         })
+
+        return userInfo
       })
     }
   }

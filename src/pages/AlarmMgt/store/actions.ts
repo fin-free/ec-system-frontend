@@ -30,13 +30,12 @@ export default class Actions {
       startTime: this._store.timeRange?.[0]?.toISOString() ?? '',
       pageNum: this._store.pagination.current.toString(),
       pageSize: this._store.pagination.pageSize.toString(),
-      endTime: this._store.timeRange?.[1]?.toISOString() ?? ''
+      endTime: this._store.timeRange?.[1]?.toISOString() ?? '',
+      projectId: this._store.projectId
     })
 
     if (res) {
-      res.list = res.list.map((listItem) =>
-        Object.assign(listItem, { key: listItem.alarmId })
-      )
+      res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))
       runInAction(() => {
         this._store.pagination = {
           ...this._store.pagination,
@@ -86,6 +85,7 @@ export default class Actions {
       this._store.timeRange = timeRange
     })
   }
+
   async updatePagination(pagination: {
     current: number
     pageSize: number
@@ -98,5 +98,11 @@ export default class Actions {
       this._store.pagination.pageSize = pageSize
     })
     this.fetchData()
+  }
+
+  setProjectId(projectId: string) {
+    runInAction(() => {
+      this._store.projectId = projectId
+    })
   }
 }

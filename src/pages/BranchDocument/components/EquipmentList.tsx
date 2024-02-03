@@ -164,7 +164,6 @@ const EquipmentList = () => {
   }
 
   const onClickEdit = (nodeData: NodeData) => {
-    debugger
     setSelectedNode(nodeData)
     actions.updateTreeMode('edit')
     actions.updateCurArchivesItem({

@@ -13,10 +13,10 @@ export default class CommonActions {
     this._store = commonStore
   }
 
-  async init() {
+  async init(projectId: string) {
     this.getDictList()
-    this.getAchieveList('1')
-    this.getBuildingList('1')
+    this.getAchieveList(projectId)
+    this.getBuildingList(projectId)
   }
 
   async getDictList() {

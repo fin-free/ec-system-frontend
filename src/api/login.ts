@@ -14,4 +14,4 @@ const loginOut = () => request({ url: '/sys/logout', method: 'post' })
 
 const getUserInfo = () => request({ url: '/sys/user/info', method: 'get' })
 
-export { login, loginOut, getUserInfo }
+export { getUserInfo, login, loginOut }

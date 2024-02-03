@@ -7,7 +7,7 @@ export default class AuthStore {
     makeAutoObservable(this)
   }
 
-  public userInfo: UserInfo = {}
+  public userInfo: UserInfo = { projectId: '1' }
 
   setUserInfo(data: UserInfo) {
     this.userInfo = data

@@ -13,6 +13,7 @@ export type UserInfo = {
   email?: string
   mobile?: string
   status?: number
+  projectId: string
 }
 
 export type ActiveTab = {

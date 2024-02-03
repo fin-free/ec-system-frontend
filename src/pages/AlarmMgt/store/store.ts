@@ -6,13 +6,17 @@ import { Item } from '../typings'
 type RangeValue = [Dayjs | null, Dayjs | null] | null
 
 export default class Store {
+  constructor(projectId: string) {
+    this.projectId = projectId
+    makeAutoObservable(this)
+  }
+
+  public projectId: string
   public alarmType = 0
   public eventStatus = 0
   public timeRange: RangeValue = null
   public alarmData: Array<Item> = []
-  constructor() {
-    makeAutoObservable(this)
-  }
+
   public pagination = {
     total: 0,
     current: 1,
