@@ -1,15 +1,9 @@
-import { useStore } from '@/hooks/storeHook'
-
 import Content from './content'
 import StoreContext from './context'
 import createStore from './store'
 
 const EquipmentMgt: React.FC = () => {
-  const {
-    authStore: {
-      userInfo: { projectId }
-    }
-  } = useStore()
+  const projectId = localStorage.getItem('ec_sys_projectId') || '1'
 
   return (
     <StoreContext.Provider value={createStore(projectId)}>

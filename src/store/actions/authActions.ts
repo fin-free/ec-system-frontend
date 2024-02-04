@@ -24,6 +24,7 @@ export default class AuthActions {
           if (userInfo.projectId) {
             userInfo['projectId'] = userInfo['projectId'].toString()
           }
+          localStorage.setItem('ec_sys_projectId', userInfo['projectId'].toString())
           this._authStore.setUserInfo(userInfo)
         })
 

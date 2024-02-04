@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom'
 
 import { useStore } from '@/hooks/storeHook'
 import { ROUTE_PATH_DASHBOARD } from '@/routes/routePath'
-import { ILoginParams } from '@/types'
+import { ILoginParams, UserInfo } from '@/types'
 
 import Styles from './LoginForm.module.scss'
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate()
-  const { authActions } = useStore()
+  const { authActions, commonActions } = useStore()
   const [formRef] = Form.useForm()
   const [loading, setLoading] = useState(false)
 
@@ -19,7 +19,10 @@ const LoginForm: React.FC = () => {
     setLoading(true)
     authActions.toLogin(values).then((res) => {
       if (res) {
-        navigate(ROUTE_PATH_DASHBOARD)
+        authActions.init().then((userInfo: UserInfo) => {
+          commonActions.init(userInfo?.projectId)
+          navigate(ROUTE_PATH_DASHBOARD, { state: { projectId: userInfo?.projectId } })
+        })
       } else {
         formRef.setFields([
           { name: 'userName', errors: [''] },

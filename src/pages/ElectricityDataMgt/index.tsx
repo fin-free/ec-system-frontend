@@ -1,15 +1,9 @@
-import { useStore } from '@/hooks/storeHook'
-
 import Content from './Content'
 import StoreContext from './context'
 import createStore from './store'
 
 const ElectricityDataMgt: React.FC = () => {
-  const {
-    authStore: {
-      userInfo: { projectId }
-    }
-  } = useStore()
+  const projectId = localStorage.getItem('ec_sys_projectId') || '1'
 
   return (
     <StoreContext.Provider value={createStore(projectId)}>
