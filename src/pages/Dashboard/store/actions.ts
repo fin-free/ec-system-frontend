@@ -17,7 +17,7 @@ export default class Actions {
   }
 
   async getStatisticSummaryData() {
-    await API.getStatisticSummary({ projectId: 1 }).then((res) => {
+    await API.getStatisticSummary({ projectId: this._store.projectId }).then((res) => {
       if (res) {
         runInAction(() => {
           const data = get(res, 'data', [])

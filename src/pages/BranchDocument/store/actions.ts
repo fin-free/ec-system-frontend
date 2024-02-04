@@ -24,40 +24,46 @@ export default class Actions {
       this._store.energyEquipmentData = res
     })
   }
+
   async saveArchivesEquipmentRelation(params: { archivesId: number; meterIdList: number[]; energyType: string }) {
     const res = await API.saveArchivesEquipmentRelation(params)
     return res
   }
+
   async deleteArchives(params: any) {
-    const res = await API.deleteArchive(params)
+    const res = await API.deleteArchive({ ...params, projectId: this._store.projectId })
     if (res) {
       return res
     } else {
       return null
     }
   }
+
   async addArchives(params: any) {
-    const res = await API.addArchive(params)
+    const res = await API.addArchive({ ...params, projectId: this._store.projectId })
     if (res) {
       return res
     } else {
       return null
     }
   }
+
   async updateArchive(params: any) {
-    const res = await API.updateArchive(params)
+    const res = await API.updateArchive({ ...params, projectId: this._store.projectId })
     if (res) {
       return res
     } else {
       return null
     }
   }
+
   updateEnergyType(type: string) {
     runInAction(() => {
       this._store.filter.datatype = type
     })
     this.getEnergyList()
   }
+
   updateSelectedArchivesId(id: number) {
     runInAction(() => {
       this._store.selectedArchiveId = id
@@ -67,9 +73,11 @@ export default class Actions {
   updateFilterInput(value: string) {
     this._store.equipmentInput = value
   }
+
   updateCurArchivesItem(item: any) {
     this._store.curArchivesItem = item
   }
+
   updateTreeMode(mode: string) {
     runInAction(() => {
       this._store.treeMode = mode

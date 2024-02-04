@@ -4,7 +4,7 @@ const getEquipmentList = async (params: any) => {
   const { equipmentNum, status, projectId, pageNum, pageSize } = params
   try {
     const res = await request({
-      url: `/sys-equipment/list`,
+      url: '/sys-equipment/list',
       method: 'POST',
       data: {
         equipmentNum, //设备地址
@@ -43,7 +43,7 @@ const addEquipment = async (params: any) => {
   } = params
   try {
     const res = await request({
-      url: `/sys-equipment/add`,
+      url: '/sys-equipment/add',
       method: 'POST',
       data: {
         projectId, //项目Id
@@ -90,7 +90,7 @@ const updateEquipment = async (params: any) => {
   } = params
   try {
     const res = await request({
-      url: `/sys-equipment/update`,
+      url: '/sys-equipment/update',
       method: 'POST',
       data: {
         currentThresholdMax, //最大电流阈值
@@ -126,7 +126,7 @@ const deleteEquipment = async (params: any) => {
       url: `/sys-equipment/delete?id=${equipmentId}`,
       method: 'DELETE'
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     return {
       code,
       message
@@ -154,10 +154,4 @@ const getEquipmentInfo = async (params: any) => {
   }
 }
 
-export {
-  getEquipmentList,
-  addEquipment,
-  updateEquipment,
-  deleteEquipment,
-  getEquipmentInfo
-}
+export { addEquipment, deleteEquipment, getEquipmentInfo, getEquipmentList, updateEquipment }

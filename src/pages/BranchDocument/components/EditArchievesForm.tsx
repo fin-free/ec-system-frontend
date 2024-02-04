@@ -1,8 +1,11 @@
-import { Form, Button, Input, message, Select } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
+
+import { Button, Form, Input, message, Select } from 'antd'
+
 import { observer } from '@/hooks/storeHook'
-import Styles from '../index.module.scss'
+
 import storeContext from '../context'
+import Styles from '../index.module.scss'
 
 interface IProps {
   archievesItem: any
@@ -20,10 +23,8 @@ const levelMapping = [[], [1, 2], [2, 3], [3, 4], [4], [5], []]
 const EditForm: React.FC<IProps> = (props: IProps) => {
   const { archievesItem } = props
   const { actions, store } = useContext(storeContext)
-  const [archivesLevelOptions, setArchivesLevelOptions] = useState(
-    defaultArchivesLevelOptions
-  )
-  const [messageApi, contextHolder] = message.useMessage()
+  const [archivesLevelOptions, setArchivesLevelOptions] = useState(defaultArchivesLevelOptions)
+  const [, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
   useEffect(() => {
     console.log(archievesItem)
@@ -37,7 +38,8 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
     const res = archievesItem.archivesId
       ? await actions.updateArchive({
           ...data,
-          archivesId: archievesItem.archivesId
+          archivesId: archievesItem.archivesId,
+          parentId: archievesItem.parentId
         })
       : await actions.addArchives({ ...data, parentId: archievesItem.parentId })
     if (res) {
@@ -83,45 +85,20 @@ const EditForm: React.FC<IProps> = (props: IProps) => {
         autoComplete='off'
         form={form}
       >
-        <Form.Item
-          label='档案级别'
-          name='archivesLevel'
-          rules={[{ required: true, message: '请输入档案级别！' }]}
-        >
-          <Select
-            disabled={store.treeMode === 'edit'}
-            options={archivesLevelOptions}
-          />
+        <Form.Item label='档案级别' name='archivesLevel' rules={[{ required: true, message: '请输入档案级别！' }]}>
+          <Select disabled={store.treeMode === 'edit'} options={archivesLevelOptions} />
         </Form.Item>
-        <Form.Item
-          label='上级档案'
-          name='parentName'
-          rules={[{ required: true, message: '请输入上级档案！' }]}
-        >
+        <Form.Item label='上级档案' name='parentName' rules={[{ required: true, message: '请输入上级档案！' }]}>
           <Input disabled />
         </Form.Item>
-        <Form.Item
-          label='档案名称'
-          name='archivesName'
-          rules={[{ required: true, message: '请输入档案名称！' }]}
-        >
+        <Form.Item label='档案名称' name='archivesName' rules={[{ required: true, message: '请输入档案名称！' }]}>
           <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 32 }}>
-          <Button
-            size='large'
-            className={Styles.primaryButton}
-            style={{ width: 100 }}
-            onClick={onClickCancel}
-          >
+          <Button size='large' className={Styles.primaryButton} style={{ width: 100 }} onClick={onClickCancel}>
             取消
           </Button>
-          <Button
-            size='large'
-            type='primary'
-            htmlType='submit'
-            style={{ marginLeft: 20, width: 100 }}
-          >
+          <Button size='large' type='primary' htmlType='submit' style={{ marginLeft: 20, width: 100 }}>
             保存
           </Button>
         </Form.Item>

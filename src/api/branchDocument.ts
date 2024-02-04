@@ -9,7 +9,7 @@ type archiveType = {
 }
 
 const addArchive = async (params: archiveType) => {
-  const { archivesLevel, parentId, archivesName } = params
+  const { archivesLevel, parentId, archivesName, projectId } = params
   try {
     const res = await request({
       url: '/sys-archives/add',
@@ -18,10 +18,10 @@ const addArchive = async (params: archiveType) => {
         archivesLevel,
         parentId,
         archivesName,
-        projectId: '1'
+        projectId
       }
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     return {
       code,
       message
@@ -38,7 +38,7 @@ const updateArchive = async (params: archiveType) => {
       method: 'POST',
       data: params
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
     return {
       code,
       message
@@ -49,13 +49,13 @@ const updateArchive = async (params: archiveType) => {
 }
 
 const deleteArchive = async (params: archiveType) => {
-  const { archivesId, archivesName } = params
+  const { archivesId } = params
   try {
     const res = await request({
       url: `sys-archives/delete?archivesId=${archivesId}`,
       method: 'DELETE'
     })
-    const { code, data, message } = res ?? {}
+    const { code, message } = res ?? {}
 
     return {
       code,
@@ -84,15 +84,11 @@ const getArchiveTree = async (params: any) => {
   }
 }
 
-const getEnergyList = async (params: {
-  projectId: string
-  datatype: string
-  archivesId: number
-}) => {
+const getEnergyList = async (params: { projectId: string; datatype: string; archivesId: number }) => {
   const { datatype, projectId, archivesId } = params
   try {
     const res = await request({
-      url: `sys-archives/matching/equipment/list`,
+      url: 'sys-archives/matching/equipment/list',
       method: 'POST',
       data: {
         datatype,
@@ -115,7 +111,7 @@ const saveArchivesEquipmentRelation = async (params: any) => {
   const { meterIdList, archivesId, energyType } = params
   try {
     const res = await request({
-      url: `sys-archives-equipment-relation/add`,
+      url: 'sys-archives-equipment-relation/add',
       method: 'POST',
       data: {
         archivesId,
@@ -134,11 +130,4 @@ const saveArchivesEquipmentRelation = async (params: any) => {
   }
 }
 
-export {
-  addArchive,
-  updateArchive,
-  deleteArchive,
-  getArchiveTree,
-  getEnergyList,
-  saveArchivesEquipmentRelation
-}
+export { addArchive, deleteArchive, getArchiveTree, getEnergyList, saveArchivesEquipmentRelation, updateArchive }

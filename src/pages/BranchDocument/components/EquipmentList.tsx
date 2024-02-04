@@ -19,10 +19,10 @@ const EquipmentList = () => {
     commonStore: { achieveList, rawAchieveList, defaultExpandAchieveKeys },
     commonActions
   } = useStore()
-  const { actions } = useContext(storeContext)
+  const { actions, store } = useContext(storeContext)
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
   const [searchValue, setSearchValue] = useState('')
-  const [showPopoverNodeKey, setShowPopoverNodeKey] = useState<number | null>()
+  const [, setShowPopoverNodeKey] = useState<number | null>()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedNode, setSelectedNode] = useState<NodeData>()
   const [treeArchivesData, setTreeArchivesData] = useState<TreeNode[]>()
@@ -188,7 +188,7 @@ const EquipmentList = () => {
     })
     if (res?.code === 200) {
       message.success(res?.message)
-      commonActions.getAchieveList('1')
+      commonActions.getAchieveList(store.projectId)
       setSelectedNode(undefined)
       actions.updateSelectedNode(undefined)
     } else {

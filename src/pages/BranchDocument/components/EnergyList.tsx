@@ -14,12 +14,6 @@ import Style from './EnergyList.module.scss'
 interface IProps {
   archivesId?: string
 }
-const energyLabelMap: Record<any, any> = {
-  '01001': '冷水表',
-  '01002': '热水表',
-  '01003': '电表',
-  '01004': '温湿度表'
-}
 
 const meterIdList = new Set<number>()
 
@@ -108,11 +102,7 @@ const EnergyList: React.FC<IProps> = () => {
             renderItem={(item: EnergyItem) => {
               return (
                 <List.Item
-                  style={
-                    curEnergyItem?.equipmentId === item.equipmentId
-                      ? { background: '#26266d' }
-                      : {}
-                  }
+                  style={curEnergyItem?.equipmentId === item.equipmentId ? { background: '#26266d' } : {}}
                   key={item.equipmentId}
                   onClick={() => onClickListItem(item)}
                 >
@@ -140,12 +130,7 @@ const EnergyList: React.FC<IProps> = () => {
         <Button size='large' onClick={onClickBack}>
           返回
         </Button>
-        <Button
-          className={Style.button}
-          size='large'
-          type='primary'
-          onClick={onClickSave}
-        >
+        <Button className={Style.button} size='large' type='primary' onClick={onClickSave}>
           保存
         </Button>
       </div>

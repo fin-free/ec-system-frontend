@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import { Button, Form, Input } from 'antd'
-import { get } from 'lodash'
 import { useNavigate } from 'react-router-dom'
 
 import { useStore } from '@/hooks/storeHook'
@@ -12,7 +11,7 @@ import Styles from './LoginForm.module.scss'
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate()
-  const { authActions, commonActions, authStore } = useStore()
+  const { authActions } = useStore()
   const [formRef] = Form.useForm()
   const [loading, setLoading] = useState(false)
 
@@ -20,7 +19,6 @@ const LoginForm: React.FC = () => {
     setLoading(true)
     authActions.toLogin(values).then((res) => {
       if (res) {
-        commonActions.init(get(authStore, 'userInfo.projectId'))
         navigate(ROUTE_PATH_DASHBOARD)
       } else {
         formRef.setFields([

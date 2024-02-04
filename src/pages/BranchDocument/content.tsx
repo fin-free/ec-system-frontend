@@ -15,8 +15,7 @@ const Content: React.FC = () => {
   const { store } = useContext(storeContext)
   const { commonActions } = useStore()
   useEffect(() => {
-    //TODO: projectId
-    commonActions.getAchieveList('1')
+    commonActions.getAchieveList(store.projectId)
   }, [store.curArchivesItem])
 
   return (
