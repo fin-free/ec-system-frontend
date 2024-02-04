@@ -3,11 +3,14 @@ import { computed, makeAutoObservable } from 'mobx'
 import { EnergyItem, NodeData } from '../types'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this, {
       filterEquipmentData: computed
     })
   }
+
+  public projectId: string
   public selectedArchiveId = 0
   public selectedEquipmentId = ''
   public filter = {

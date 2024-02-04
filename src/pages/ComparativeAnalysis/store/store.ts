@@ -2,15 +2,16 @@ import dayjs from 'dayjs'
 import { makeAutoObservable } from 'mobx'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this)
   }
 
+  public projectId: string
   public loading = false
   public mode = 'chart'
   public selectedArchiveId: string = ''
   public filters = {
-    projectId: '1',
     datetype: '0011',
     datatype: '0002',
     yoyOrQoq: 'yoy',

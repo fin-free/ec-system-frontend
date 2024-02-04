@@ -6,8 +6,9 @@ export default class Store {
   public gatewayData: Array<GatewayItem> = []
   public productModel = undefined
   public gatewayNum = undefined
-  public projectId = undefined
-  constructor() {
+  public projectId: string
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this, {
       gatewayData: observable,
       productModel: observable,

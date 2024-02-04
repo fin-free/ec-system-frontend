@@ -4,10 +4,12 @@ import { makeAutoObservable } from 'mobx'
 import { TableData } from '@/types/ElectricityDataMgt'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this)
   }
 
+  public projectId: string
   public loading = false
   public mode = 'table'
   public selectedBuildingId: string = ''
@@ -17,7 +19,6 @@ export default class Store {
     datatype: '0002',
     datetype: '0011',
     functiontype: '0021',
-    projectId: '1',
     equipmentNum: ''
   }
 

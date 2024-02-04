@@ -15,6 +15,7 @@ export default class Actions {
   async getComparativeData(selectedArchiveId?: string) {
     this.setLoadingState(true)
     const payload = {
+      projectId: this._store.projectId,
       ...this._store.filters,
       archivesId: selectedArchiveId || this._store.selectedArchiveId
     }
@@ -58,6 +59,7 @@ export default class Actions {
 
   async exportComparativeData() {
     const payload = {
+      projectId: this._store.projectId,
       ...this._store.filters,
       archivesId: this._store.selectedArchiveId
     }

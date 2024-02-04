@@ -15,7 +15,7 @@ export default class Actions {
   async onSearch() {} // searchParams: { datetime?: string; datetype?: string }
   async getEnergyList(params?: any) {
     const res = await API.getEnergyList({
-      projectId: '1',
+      projectId: this._store.projectId,
       ...this._store.filter,
       archivesId: this._store.selectedNode?.archivesId,
       ...params
@@ -24,11 +24,7 @@ export default class Actions {
       this._store.energyEquipmentData = res
     })
   }
-  async saveArchivesEquipmentRelation(params: {
-    archivesId: number
-    meterIdList: number[]
-    energyType: string
-  }) {
+  async saveArchivesEquipmentRelation(params: { archivesId: number; meterIdList: number[]; energyType: string }) {
     const res = await API.saveArchivesEquipmentRelation(params)
     return res
   }

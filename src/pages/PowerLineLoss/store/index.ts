@@ -1,12 +1,12 @@
 import Actions from './actions'
 import Store from './store'
 
-function createStore() {
-  const store = new Store()
+function createStore(projectId: string) {
+  const store = new Store(projectId)
   const actions = new Actions(store)
   return {
     store,
-    actions,
+    actions
   }
 }
 

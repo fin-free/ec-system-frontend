@@ -27,7 +27,7 @@ export default class Actions {
     } = await API.getEquipmentList({
       equipmentNum: this._store.equipmentNum ?? '',
       status: this._store.equipmentStatus ?? '',
-      projectId: this._store.projectId ?? '1', // 默认projectId
+      projectId: this._store.projectId,
       pageNum: this._store.pagination.current,
       pageSize: this._store.pagination.pageSize
     })
@@ -58,7 +58,7 @@ export default class Actions {
   async addEquipment(params: any) {
     const res = await API.addEquipment({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     return res
   }
@@ -66,7 +66,7 @@ export default class Actions {
   async updateEquipment(params: any) {
     const res = await API.updateEquipment({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     return res
   }
@@ -74,7 +74,7 @@ export default class Actions {
   async deleteEquipment(params: any) {
     const res = await API.deleteEquipment({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     return res
   }
@@ -82,7 +82,7 @@ export default class Actions {
   async getEquipmentInfo(params: any) {
     const res = await API.getEquipmentInfo({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     if (res) {
       return res

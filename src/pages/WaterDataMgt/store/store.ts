@@ -4,10 +4,12 @@ import { makeAutoObservable } from 'mobx'
 import { TableData } from '@/types/ElectricityDataMgt'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this)
   }
 
+  public projectId: string
   public loading = false
   public mode = 'table'
   public selectedBuildingId: string = ''
@@ -16,7 +18,6 @@ export default class Store {
     endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     datatype: '0001',
     datetype: '0011',
-    projectId: '1',
     equipmentNum: ''
   }
   public pagination = {

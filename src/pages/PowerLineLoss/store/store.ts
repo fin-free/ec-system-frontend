@@ -4,16 +4,17 @@ import { computed, makeAutoObservable } from 'mobx'
 import { LossCompareItem } from '../types'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this, {
       treeLossCompareData: computed
     })
   }
 
+  public projectId: string
   public mode = 'chart'
   public loading = true
   public filters = {
-    projectId: '1',
     datetype: '0012',
     datetime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'), // 默认取昨天
     datatype: '0002'

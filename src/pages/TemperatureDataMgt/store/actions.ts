@@ -14,6 +14,7 @@ export default class Actions {
   async getEnvironmentData(buildingId?: string) {
     this.setLoadingState(true)
     const payload = {
+      projectId: this._store.projectId,
       ...this._store.filters,
       buildingId: buildingId || this._store.selectedBuildingId,
       pageNum: this._store.pagination.current.toString(),

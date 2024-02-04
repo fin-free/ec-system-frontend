@@ -22,6 +22,7 @@ export default class Actions {
   async getLineComparisonData(archivesIds?: number[]) {
     this.setLoadingState(true)
     const payload = {
+      projectId: this._store.projectId,
       ...this._store.filters,
       archivesIds: archivesIds || this._store.selectedArchiveIds
     }
@@ -44,6 +45,7 @@ export default class Actions {
 
   async exportComparisonData() {
     const payload = {
+      projectId: this._store.projectId,
       ...this._store.filters,
       archivesIds: this._store.selectedArchiveIds
     }

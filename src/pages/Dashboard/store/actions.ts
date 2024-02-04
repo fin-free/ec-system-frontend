@@ -34,7 +34,11 @@ export default class Actions {
   }
 
   async getEnergyConsumptionData() {
-    await ConsumptionApi.getEnergyConsumptionData(this._store.energyConsumptionPayload).then((res) => {
+    const payload = {
+      projectId: this._store.projectId,
+      ...this._store.energyConsumptionPayload
+    }
+    await ConsumptionApi.getEnergyConsumptionData(payload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.energyConsumptionData = get(res, 'data', []).map((d: any) => ({
@@ -48,7 +52,11 @@ export default class Actions {
   }
 
   async getWaterCompareData() {
-    await ConsumptionApi.getEnergyConsumptionData(this._store.waterConsumptionPayload).then((res) => {
+    const payload = {
+      projectId: this._store.projectId,
+      ...this._store.waterConsumptionPayload
+    }
+    await ConsumptionApi.getEnergyConsumptionData(payload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.waterConsumptionData = get(res, 'data', []).map((d: any) => ({
@@ -84,7 +92,8 @@ export default class Actions {
       startTime: '',
       pageNum: '',
       pageSize: '',
-      endTime: ''
+      endTime: '',
+      projectId: this._store.projectId
     })
     if (res) {
       res.list = res.list.map((listItem) => Object.assign(listItem, { key: listItem.alarmId }))

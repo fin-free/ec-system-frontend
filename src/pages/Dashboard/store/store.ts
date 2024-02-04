@@ -4,23 +4,23 @@ import { computed, makeAutoObservable } from 'mobx'
 import { Item, StatisticsCard } from '../types'
 
 export default class Store {
-  constructor() {
+  constructor(projectId: string) {
+    this.projectId = projectId
     makeAutoObservable(this, {
       filterAlarmData: computed
     })
   }
 
+  public projectId: string
   public energyConsumptionPayload = {
     datetype: '0011',
     datatype: '0002',
-    projectId: '1',
     startTime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }
   public waterConsumptionPayload = {
     datetype: '0011',
     datatype: '0001',
-    projectId: '1',
     startTime: dayjs().add(-1, 'day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   }

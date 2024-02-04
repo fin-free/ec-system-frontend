@@ -13,7 +13,11 @@ export default class Actions {
   }
 
   async getLossCompareData() {
-    await API.getLossCompareData(this._store.filters).then((res) => {
+    const payload = {
+      projectId: this._store.projectId,
+      ...this._store.filters
+    }
+    await API.getLossCompareData(payload).then((res) => {
       if (res) {
         runInAction(() => {
           this._store.lossCompareData = res

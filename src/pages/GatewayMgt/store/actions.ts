@@ -27,7 +27,7 @@ export default class Actions {
     } = await API.getGatewayList({
       gatewayNum: this._store.gatewayNum ?? '',
       productModel: this._store.productModel,
-      projectId: this._store.projectId ?? '1', // 默认projectId
+      projectId: this._store.projectId,
       pageNum: this._store.pagination.current,
       pageSize: this._store.pagination.pageSize
     })
@@ -58,7 +58,7 @@ export default class Actions {
   async addGateway(params: any) {
     const res = await API.addGateway({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     if (res) {
       return res
@@ -70,7 +70,7 @@ export default class Actions {
   async updateGateway(params: any) {
     const res = await API.updateGateway({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     if (res) {
       return res
@@ -82,7 +82,7 @@ export default class Actions {
   async deleteGateway(params: any) {
     const res = await API.deleteGateway({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     if (res) {
       return res
@@ -94,7 +94,7 @@ export default class Actions {
   async getGatewayInfo(params: any) {
     const res = await API.getGatewayInfo({
       ...params,
-      projectId: this._store.projectId ?? '1'
+      projectId: this._store.projectId
     })
     if (res) {
       return res
